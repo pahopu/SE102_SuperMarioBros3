@@ -107,6 +107,7 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
+	e->obj->Delete();
 	CMushroom* mushroom = (CMushroom*)e->obj;
 	if (mushroom->GetType() == MUSHROOM_1UP) {
 		// Process 1up
@@ -120,7 +121,6 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 		// Racoon Mario
 		break;
 	}
-	e->obj->Delete();
 }
 
 //
@@ -262,7 +262,7 @@ void CMario::Render()
 
 	//RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)
