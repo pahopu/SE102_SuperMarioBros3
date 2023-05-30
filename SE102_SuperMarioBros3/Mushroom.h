@@ -19,7 +19,7 @@
 #define MUSHROOM_BBOX_WIDTH		16
 #define MUSHROOM_BBOX_HEIGHT	16
 
-class CMushroom:public CGameObject {
+class CMushroom :public CGameObject {
 protected:
 	float ax;
 	float ay;
@@ -43,5 +43,5 @@ protected:
 
 public:
 	CMushroom(float x, float y, int type);
+	int GetType() { return type; }
 };
-

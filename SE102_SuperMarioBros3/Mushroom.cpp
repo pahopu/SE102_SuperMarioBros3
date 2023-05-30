@@ -53,5 +53,5 @@ CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 
 	this->type = type;
 
-	vx = -MUSHROOM_WALKING_SPEED;
+	vx = MUSHROOM_WALKING_SPEED;
 }
