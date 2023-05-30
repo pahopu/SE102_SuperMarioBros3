@@ -120,6 +120,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 		// Racoon Mario
 		break;
 	}
+	e->obj->Delete();
 }
 
 //
