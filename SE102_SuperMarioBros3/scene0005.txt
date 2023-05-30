@@ -17,6 +17,7 @@ mushroom.txt
 # MUSHROOM
 6	180	120
 7	200	120
+8	200	20
 
 #COIN
 4	100	120

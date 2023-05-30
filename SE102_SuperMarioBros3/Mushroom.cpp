@@ -14,6 +14,14 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 	vy += ay * dt;
 
+	if (type == SUPER_LEAF) {
+		OnNoColision(dt);
+		IsDiversion();
+		vy = ay * dt;
+
+		return;
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -23,8 +31,10 @@ void CMushroom::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	if (type == MUSHROOM_SUPER)
 		animations->Get(ID_ANI_MUSHROOM_SUPER)->Render(x, y);
-	else
+	else if(type == MUSHROOM_1UP)
 		animations->Get(ID_ANI_MUSHROOM_1UP)->Render(x, y);
+	else 
+		animations->Get(ID_ANI_SUPER_LEAF)->Render(x, y);
 	//RenderBoundingBox();
 }
 
@@ -47,11 +57,25 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 		vx = -vx;
 }
 
+void CMushroom::IsDiversion()
+{
+	if (GetTickCount64() - start >= LEAF_DIVERT_TIME) {
+		vx = -vx;
+		start = GetTickCount64();
+	}
+}
+
 CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 	ax = 0;
 	ay = MUSHROOM_GRAVITY;
+	vx = MUSHROOM_WALKING_SPEED;
 
 	this->type = type;
+	if (type == SUPER_LEAF) {
+		ax = MUSHROOM_WALKING_SPEED / 1000;
+		ay = MUSHROOM_GRAVITY / 6;
+		vx = MUSHROOM_WALKING_SPEED / 3;
 
-	vx = MUSHROOM_WALKING_SPEED;
+		start = GetTickCount64();
+	}
 }
