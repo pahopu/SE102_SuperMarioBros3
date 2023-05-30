@@ -21,7 +21,10 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CMushroom::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
+	if (type == MUSHROOM_SUPER)
+		animations->Get(ID_ANI_MUSHROOM_SUPER)->Render(x, y);
+	else
+		animations->Get(ID_ANI_MUSHROOM_1UP)->Render(x, y);
 	//RenderBoundingBox();
 }
 
@@ -35,7 +38,8 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 
-	if (dynamic_cast<CBrick*>(e->obj)) return;
+	if (dynamic_cast<CMushroom*>(e->obj)) return;
+	if (dynamic_cast<CGoomba*>(e->obj)) return;
 
 	if (e->ny != 0)
 		vy = 0;
@@ -43,10 +47,11 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 		vx = -vx;
 }
 
-CMushroom::CMushroom(float x, float y):CGameObject(x, y) {
+CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 	ax = 0;
 	ay = MUSHROOM_GRAVITY;
 
-	vx = MUSHROOM_WALKING_SPEED;
-}
+	this->type = type;
 
+	vx = -MUSHROOM_WALKING_SPEED;
+}

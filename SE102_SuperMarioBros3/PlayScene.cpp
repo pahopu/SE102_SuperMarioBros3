@@ -139,7 +139,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_MUSHROOM: obj = new CMushroom(x, y); break;
+	case OBJECT_TYPE_MUSHROOM_SUPER: obj = new CMushroom(x, y, MUSHROOM_SUPER); break;
+	case OBJECT_TYPE_MUSHROOM_1UP: obj = new CMushroom(x, y, MUSHROOM_1UP); break;
 
 	case OBJECT_TYPE_PORTAL:
 	{
