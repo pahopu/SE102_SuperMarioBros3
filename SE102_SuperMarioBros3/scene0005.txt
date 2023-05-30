@@ -4,6 +4,7 @@ mario.txt
 coin.txt
 cloud.txt
 brick.txt
+mushroom.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -12,6 +13,9 @@ brick.txt
 
 # MARIO
 0	120	10
+
+# MUSHROOM
+6	140	120
 
 #COIN
 4	100	120
@@ -32,18 +36,6 @@ brick.txt
 4	140	80
 4	160	80
 4	180	80
-
-4	100	60
-4	120	60
-4	140	60
-4	160	60
-4	180	60
-
-4	100	40
-4	120	40
-4	140	40
-4	160	40
-4	180	40
 
 
 
