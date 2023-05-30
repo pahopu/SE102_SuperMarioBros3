@@ -68,7 +68,8 @@ void CMushroom::IsDiversion()
 CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 	ax = 0;
 	ay = MUSHROOM_GRAVITY;
-	vx = MUSHROOM_WALKING_SPEED;
+	vx = -MUSHROOM_WALKING_SPEED;
+	start = 0;
 
 	this->type = type;
 	if (type == SUPER_LEAF) {
