@@ -40,11 +40,11 @@ koopatroopa.txt
 4	180	80
 
 #Brick
-1	100	170
+1	216	80
+9	200	80
 
 #Koopa Troopa
 3	500	120
-
 
 #Platform
 5 	100	180	16	15	32	51000	52000	53000
