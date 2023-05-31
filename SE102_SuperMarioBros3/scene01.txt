@@ -4,7 +4,7 @@ mario.txt
 brick.txt
 coin.txt
 goomba.txt
-cloud.txt
+misc.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

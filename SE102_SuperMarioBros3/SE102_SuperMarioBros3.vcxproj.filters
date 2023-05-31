@@ -165,7 +165,7 @@
     <Text Include="scene0005.txt" />
     <Text Include="worldmap.txt" />
     <Text Include="brick.txt" />
-    <Text Include="cloud.txt" />
+    <Text Include="misc.txt" />
     <Text Include="coin.txt" />
     <Text Include="goomba.txt" />
     <Text Include="intro.txt" />

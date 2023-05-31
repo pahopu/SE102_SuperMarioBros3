@@ -2,7 +2,7 @@
 [ASSETS]
 mario.txt
 coin.txt
-cloud.txt
+misc.txt
 brick.txt
 #
 [OBJECTS]

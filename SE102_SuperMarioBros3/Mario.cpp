@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Mushroom.h"
 #include "KoopaTroopa.h"
+#include "Brick.h"
 
 #include "Collision.h"
 
@@ -65,6 +66,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CMushroom*>(e->obj))
 		OnCollisionWithMushroom(e);
+	else if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -162,6 +165,16 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 		level = MARIO_LEVEL_RACOON;
 		break;
 	}
+}
+
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if (e->ny > 0)
+		if (brick->GetType() == BRICK_TYPE_QUESTION)
+			brick->SetType(BRICK_TYPE_EMPTY);
+		else if (brick->GetType() == BRICK_TYPE_GOLD)
+			brick->SetType(BRICK_TYPE_BREAK);
 }
 
 //
@@ -498,6 +511,10 @@ void CMario::SetLevel(int l)
 	if (this->level == MARIO_LEVEL_SMALL)
 	{
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	}
+	else if (this->level == MARIO_LEVEL_BIG)
+	{
+		y -= (MARIO_RACOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT);
 	}
 	level = l;
 }
