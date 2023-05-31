@@ -75,7 +75,6 @@ CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 	if (type == SUPER_LEAF) {
 		ax = MUSHROOM_WALKING_SPEED / 1000;
 		ay = MUSHROOM_GRAVITY / 6;
-		vx = MUSHROOM_WALKING_SPEED / 3;
 
 		start = GetTickCount64();
 	}
