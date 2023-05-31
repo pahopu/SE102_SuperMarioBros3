@@ -8,6 +8,7 @@
 #include "Coin.h"
 #include "Portal.h"
 #include "Mushroom.h"
+#include "KoopaTroopa.h"
 
 #include "Collision.h"
 
@@ -56,6 +57,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CKoopaTroopa*>(e->obj))
+		OnCollisionWithKoopaTroopa(e);
 	else if (dynamic_cast<CCoin*>(e->obj))
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
@@ -98,6 +101,37 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+}
+
+void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
+{
+	CKoopaTroopa* koopa = dynamic_cast<CKoopaTroopa*>(e->obj);
+
+	// Mario kick KOOPAS shell
+	if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL) {
+		koopa->SetNx(-this->nx);
+		koopa->SetState(KOOPA_TROOPA_STATE_ATTACKING);
+	}
+	else if (e->ny < 0)
+		if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING || koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
+			koopa->SetState(KOOPA_TROOPA_STATE_SHELL);
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else
+			if (untouchable == 0)
+				if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING || koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING)
+					if (level == MARIO_LEVEL_RACOON) {
+						level = MARIO_LEVEL_BIG;
+						StartUntouchable();
+					}
+					else if (level == MARIO_LEVEL_BIG) {
+						level = MARIO_LEVEL_SMALL;
+						StartUntouchable();
+					}
+					else {
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
 }
 
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
@@ -425,32 +459,32 @@ void CMario::SetState(int state)
 void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
 	if (level == MARIO_LEVEL_BIG)
-		if (isSitting){
+		if (isSitting) {
 			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
 			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
-		else{
+		else {
 			left = x - MARIO_BIG_BBOX_WIDTH / 2;
 			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
 		}
-	else if (level == MARIO_LEVEL_SMALL){
+	else if (level == MARIO_LEVEL_SMALL) {
 		left = x - MARIO_SMALL_BBOX_WIDTH / 2;
 		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
 		right = left + MARIO_SMALL_BBOX_WIDTH;
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
 	else
-		if (isSitting){
+		if (isSitting) {
 			left = x - MARIO_RACOON_SITTING_BBOX_WIDTH / 2;
 			top = y - MARIO_RACOON_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_RACOON_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_RACOON_SITTING_BBOX_HEIGHT;
 		}
-		else{
+		else {
 			left = x - MARIO_RACOON_BBOX_WIDTH / 2;
 			top = y - MARIO_RACOON_BBOX_HEIGHT / 2;
 			right = left + MARIO_RACOON_BBOX_WIDTH;

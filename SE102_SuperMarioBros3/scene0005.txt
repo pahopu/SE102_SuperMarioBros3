@@ -5,6 +5,7 @@ coin.txt
 cloud.txt
 brick.txt
 mushroom.txt
+koopatroopa.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -40,6 +41,9 @@ mushroom.txt
 
 #Brick
 1	100	170
+
+#Koopa Troopa
+3	500	120
 
 
 #Platform
