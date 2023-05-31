@@ -14,9 +14,6 @@ cloud.txt
 # MARIO
 0	20	10
 
-# MUSHROOM
-6
-
 # BRICKS
 1	0	148
 1	0	164
