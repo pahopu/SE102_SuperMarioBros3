@@ -1,6 +1,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "KoopaTroopa.h"
+#include "debug.h"
 
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -25,6 +26,7 @@ void CBrick::Update(DWORD dt) {
 			vy = ay = 0;
 			state = -1;
 		}
+		DebugOut(L"Empty\n");
 	}
 	else if (type == BRICK_TYPE_BREAK) {
 		vx += ax * dt;
@@ -103,15 +105,15 @@ void CBrick::SetType(int type)
 			bricks[0]->time_start = GetTickCount64();
 			bricks[0]->ay = BRICK_GRAVITY;
 
-			//bricks.push_back(new CBrick(x, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK));
-			//bricks[1]->SetSpeed(-BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_X);
-			//bricks[1]->time_start = GetTickCount64();
-			//bricks[1]->ay = BRICK_GRAVITY;
+			bricks.push_back(new CBrick(x, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK));
+			bricks[1]->SetSpeed(-BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_X);
+			bricks[1]->time_start = GetTickCount64();
+			bricks[1]->ay = BRICK_GRAVITY;
 
-			//bricks.push_back(new CBrick(x + BRICK_BBOX_WIDTH, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK));
-			//bricks[2]->SetSpeed(BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_X);
-			//bricks[2]->time_start = GetTickCount64();
-			//bricks[2]->ay = BRICK_GRAVITY;
+			bricks.push_back(new CBrick(x + BRICK_BBOX_WIDTH, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK));
+			bricks[2]->SetSpeed(BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_X);
+			bricks[2]->time_start = GetTickCount64();
+			bricks[2]->ay = BRICK_GRAVITY;
 		}
 		break;
 	}
@@ -119,7 +121,7 @@ void CBrick::SetType(int type)
 }
 
 void CBrick::SetState(int State) {
-	CGameObject::SetState(State);
+	state == State;
 	switch (state)
 	{
 	case BRICK_STATE_DEFLECT:

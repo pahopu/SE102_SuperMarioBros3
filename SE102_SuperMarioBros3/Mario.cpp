@@ -174,7 +174,9 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 		if (brick->GetType() == BRICK_TYPE_QUESTION)
 			brick->SetType(BRICK_TYPE_EMPTY);
 		else if (brick->GetType() == BRICK_TYPE_GOLD)
-			brick->SetType(BRICK_TYPE_BREAK);
+			if (level == MARIO_LEVEL_SMALL)
+				brick->SetType(BRICK_STATE_DEFLECT);
+			else brick->SetType(BRICK_TYPE_BREAK);
 }
 
 //

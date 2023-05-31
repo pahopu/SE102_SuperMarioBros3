@@ -68,6 +68,6 @@ public:
 
 	int GetType() { return type; }
 	void SetType(int type);
-	void SetState(int state);
+	void SetState(int State);
 	bool IsAttacking();
 };
