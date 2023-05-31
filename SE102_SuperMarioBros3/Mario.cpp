@@ -25,6 +25,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
+	if (GetTickCount64() - time_count > MARIO_ATTACK_TIME) {
+		flag = 0;
+		time_count = 0;
+	}
+
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -235,6 +240,10 @@ int CMario::GetAniIdRacoon()
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_RACOON_IDLE_RIGHT;
 
+	if (flag == 1)
+		if (nx >= 0) aniId = ID_ANI_MARIO_RACOON_ATTACK_RIGHT;
+		else aniId = ID_ANI_MARIO_RACOON_ATTACK_LEFT;
+
 	return aniId;
 }
 
@@ -389,6 +398,12 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE:
 		ax = 0.0f;
 		vx = 0.0f;
+		break;
+
+	case MARIO_STATE_ATTACK:
+		if (time_count == 0)
+			time_count = GetTickCount64();
+		flag = 1;
 		break;
 
 	case MARIO_STATE_DIE:

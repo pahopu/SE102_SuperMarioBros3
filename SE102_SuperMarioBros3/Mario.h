@@ -34,6 +34,8 @@
 #define MARIO_STATE_SIT							600
 #define MARIO_STATE_SIT_RELEASE					601
 
+#define MARIO_STATE_ATTACK						700
+
 
 #pragma region ANIMATION_ID
 
@@ -100,6 +102,9 @@
 #define ID_ANI_MARIO_RACOON_BRACE_LEFT			2000
 #define ID_ANI_MARIO_RACOON_BRACE_RIGHT			2001
 
+#define ID_ANI_MARIO_RACOON_ATTACK_LEFT			2100
+#define ID_ANI_MARIO_RACOON_ATTACK_RIGHT		2101
+
 // DIE
 #define ID_ANI_MARIO_DIE					999
 
@@ -132,6 +137,7 @@
 
 
 #define MARIO_UNTOUCHABLE_TIME				2500
+#define MARIO_ATTACK_TIME					300
 
 class CMario : public CGameObject
 {
@@ -141,7 +147,9 @@ class CMario : public CGameObject
 	float ay;				// acceleration on y 
 
 	int level; 
-	int untouchable; 
+	int untouchable;
+	int flag;
+	ULONGLONG time_count;
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
@@ -168,6 +176,8 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		flag = 0;
+		time_count = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();

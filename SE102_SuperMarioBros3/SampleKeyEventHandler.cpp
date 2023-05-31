@@ -16,6 +16,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT);
 		break;
+	case DIK_Z:
+		mario->SetState(MARIO_STATE_ATTACK);
+		break;
 	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);
 		break;
