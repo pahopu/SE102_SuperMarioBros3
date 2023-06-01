@@ -33,8 +33,7 @@ void CMushroom::Render()
 		animations->Get(ID_ANI_MUSHROOM_SUPER)->Render(x, y);
 	else if(type == MUSHROOM_1UP)
 		animations->Get(ID_ANI_MUSHROOM_1UP)->Render(x, y);
-	else 
-		animations->Get(ID_ANI_SUPER_LEAF)->Render(x, y);
+	else animations->Get(ID_ANI_SUPER_LEAF)->Render(x, y);
 	//RenderBoundingBox();
 }
 

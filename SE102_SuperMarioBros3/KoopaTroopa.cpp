@@ -27,8 +27,9 @@ int CKoopaTroopa::GetAniId()
 		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
 	else if (state == KOOPA_TROOPA_STATE_SHELL) {
 		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
-		if (GetTickCount64() - shell_start >= 4000) {
+		if (GetTickCount64() - shell_start >= KOOPA_TROOPA_SHELL_TIMEOUT) {
 			aniId = ID_ANI_KOOPA_TROOPA_REFORM;
+			state = KOOPA_TROOPA_STATE_WALKING;
 		}
 	}
 	else if (state == KOOPA_TROOPA_STATE_ATTACKING)
@@ -49,11 +50,12 @@ void CKoopaTroopa::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
+		SetLevel(KOOPA_TROOPA_NORMAL);
 		vx = -KOOPA_TROOPA_WALKING_SPEED;
 		break;
 
 	case KOOPA_TROOPA_STATE_SHELL:
-		SetLevel(KOOPA_TROOPA_STATE_SHELL);
+		SetLevel(KOOPA_TROOPA_SHELL);
 		shell_start = GetTickCount64();
 		y += (KOOPA_TROOPA_BBOX_HEIGHT - KOOPA_TROOPA_BBOX_HEIGHT_DIE) / 2;
 		vx = vy = 0;
@@ -61,7 +63,7 @@ void CKoopaTroopa::SetState(int state)
 
 	case KOOPA_TROOPA_STATE_ATTACKING:
 		if (nx >= 0)
-			vx = KOOPA_TROOPA_SHELL_SPEED;
+			vx = -KOOPA_TROOPA_SHELL_SPEED;
 		else vx = KOOPA_TROOPA_SHELL_SPEED;
 		break;
 

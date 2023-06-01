@@ -26,7 +26,6 @@ void CBrick::Update(DWORD dt) {
 			vy = ay = 0;
 			state = -1;
 		}
-		DebugOut(L"Empty\n");
 	}
 	else if (type == BRICK_TYPE_BREAK) {
 		vx += ax * dt;
@@ -121,7 +120,7 @@ void CBrick::SetType(int type)
 }
 
 void CBrick::SetState(int State) {
-	state == State;
+	state = State;
 	switch (state)
 	{
 	case BRICK_STATE_DEFLECT:
