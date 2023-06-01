@@ -8,6 +8,7 @@
 
 #define MARIO_WALKING_SPEED						0.1f
 #define MARIO_RUNNING_SPEED						0.2f
+#define MARIO_ATTACK_SPEED						1.0f
 
 #define MARIO_ACCEL_WALK_X						0.0005f
 #define MARIO_ACCEL_RUN_X						0.0007f
@@ -35,6 +36,7 @@
 #define MARIO_STATE_SIT_RELEASE					601
 
 #define MARIO_STATE_ATTACK						700
+#define MARIO_STATE_KICK						701
 
 
 #pragma region ANIMATION_ID
@@ -106,6 +108,16 @@
 #define ID_ANI_MARIO_RACOON_ATTACK_LEFT			2100
 #define ID_ANI_MARIO_RACOON_ATTACK_RIGHT		2101
 
+// KICK
+#define ID_ANI_MARIO_SMALL_KICK_LEFT			2200
+#define ID_ANI_MARIO_SMALL_KICK_RIGHT			2201
+
+#define ID_ANI_MARIO_KICK_LEFT					2300
+#define ID_ANI_MARIO_KICK_RIGHT					2301
+
+#define ID_ANI_MARIO_RACOON_KICK_LEFT			2400
+#define ID_ANI_MARIO_RACOON_KICK_RIGHT			2401
+
 // DIE
 #define ID_ANI_MARIO_DIE					999
 
@@ -136,10 +148,11 @@
 #define MARIO_RACOON_SITTING_BBOX_WIDTH		MARIO_BIG_SITTING_BBOX_WIDTH
 #define MARIO_RACOON_SITTING_BBOX_HEIGHT	16
 
-#define MARIO_RACOON_ATTACK_WIDTH			6
+#define MARIO_RACOON_ATTACK_WIDTH			10
 
 #define MARIO_UNTOUCHABLE_TIME				2500
 #define MARIO_ATTACK_TIME					300
+#define MARIO_KICK_TIME						200
 
 class CMario : public CGameObject
 {
@@ -175,7 +188,7 @@ public:
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;
 
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_RACOON;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
