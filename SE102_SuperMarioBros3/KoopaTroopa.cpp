@@ -66,8 +66,13 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 
 int CKoopaTroopa::GetAniId()
 {
-	int aniId = ID_ANI_KOOPA_TROOPA_WALKING_LEFT;
-	if (state == KOOPA_TROOPA_STATE_DIE)
+	int aniId = -1;
+	if (state == KOOPA_TROOPA_STATE_WALKING) {
+		if (vx < 0)
+			aniId = ID_ANI_KOOPA_TROOPA_WALKING_LEFT;
+		else aniId = ID_ANI_KOOPA_TROOPA_WALKING_RIGHT;
+	}
+	else if (state == KOOPA_TROOPA_STATE_DIE)
 		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
 	else if (state == KOOPA_TROOPA_STATE_SHELL) {
 		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
@@ -93,6 +98,7 @@ void CKoopaTroopa::SetState(int state)
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -KOOPA_TROOPA_WALKING_SPEED;
+		phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y);
 		break;
 
 	case KOOPA_TROOPA_STATE_SHELL:
@@ -206,8 +212,8 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopaTroopa::Render()
 {
-	if (state == KOOPA_TROOPA_STATE_WALKING)
-		phaseCheck->RenderBoundingBox();
+	//if (state == KOOPA_TROOPA_STATE_WALKING)
+	//	phaseCheck->RenderBoundingBox();
 
 	int aniId = GetAniId();
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

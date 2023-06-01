@@ -11,7 +11,7 @@
 
 #define KOOPA_TROOPA_BBOX_WIDTH					14
 #define KOOPA_TROOPA_BBOX_HEIGHT				24
-#define KOOPA_TROOPA_BBOX_HEIGHT_DIE			15
+#define KOOPA_TROOPA_BBOX_HEIGHT_DIE			13
 
 #define KOOPA_TROOPA_PHASE_CHECK_WIDTH			14
 #define KOOPA_TROOPA_PHASE_CHECK_HEIGHT			24
@@ -57,17 +57,16 @@ protected:
 
 public:
 	CKoopaTroopa(float x, float y): CGameObject(x, y) {
+		phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y,
+			KOOPA_TROOPA_BBOX_WIDTH, KOOPA_TROOPA_BBOX_HEIGHT);
+		phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
+
 		ax = 0;
 		ay = KOOPA_TROOPA_GRAVITY;
 		time_start = -1;
 		level = KOOPA_TROOPA_NORMAL;
 
 		SetState(KOOPA_TROOPA_STATE_WALKING);
-
-		phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y, 
-			KOOPA_TROOPA_BBOX_WIDTH, KOOPA_TROOPA_BBOX_HEIGHT);
-		
-		phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 	}
 
 	void SetLevel(int level);
