@@ -94,13 +94,13 @@ protected:
 
 	int level;
 
-	ULONGLONG shell_start;
-	ULONGLONG die_start;
+	ULONGLONG time_start;
 
 	CGameObject* phaseCheck;
 
 	virtual int IsCollidable() { return state != KOOPA_TROOPA_STATE_DIE; }
 	virtual int IsBlocking() { return 0; }
+	virtual void Deflected(int direction);
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e);
@@ -112,8 +112,7 @@ public:
 		ax = 0;
 		ay = KOOPA_TROOPA_GRAVITY;
 		level = KOOPA_TROOPA_NORMAL;
-		shell_start = -1;
-		die_start = -1;
+		time_start = -1;
 		phaseCheck = new CPhaseCheck(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y);
 		
 		SetState(KOOPA_TROOPA_STATE_WALKING);

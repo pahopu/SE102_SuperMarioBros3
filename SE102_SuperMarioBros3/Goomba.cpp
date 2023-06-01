@@ -41,6 +41,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
+
 		if (e->ny < 0 && dynamic_cast<CBrick*>(e->obj)->IsAttacking()) {
 			SetState(GOOMBA_STATE_DIE_BY_ATTACK);
 
