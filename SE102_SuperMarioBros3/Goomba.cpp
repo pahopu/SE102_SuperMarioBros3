@@ -1,10 +1,11 @@
 #include "Goomba.h"
+#include "Brick.h"
 
 CGoomba::CGoomba(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
-	die_start = -1;
+	time_start = -1;
 	SetState(GOOMBA_STATE_WALKING);
 }
 
@@ -40,6 +41,16 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
+		if (e->ny < 0 && dynamic_cast<CBrick*>(e->obj)->IsAttacking()) {
+			SetState(GOOMBA_STATE_DIE_BY_ATTACK);
+
+			float bx, by;
+			(e->obj)->GetPosition(bx, by);
+			if (bx < x)
+				Deflected(DEFLECT_DIRECTION_RIGHT);
+			else
+				Deflected(DEFLECT_DIRECTION_LEFT);
+		}
 	}
 	else if (e->nx != 0)
 	{
@@ -61,7 +72,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vx += ax * dt;
 
 	if ((state == GOOMBA_STATE_DIE_BY_JUMP || state == GOOMBA_STATE_DIE_BY_ATTACK) && 
-		(GetTickCount64() - die_start > GOOMBA_DIE_TIMEOUT))
+		(GetTickCount64() - time_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
@@ -80,13 +91,22 @@ void CGoomba::Render()
 	//RenderBoundingBox();
 }
 
+void CGoomba::Deflected(int direction)
+{
+	vy = -GOOMBA_DIE_DEFLECT;
+	ay = GOOMBA_GRAVITY;
+
+	vx = direction * GOOMBA_WALKING_SPEED;
+	ax = 0;
+}
+
 void CGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
 	switch (state)
 	{
 	case GOOMBA_STATE_DIE_BY_JUMP:
-		die_start = GetTickCount64();
+		time_start = GetTickCount64();
 		y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
@@ -94,7 +114,7 @@ void CGoomba::SetState(int state)
 		break;
 
 	case GOOMBA_STATE_DIE_BY_ATTACK:
-		die_start = GetTickCount64();
+		time_start = GetTickCount64();
 		vx = GOOMBA_WALKING_SPEED;
 		vy = -GOOMBA_DIE_DEFLECT;
 		ax = 0;
