@@ -10,9 +10,6 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 
 	this->Update(dt);
-
-	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CBrick::Update(DWORD dt) {
