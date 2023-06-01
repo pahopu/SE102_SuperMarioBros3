@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "PhaseChecker.h"
 
 #define KOOPA_TROOPA_GRAVITY					0.002f
 #define KOOPA_TROOPA_WALKING_SPEED				0.05f
@@ -33,60 +34,6 @@
 #define ID_ANI_KOOPA_TROOPA_REFORM				6003
 
 
-class CPhaseCheck : public CGameObject
-{
-protected:
-	float ax;
-	float ay;
-
-	virtual int IsCollidable() { return 1; }
-	virtual int IsBlocking() { return 0; }
-
-	virtual void OnNoCollision(DWORD dt)
-	{
-		x += vx * dt;
-		y += vy * dt;
-	}
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e)
-	{
-		if (e->ny != 0)
-		{
-			vy = 0;
-		}
-	}
-
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom)
-	{
-		left = x - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2;
-		top = y - KOOPA_TROOPA_PHASE_CHECK_HEIGHT / 2;
-		right = left + KOOPA_TROOPA_PHASE_CHECK_WIDTH;
-		bottom = top + KOOPA_TROOPA_PHASE_CHECK_HEIGHT;
-	}
-
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-	{
-		vy += ay * dt;
-		vx += ax * dt;
-
-		CGameObject::Update(dt, coObjects);
-		CCollision::GetInstance()->Process(this, dt, coObjects);
-	}
-	virtual void Render()
-	{
-		RenderBoundingBox();
-	}
-
-public:
-	//CPhaseCheck() : CGameObject() {}
-	CPhaseCheck(float x, float y) : CGameObject(x, y)
-	{
-		this->ax = 0;
-		this->ay = KOOPA_TROOPA_GRAVITY;
-		vx = -KOOPA_TROOPA_WALKING_SPEED;
-		vy = 0;
-	}
-};
-
 class CKoopaTroopa : public CGameObject {
 protected:
 	float ax;
@@ -112,11 +59,15 @@ public:
 	CKoopaTroopa(float x, float y): CGameObject(x, y) {
 		ax = 0;
 		ay = KOOPA_TROOPA_GRAVITY;
-		level = KOOPA_TROOPA_NORMAL;
 		time_start = -1;
-		phaseCheck = new CPhaseCheck(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y);
-		
+		level = KOOPA_TROOPA_NORMAL;
+
 		SetState(KOOPA_TROOPA_STATE_WALKING);
+
+		phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y, 
+			KOOPA_TROOPA_BBOX_WIDTH, KOOPA_TROOPA_BBOX_HEIGHT);
+		
+		phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 	}
 
 	void SetLevel(int level);

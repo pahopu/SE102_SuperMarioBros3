@@ -53,6 +53,7 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 
 			if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
 				this->SetState(KOOPA_TROOPA_STATE_DIE);
+
 				if (kx >= x)
 					this->Deflected(DEFLECT_DIRECTION_LEFT);
 				else this->Deflected(DEFLECT_DIRECTION_RIGHT);
@@ -70,10 +71,8 @@ int CKoopaTroopa::GetAniId()
 		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
 	else if (state == KOOPA_TROOPA_STATE_SHELL) {
 		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
-		if (GetTickCount64() - time_start >= KOOPA_TROOPA_SHELL_TIMEOUT) {
+		if (GetTickCount64() - time_start >= KOOPA_TROOPA_SHELL_TIMEOUT - 200)
 			aniId = ID_ANI_KOOPA_TROOPA_REFORM;
-			state = KOOPA_TROOPA_STATE_WALKING;
-		}
 	}
 	else if (state == KOOPA_TROOPA_STATE_ATTACKING)
 		aniId = ID_ANI_KOOPA_TROOPA_ATTACKING;
@@ -149,10 +148,7 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (state == KOOPA_TROOPA_STATE_WALKING && py - this->y > 10) {
 		vx = -vx;
 
-		float pvx, pvy;
-		phaseCheck->GetSpeed(pvx, pvy);
-
-		if (pvx <= this->x)
+		if (px <= this->x)
 			phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
 		else phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
 	}
@@ -185,20 +181,20 @@ void CKoopaTroopa::GetBoundingBox(float& left, float& top, float& right, float& 
 
 void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state != KOOPA_TROOPA_STATE_ATTACKING)
+	if (state == KOOPA_TROOPA_STATE_WALKING)
 		phaseCheck->Update(dt, coObjects);
 
 	vx += ax * dt;
 	vy += ay * dt;
 
-	if (state == KOOPA_TROOPA_STATE_SHELL && GetTickCount64() - time_start > KOOPA_TROOPA_SHELL_TIMEOUT) {
+	if ((state == KOOPA_TROOPA_STATE_SHELL) && (GetTickCount64() - time_start > KOOPA_TROOPA_SHELL_TIMEOUT)) {
 		SetState(KOOPA_TROOPA_STATE_WALKING);
 		SetLevel(KOOPA_TROOPA_NORMAL);
 		time_start = -1;
 		return;
 	}
 
-	if (state == KOOPA_TROOPA_STATE_DIE && GetTickCount64() - time_start > KOOPA_TROOPA_DIE_TIMEOUT) {
+	if ((state == KOOPA_TROOPA_STATE_DIE) && (GetTickCount64() - time_start > KOOPA_TROOPA_DIE_TIMEOUT)) {
 		isDeleted = true;
 		phaseCheck->Delete();
 		return;

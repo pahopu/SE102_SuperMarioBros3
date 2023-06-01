@@ -70,6 +70,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetState() != GOOMBA_STATE_WALKING)
+		return;
 
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
@@ -107,7 +109,10 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 {
 	CKoopaTroopa* koopa = dynamic_cast<CKoopaTroopa*>(e->obj);
 
-	// Mario kick KOOPAS shell
+	if (koopa->GetState() == KOOPA_TROOPA_STATE_DIE)
+		return;
+
+	// Mario kick koopa troopa shell
 	if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL) {
 		koopa->SetNx(-this->nx);
 		koopa->SetState(KOOPA_TROOPA_STATE_ATTACKING);
