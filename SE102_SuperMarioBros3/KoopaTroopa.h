@@ -102,6 +102,7 @@ protected:
 	virtual int IsBlocking() { return 0; }
 	virtual void Deflected(int direction);
 
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e);
 

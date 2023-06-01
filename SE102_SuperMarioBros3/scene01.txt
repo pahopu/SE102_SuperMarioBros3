@@ -59,7 +59,7 @@ koopatroopa.txt
 4	180	120
 
 #Goomba
-3	300	10
+3	320	10
 
 
 # Koopa Troopa

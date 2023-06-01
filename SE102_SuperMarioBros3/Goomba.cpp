@@ -35,28 +35,16 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
+	//if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CGoomba*>(e->obj)) return;
 
 	if (e->ny != 0)
-	{
 		vy = 0;
-
-		if (e->ny < 0 && dynamic_cast<CBrick*>(e->obj)->IsAttacking()) {
-			SetState(GOOMBA_STATE_DIE_BY_ATTACK);
-
-			float bx, by;
-			(e->obj)->GetPosition(bx, by);
-			if (bx < x)
-				Deflected(DEFLECT_DIRECTION_RIGHT);
-			else
-				Deflected(DEFLECT_DIRECTION_LEFT);
-		}
-	}
 	else if (e->nx != 0)
-	{
 		vx = -vx;
-	}
+
+	if (dynamic_cast<CBrick*>(e->obj))
+		OnCollisionWithBrick(e);
 }
 
 int CGoomba::getAniId()
@@ -65,6 +53,22 @@ int CGoomba::getAniId()
 	if (state == GOOMBA_STATE_DIE_BY_JUMP)
 		aniId = ID_ANI_GOOMBA_DIE_BY_JUMP;
 	return aniId;
+}
+
+void CGoomba::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+
+	if (brick->IsAttacking() && e->ny != 0) {
+		SetState(GOOMBA_STATE_DIE_BY_ATTACK);
+
+		float bx, by;
+		brick->GetPosition(bx, by);
+
+		if (bx < x)
+			this->Deflected(DEFLECT_DIRECTION_RIGHT);
+		else this->Deflected(DEFLECT_DIRECTION_LEFT);
+	}
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

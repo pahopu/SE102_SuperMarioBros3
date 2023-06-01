@@ -27,10 +27,8 @@ protected:
 	ULONGLONG time_start;
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	virtual void Render();
 
-	virtual void Deflected(int direction);
 	virtual int IsCollidable() { return state != GOOMBA_STATE_DIE_BY_JUMP && state != GOOMBA_STATE_DIE_BY_ATTACK; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
@@ -38,8 +36,12 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	int getAniId();
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 
 public: 	
 	CGoomba(float x, float y);
 	virtual void SetState(int state);
+	virtual void Deflected(int direction);
+
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 };
