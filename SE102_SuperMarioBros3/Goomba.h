@@ -35,11 +35,13 @@ protected:
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
-	int getAniId();
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	
+	int getAniId();
 
 public: 	
 	CGoomba(float x, float y);
+
 	virtual void SetState(int state);
 	virtual void Deflected(int direction);
 

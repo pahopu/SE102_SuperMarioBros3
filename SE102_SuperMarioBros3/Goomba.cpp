@@ -35,7 +35,6 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CGoomba*>(e->obj)) return;
 
 	if (e->ny != 0)
@@ -120,9 +119,7 @@ void CGoomba::SetState(int state)
 
 	case GOOMBA_STATE_DIE_BY_ATTACK:
 		time_start = GetTickCount64();
-		vx = GOOMBA_WALKING_SPEED;
-		vy = -GOOMBA_DIE_DEFLECT;
-		ax = 0;
+		Deflected(0);
 		break;
 
 	case GOOMBA_STATE_WALKING:
