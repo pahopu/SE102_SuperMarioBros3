@@ -45,16 +45,13 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0 && e->obj->IsBlocking())
-	{
+	if (e->ny != 0 && e->obj->IsBlocking()) {
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
 	}
 	else
 		if (e->nx != 0 && e->obj->IsBlocking())
-		{
 			vx = 0;
-		}
 
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
@@ -151,20 +148,21 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 {
-	e->obj->Delete();
 	CMushroom* mushroom = (CMushroom*)e->obj;
+
 	if (mushroom->GetType() == MUSHROOM_1UP) {
 		// Process 1up
 	}
 	else switch (level) {
 	case MARIO_LEVEL_SMALL:
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT + 1);
-		level = MARIO_LEVEL_BIG;
+		SetLevel(MARIO_LEVEL_BIG);
 		break;
 	case MARIO_LEVEL_BIG:
-		level = MARIO_LEVEL_RACOON;
+		SetLevel(MARIO_LEVEL_RACOON);
 		break;
 	}
+
+	e->obj->Delete();
 }
 
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
