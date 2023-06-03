@@ -43,12 +43,23 @@ void CKoopaTroopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		return;
 
 	switch (state) {
-	case KOOPA_TROOPA_STATE_SHELL:
-		SetState(KOOPA_TROOPA_STATE_DIE);
-		Deflected(0);
+	case KOOPA_TROOPA_STATE_WALKING:
+		float gvx, gvy;
+		goomba->GetSpeed(gvx, gvy);
+		goomba->SetSpeed(-gvx, gvy);
 
-		goomba->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
-		goomba->Deflected(0);
+		this->vx = -this->vx;
+
+		break;
+
+	case KOOPA_TROOPA_STATE_SHELL:
+		if (isHeld) {
+			SetState(KOOPA_TROOPA_STATE_DIE);
+			Deflected(0);
+
+			goomba->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
+			goomba->Deflected(0);
+		}
 
 		break;
 
@@ -104,7 +115,7 @@ int CKoopaTroopa::GetAniId()
 {
 	int aniId = -1;
 	if (state == KOOPA_TROOPA_STATE_WALKING) {
-		if (vx < 0)
+		if (vx <= 0)
 			aniId = ID_ANI_KOOPA_TROOPA_WALKING_LEFT;
 		else aniId = ID_ANI_KOOPA_TROOPA_WALKING_RIGHT;
 	}
@@ -117,7 +128,6 @@ int CKoopaTroopa::GetAniId()
 	}
 	else if (state == KOOPA_TROOPA_STATE_ATTACKING)
 		aniId = ID_ANI_KOOPA_TROOPA_ATTACKING;
-
 	return aniId;
 }
 

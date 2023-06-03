@@ -136,14 +136,14 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 	if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL) {
 		if (e->ny != 0 || (holdable == 0 && e->nx != 0)) {
 			SetState(MARIO_STATE_KICK);
+			koopa->SetNx(-nx);
 			koopa->SetState(KOOPA_TROOPA_STATE_ATTACKING);
-			koopa->SetNx(-this->nx);
 		}
 		else if (holdable && !_koopa) {
 			koopa->IsHeld();
 			_koopa = koopa;
 			if (nx >= 0)
-				_koopa->SetPosition(x + MARIO_BIG_BBOX_WIDTH / 2 - KOOPA_TROOPA_BBOX_WIDTH / 2, y);
+				_koopa->SetPosition(x + MARIO_BIG_BBOX_WIDTH / 2 + KOOPA_TROOPA_BBOX_WIDTH / 2, y);
 			else _koopa->SetPosition(x - MARIO_BIG_BBOX_WIDTH / 2 - KOOPA_TROOPA_BBOX_WIDTH / 2, y);
 		}
 	}
@@ -296,7 +296,7 @@ int CMario::GetAniIdSmall()
 		}
 	}
 
-	if (flag == MARIO_KICK_TIME)
+	if (this->flag == MARIO_KICK_TIME)
 		if (nx > 0) aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
 		else aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
 
@@ -374,13 +374,13 @@ int CMario::GetAniIdRacoon()
 		}
 	}
 
-	if (flag == MARIO_KICK_TIME)
+	if (this->flag == MARIO_KICK_TIME)
 		if (nx > 0) aniId = ID_ANI_MARIO_RACOON_KICK_RIGHT;
 		else aniId = ID_ANI_MARIO_RACOON_KICK_LEFT;
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_RACOON_IDLE_RIGHT;
 
-	if (flag == MARIO_ATTACK_TIME)
+	if (this->flag == MARIO_ATTACK_TIME)
 		if (nx >= 0) aniId = ID_ANI_MARIO_RACOON_ATTACK_RIGHT;
 		else aniId = ID_ANI_MARIO_RACOON_ATTACK_LEFT;
 
@@ -460,7 +460,7 @@ int CMario::GetAniIdBig()
 		}
 	}
 
-	if (flag == MARIO_KICK_TIME)
+	if (this->flag == MARIO_KICK_TIME)
 		if (nx > 0) aniId = ID_ANI_MARIO_KICK_RIGHT;
 		else aniId = ID_ANI_MARIO_KICK_LEFT;
 

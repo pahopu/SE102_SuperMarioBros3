@@ -35,8 +35,6 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (dynamic_cast<CGoomba*>(e->obj)) return;
-
 	if (e->ny != 0)
 		vy = 0;
 	else if (e->nx != 0)
@@ -44,6 +42,8 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 	if (dynamic_cast<CBrick*>(e->obj))
 		OnCollisionWithBrick(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
+		OnCollisionWithGoomba(e);
 }
 
 int CGoomba::getAniId()
@@ -68,6 +68,16 @@ void CGoomba::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 			this->Deflected(DEFLECT_DIRECTION_RIGHT);
 		else this->Deflected(DEFLECT_DIRECTION_LEFT);
 	}
+}
+
+void CGoomba::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+	if (goomba->state == GOOMBA_STATE_DIE_BY_JUMP || goomba->state == GOOMBA_STATE_DIE_BY_ATTACK)
+		return;
+
+	if (e->nx != 0) goomba->vx = -goomba->vx;
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
