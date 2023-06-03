@@ -5,6 +5,7 @@
 #include "Animations.h"
 
 #include "debug.h"
+#include "KoopaTroopa.h"
 
 #define MARIO_WALKING_SPEED						0.1f
 #define MARIO_RUNNING_SPEED						0.2f
@@ -37,6 +38,9 @@
 
 #define MARIO_STATE_ATTACK						700
 #define MARIO_STATE_KICK						701
+
+#define MARIO_STATE_HOLD						800
+#define MARIO_STATE_HOLD_RELEASE				801
 
 
 #pragma region ANIMATION_ID
@@ -118,6 +122,36 @@
 #define ID_ANI_MARIO_RACOON_KICK_LEFT			2400
 #define ID_ANI_MARIO_RACOON_KICK_RIGHT			2401
 
+// HOLD IDLE
+#define ID_ANI_MARIO_SMALL_HOLD_IDLE_LEFT		2500
+#define ID_ANI_MARIO_SMALL_HOLD_IDLE_RIGHT		2501
+
+#define ID_ANI_MARIO_HOLD_IDLE_LEFT				2600
+#define ID_ANI_MARIO_HOLD_IDLE_RIGHT			2601
+
+#define ID_ANI_MARIO_RACOON_HOLD_IDLE_LEFT		2700
+#define ID_ANI_MARIO_RACOON_HOLD_IDLE_RIGHT		2701
+
+// HOLD RUN
+#define ID_ANI_MARIO_SMALL_HOLD_RUN_LEFT		2800
+#define ID_ANI_MARIO_SMALL_HOLD_RUN_RIGHT		2801
+
+#define ID_ANI_MARIO_HOLD_RUN_LEFT				2900
+#define ID_ANI_MARIO_HOLD_RUN_RIGHT				2901
+
+#define ID_ANI_MARIO_RACOON_HOLD_RUN_LEFT		3000
+#define ID_ANI_MARIO_RACOON_HOLD_RUN_RIGHT		3001
+
+// HOLD JUMP
+#define ID_ANI_MARIO_SMALL_HOLD_JUMP_LEFT		3100
+#define ID_ANI_MARIO_SMALL_HOLD_JUMP_RIGHT		3101
+
+#define ID_ANI_MARIO_HOLD_JUMP_LEFT				3200
+#define ID_ANI_MARIO_HOLD_JUMP_RIGHT			3201
+
+#define ID_ANI_MARIO_RACOON_HOLD_JUMP_LEFT		3300
+#define ID_ANI_MARIO_RACOON_HOLD_JUMP_RIGHT		3301
+
 // DIE
 #define ID_ANI_MARIO_DIE					999
 
@@ -142,7 +176,7 @@
 
 #define MARIO_SIT_HEIGHT_ADJUST				((MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2)
 
-#define MARIO_RACOON_BBOX_WIDTH				MARIO_BIG_BBOX_WIDTH
+#define MARIO_RACOON_BBOX_WIDTH				MARIO_BIG_BBOX_WIDTH + 5
 #define MARIO_RACOON_BBOX_HEIGHT			24
 
 #define MARIO_RACOON_SITTING_BBOX_WIDTH		MARIO_BIG_SITTING_BBOX_WIDTH
@@ -156,18 +190,24 @@
 
 class CMario : public CGameObject
 {
-	BOOLEAN isSitting;
-	float maxVx;
+
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
+	float maxVx;
 
-	int level;
-	int untouchable;
+	int coin;
 	int flag;
+	int level;
+	int holdable;
+	int untouchable;
+
 	ULONGLONG time_count;
 	ULONGLONG untouchable_start;
+
+	BOOLEAN isSitting;
 	BOOLEAN isOnPlatform;
-	int coin;
+
+	CKoopaTroopa* _koopa;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e);
@@ -183,26 +223,28 @@ class CMario : public CGameObject
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
-		isSitting = false;
 		maxVx = 0.0f;
+
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;
 
-		level = MARIO_LEVEL_RACOON;
-		untouchable = 0;
+		_koopa = NULL;
 		untouchable_start = -1;
-		isOnPlatform = false;
-		coin = 0;
-		flag = 0;
-		time_count = 0;
+		level = MARIO_LEVEL_RACOON;
+		isSitting = isOnPlatform = false;
+		untouchable = coin = flag = time_count = holdable = 0;
 	}
+
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);
 
-	int IsCollidable()
-	{
+	int IsCollidable() {
 		return (state != MARIO_STATE_DIE);
+	}
+
+	int IsHolding() {
+		return _koopa != NULL;
 	}
 
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable == 0); }

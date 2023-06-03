@@ -39,8 +39,16 @@ void CKoopaTroopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (state == KOOPA_TROOPA_STATE_ATTACKING)
-		if (goomba->GetState() != GOOMBA_STATE_DIE_BY_JUMP)
+		if (goomba->GetState() != GOOMBA_STATE_DIE_BY_JUMP && goomba->GetState() != GOOMBA_STATE_DIE_BY_ATTACK) {
 			goomba->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
+
+			float gx, gy;
+			goomba->GetPosition(gx, gy);
+
+			if (gx >= x)
+				goomba->Deflected(DEFLECT_DIRECTION_RIGHT);
+			else goomba->Deflected(DEFLECT_DIRECTION_LEFT);
+		}
 }
 
 void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
@@ -217,7 +225,7 @@ void CKoopaTroopa::Render()
 
 	int aniId = GetAniId();
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 
 	float px, py;
 	phaseCheck->GetPosition(px, py);

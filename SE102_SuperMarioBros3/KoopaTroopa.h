@@ -40,6 +40,7 @@ protected:
 	float ay;
 
 	int level;
+	int isHeld;
 
 	ULONGLONG time_start;
 
@@ -65,6 +66,7 @@ public:
 		ay = KOOPA_TROOPA_GRAVITY;
 		time_start = -1;
 		level = KOOPA_TROOPA_NORMAL;
+		isHeld = 0;
 
 		SetState(KOOPA_TROOPA_STATE_WALKING);
 	}
@@ -81,5 +83,8 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
+
+	int GetStateHeld() { return isHeld; }
+	void IsHeld() { isHeld = 1; }
 };
 
