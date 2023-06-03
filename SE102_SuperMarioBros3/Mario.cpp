@@ -577,6 +577,7 @@ void CMario::SetState(int state)
 
 	case MARIO_STATE_HOLD_RELEASE:
 		holdable = 0;
+
 		if (_koopa) {
 			SetState(MARIO_STATE_KICK);
 			_koopa->SetNx(-this->nx);
