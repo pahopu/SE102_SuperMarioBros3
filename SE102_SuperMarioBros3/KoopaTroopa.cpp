@@ -253,6 +253,9 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == KOOPA_TROOPA_STATE_WALKING)
 		phaseCheck->Update(dt, coObjects);
 
+	//if (isHeld == true) ay = 0;
+	//else ay = KOOPA_TROOPA_GRAVITY;
+
 	vx += ax * dt;
 	vy += ay * dt;
 

@@ -6,6 +6,7 @@ coin.txt
 goomba.txt
 misc.txt
 koopatroopa.txt
+piranha.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -59,7 +60,7 @@ koopatroopa.txt
 4	180	120
 
 #Goomba
-2	320	10
+10	320	50
 
 
 # Koopa Troopa
