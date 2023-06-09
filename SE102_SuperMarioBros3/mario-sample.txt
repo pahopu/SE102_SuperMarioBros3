@@ -16,6 +16,6 @@ height	240
 -100	textures\bbox.png
 0	textures\mario.png
 10	textures\enemies.png
-20	textures\misc.png
-30	textures\miscc.png
+20	textures\misc2.png
+30	textures\misc1.png
 40	textures\enemiess.png
