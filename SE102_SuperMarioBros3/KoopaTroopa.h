@@ -59,7 +59,7 @@ protected:
 public:
 	CKoopaTroopa(float x, float y): CGameObject(x, y) {
 		phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y,
-			KOOPA_TROOPA_BBOX_WIDTH, KOOPA_TROOPA_BBOX_HEIGHT);
+			KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT);
 		phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 
 		ax = 0;

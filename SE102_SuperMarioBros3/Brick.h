@@ -34,11 +34,11 @@
 class CBrick : public CGameObject {
 protected:
 	float old_y;
-
-	float ax;
 	float ay;
 
 	int type;
+	bool isBrokenByJump;
+
 	ULONGLONG time_start;
 
 	vector<CBrick*> bricks;
@@ -60,14 +60,20 @@ public:
 		time_start = -1;
 		state = -1;
 
-		old_y = ax = ay = vx = vy = 0;
+		old_y = ay = vx = vy = 0;
+		isBrokenByJump = false;
 	}
 
 	void Render();
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	int GetType() { return type; }
+
 	void SetType(int type);
 	void SetState(int State);
+
+	void BrokenByJump() { isBrokenByJump = true; }
+
 	bool IsAttacking();
+	bool IsBrokenByJump() { return isBrokenByJump; }
 };

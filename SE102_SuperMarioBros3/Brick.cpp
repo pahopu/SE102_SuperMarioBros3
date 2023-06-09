@@ -112,8 +112,7 @@ void CBrick::SetType(int type)
 }
 
 void CBrick::SetState(int State) {
-	state = State;
-	switch (state)
+	switch (State)
 	{
 	case BRICK_STATE_DEFLECT:
 		time_start = GetTickCount64();
@@ -121,6 +120,7 @@ void CBrick::SetState(int State) {
 		Deflected(0);
 		break;
 	}
+	state = State;
 }
 
 bool CBrick::IsAttacking() {

@@ -1,6 +1,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "KoopaTroopa.h"
+#include "debug.h"
 
 void CKoopaTroopa::Deflected(int direction)
 {
@@ -15,7 +16,7 @@ void CKoopaTroopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
-	if (brick->IsAttacking() && e->ny != 0){
+	if (brick->IsAttacking() && brick->IsBrokenByJump() && e->ny != 0) {
 		this->SetState(KOOPA_TROOPA_STATE_SHELL);
 
 		float bx, by;
@@ -80,7 +81,7 @@ void CKoopaTroopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 {
 	CKoopaTroopa* koopa = dynamic_cast<CKoopaTroopa*>(e->obj);
-	
+
 	if (state == KOOPA_TROOPA_STATE_DIE)
 		return;
 
@@ -89,7 +90,7 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		float kx, ky;
 		koopa->GetPosition(kx, ky);
 
-		if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING || (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->GetStateHeld())) {
+		if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING || (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->isHeld)) {
 			SetState(KOOPA_TROOPA_STATE_DIE);
 			if (kx >= x)
 				Deflected(DEFLECT_DIRECTION_LEFT);
@@ -102,12 +103,28 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		break;
 
 	default:
-		if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->GetStateHeld()) {
+		if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->isHeld) {
 			SetState(KOOPA_TROOPA_STATE_DIE);
 			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
 		}
 
 		break;
+	}
+
+	if (state == KOOPA_TROOPA_STATE_ATTACKING) {
+
+		float kx, ky;
+		koopa->GetPosition(kx, ky);
+
+		if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
+			this->SetState(KOOPA_TROOPA_STATE_DIE);
+
+			if (kx >= x) this->Deflected(DEFLECT_DIRECTION_LEFT);
+			else this->Deflected(DEFLECT_DIRECTION_RIGHT);
+		}
+		koopa->SetState(KOOPA_TROOPA_STATE_DIE);
+		koopa->Deflected(this->vx);
+
 	}
 }
 

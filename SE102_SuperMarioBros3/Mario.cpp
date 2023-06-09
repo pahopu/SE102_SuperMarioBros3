@@ -205,21 +205,24 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
-	int type = brick->GetType();
-	switch (type) {
+	switch (brick->GetType()) {
 	case BRICK_TYPE_GOLD:
 		if (e->ny > 0) {
 			if (level == MARIO_LEVEL_SMALL && brick->GetState() != BRICK_STATE_DEFLECT)
 				brick->SetState(BRICK_STATE_DEFLECT);
-			else if (level != MARIO_LEVEL_SMALL)
+			else if (level != MARIO_LEVEL_SMALL) {
 				brick->SetType(BRICK_TYPE_BREAK);
+				brick->BrokenByJump();
+			}
 		} else if (flag == MARIO_ATTACK_TIME && e->nx != 0)
 			brick->SetType(BRICK_TYPE_BREAK);
 		break;
 
 	case BRICK_TYPE_QUESTION:
-		if (e->ny > 0 || (flag == MARIO_ATTACK_TIME && e->nx != 0))
+		if (e->ny > 0 || (flag == MARIO_ATTACK_TIME && e->nx != 0)) {
 			brick->SetType(BRICK_TYPE_EMPTY);
+			brick->BrokenByJump();
+		}
 		break;
 	}
 }

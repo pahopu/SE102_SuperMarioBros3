@@ -58,7 +58,7 @@ void CGoomba::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 
-	if (brick->IsAttacking() && e->ny != 0) {
+	if (brick->IsAttacking() && brick->IsBrokenByJump() && e->ny != 0) {
 		SetState(GOOMBA_STATE_DIE_BY_ATTACK);
 
 		float bx, by;
