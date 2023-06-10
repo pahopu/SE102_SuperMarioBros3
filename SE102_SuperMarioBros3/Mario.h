@@ -247,7 +247,13 @@ public:
 		return _koopa != NULL;
 	}
 
-	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable == 0); }
+	int IsBlocking() { 
+		return (state != MARIO_STATE_DIE && untouchable == 0); 
+	}
+
+	int IsUntouchable() {
+		return untouchable;
+	}
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);

@@ -183,6 +183,7 @@
     <Text Include="mushroom.txt" />
     <Text Include="koopatroopa.txt" />
     <Text Include="piranha.txt" />
+    <Text Include="bullet.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
