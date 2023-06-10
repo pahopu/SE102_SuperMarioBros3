@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameObject.h"
+#include "Bullet.h"
 
 #define PIRANHA_UP_DOWN_SPEED						0.01f
 
@@ -48,11 +49,12 @@ protected:
 	float mario_x, mario_y;
 
 	ULONGLONG time_start;
+	CGameObject* _bullet;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; }
+	virtual int IsCollidable() { return 0; }
 	virtual int IsBlocking() { return 0; }
 
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -65,6 +67,7 @@ public:
 	CPiranhaPlant(float x, float y, int type) :CGameObject(x, y) {
 		this->type = type;
 		old_y = y;
+		_bullet = NULL;
 		time_start = mario_x = mario_y = vy = vx = ay = 0;
 		SetState(PIRANHA_STATE_UP);
 	}

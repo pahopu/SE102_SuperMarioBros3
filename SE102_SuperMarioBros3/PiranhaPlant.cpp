@@ -23,6 +23,8 @@ void CPiranhaPlant::Render() {
 	int aniId = GetAniId();
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	if (_bullet) _bullet->Render();
+
 	//RenderBoundingBox();
 }
 
@@ -68,8 +70,16 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 
 	//Get position of Mario
-	if (dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
-		dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene())->GetPlayer()->GetPosition(mario_x, mario_y);
+	CPlayScene* playScene = NULL;
+	if (playScene == dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
+		playScene->GetPlayer()->GetPosition(mario_x, mario_y);
+
+	if (_bullet) {
+		vector<LPGAMEOBJECT> objects;
+		_bullet->Update(dt, &objects);
+		objects.push_back(playScene->GetPlayer());
+		CCollision::GetInstance()->Process(_bullet, dt, &objects);
+	}
 
 	CGameObject::Update(dt, coObjects);
 }
@@ -124,13 +134,28 @@ void CPiranhaPlant::SetState(int state) {
 	case PIRANHA_STATE_UP:
 		vy = -PIRANHA_UP_DOWN_SPEED;
 		break;
+
 	case PIRANHA_STATE_DOWN:
 		vy = PIRANHA_UP_DOWN_SPEED;
 		break;
+
 	case PIRANHA_STATE_ATTACK:
 		time_start = GetTickCount64();
 		vy = 0;
+
+		if (type == PIRANHA_TYPE_GREEN)
+			return;
+
+		_bullet = new CBullet(x, y, BULLET_BY_PIRANHA);
+
+		float direction_x, direction_y;
+		direction_x = (mario_x >= x) ? BULLET_DIRECTION_RIGHT : BULLET_DIRECTION_LEFT;
+		direction_y = (mario_y >= y) ? BULLET_DIRECTION_BOTTOM : BULLET_DIRECTION_TOP;
+
+		dynamic_cast<CBullet*>(_bullet)->SetDirection(direction_x, direction_y);
+
 		break;
+
 	case PIRANHA_STATE_IDLE:
 		time_start = GetTickCount64();
 		vy = 0;

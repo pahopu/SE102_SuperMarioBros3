@@ -214,7 +214,7 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	float px, py;
 	phaseCheck->GetPosition(px, py);
 
-	if (state == KOOPA_TROOPA_STATE_WALKING && py - this->y > 10) {
+	if (py - this->y > 10) {
 		vx = -vx;
 
 		if (px <= this->x)
