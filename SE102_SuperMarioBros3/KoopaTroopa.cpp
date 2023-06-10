@@ -47,8 +47,8 @@ void CKoopaTroopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
 		float gvx, gvy;
-		//goomba->GetSpeed(gvx, gvy);
-		//goomba->SetSpeed(-gvx, gvy);
+		goomba->GetSpeed(gvx, gvy);
+		goomba->SetSpeed(-gvx, gvy);
 
 		this->vx = -this->vx;
 

@@ -1,4 +1,5 @@
 #include "PiranhaPlant.h"
+#include "KoopaTroopa.h"
 #include "Mario.h"
 #include "PlayScene.h"
 #include "Game.h"
@@ -81,6 +82,18 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	}
 
 	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}
+
+void CPiranhaPlant::OnCollisionWith(LPCOLLISIONEVENT e) {
+	if (dynamic_cast<CKoopaTroopa*>(e->obj)) {
+		CKoopaTroopa* koopa = dynamic_cast<CKoopaTroopa*>(e->obj);
+
+		if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->GetStateHeld()) {
+			Delete();
+			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
+		}
+	}
 }
 
 int CPiranhaPlant::GetAniId()
