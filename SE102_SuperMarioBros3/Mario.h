@@ -182,7 +182,8 @@
 #define MARIO_RACOON_SITTING_BBOX_WIDTH		MARIO_BIG_SITTING_BBOX_WIDTH
 #define MARIO_RACOON_SITTING_BBOX_HEIGHT	16
 
-#define MARIO_RACOON_ATTACK_WIDTH			10
+#define MARIO_TAIL_WIDTH					10
+#define MARIO_TAIL_HEIGHT					5
 
 #define MARIO_UNTOUCHABLE_TIME				2500
 #define MARIO_ATTACK_TIME					300
@@ -207,6 +208,7 @@ class CMario : public CGameObject
 	BOOLEAN isSitting;
 	BOOLEAN isOnPlatform;
 
+	CGameObject* _tail;
 	CKoopaTroopa* _koopa;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -215,6 +217,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushroom(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -229,6 +232,7 @@ public:
 		ay = MARIO_GRAVITY;
 
 		_koopa = NULL;
+		_tail = new CPhaseChecker(x, y, MARIO_TAIL_WIDTH, MARIO_TAIL_HEIGHT);
 		untouchable_start = -1;
 		level = MARIO_LEVEL_RACOON;
 		isSitting = isOnPlatform = false;
