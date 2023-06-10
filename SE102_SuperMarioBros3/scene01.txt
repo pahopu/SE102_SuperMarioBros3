@@ -60,7 +60,7 @@ piranha.txt
 4	180	120
 
 #Goomba
-10	320	50
+10	320	100
 
 
 # Koopa Troopa
