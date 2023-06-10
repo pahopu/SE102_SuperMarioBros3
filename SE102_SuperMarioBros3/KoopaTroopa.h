@@ -51,7 +51,7 @@ protected:
 
 	CGameObject* phaseCheck;
 
-	virtual int IsCollidable() { return state != KOOPA_TROOPA_STATE_DIE; }
+	virtual int IsCollidable() { return state != KOOPA_TROOPA_STATE_DIE && !isHeld; }
 	virtual int IsBlocking() { return 0; }
 	virtual void Deflected(int direction);
 
@@ -81,6 +81,10 @@ public:
 	void SetState(int state);
 	void SetNx(int nx) {
 		this->nx = nx;
+	}
+
+	int GetNx() {
+		return nx;
 	}
 
 	void OnNoCollision(DWORD dt);

@@ -18,6 +18,32 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	if (_koopa) {
+		if (!_koopa->GetStateHeld())
+			_koopa = NULL;
+		else {
+			if (_koopa->GetNx() != nx) {
+				_koopa->SetNx(nx);
+				float temp = (nx >= 0) ? 1 : -1;
+
+				switch (level) {
+				case MARIO_LEVEL_SMALL:
+					_koopa->SetPosition(x + temp * MARIO_SMALL_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y - MARIO_SMALL_BBOX_HEIGHT / 2);
+					break;
+
+				case MARIO_LEVEL_BIG:
+					_koopa->SetPosition(x + temp * MARIO_BIG_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y);
+					break;
+
+				case MARIO_LEVEL_RACOON:
+					_koopa->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y + 1);
+					break;
+				}
+			}
+			_koopa->SetSpeed(vx, vy);
+		}
+	}
+
 	if (abs(vx) > abs(maxVx)) vx = maxVx;
 
 	// reset untouchable timer if untouchable time has passed
@@ -38,27 +64,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	isOnPlatform = false;
-
-	if (_koopa) {
-		if (!_koopa->GetStateHeld())
-			_koopa = NULL;
-		else {
-			float temp = (nx >= 0) ? 1 : -1;
-			switch (level) {
-			case MARIO_LEVEL_SMALL:
-				_koopa->SetPosition(x + temp * MARIO_SMALL_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y - MARIO_SMALL_BBOX_HEIGHT / 2);
-				break;
-
-			case MARIO_LEVEL_BIG:
-				_koopa->SetPosition(x + temp * MARIO_BIG_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y);
-				break;
-
-			case MARIO_LEVEL_RACOON:
-				_koopa->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y + 1);
-				break;
-			}
-		}
-	}
 
 	if (level == MARIO_LEVEL_RACOON) {
 		float temp = (nx >= 0) ? -1 : 1;
@@ -85,6 +90,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0 && e->obj->IsBlocking()) {
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
+		if (_koopa && _koopa->GetStateHeld()) _koopa->SetSpeed(vx, vy);
 	}
 	else if (e->nx != 0 && e->obj->IsBlocking())
 		vx = 0;
@@ -155,9 +161,23 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		else if (holdable && !_koopa) {
 			koopa->IsHeld();
 			_koopa = koopa;
-			if (nx >= 0)
-				_koopa->SetPosition(x + MARIO_BIG_BBOX_WIDTH / 2 + KOOPA_TROOPA_BBOX_WIDTH / 2, y);
-			else _koopa->SetPosition(x - MARIO_BIG_BBOX_WIDTH / 2 - KOOPA_TROOPA_BBOX_WIDTH / 2, y);
+
+			float temp = (nx >= 0) ? 1 : -1;
+			switch (level)
+			{
+			case MARIO_LEVEL_SMALL:
+				_koopa->SetPosition(x + temp * MARIO_SMALL_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, 
+					y - MARIO_SMALL_BBOX_HEIGHT / 2);
+				break;
+
+			case MARIO_LEVEL_BIG:
+				_koopa->SetPosition(x + temp * MARIO_BIG_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y);
+				break;
+
+			case MARIO_LEVEL_RACOON:
+				_koopa->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y + 1);
+				break;
+			}
 		}
 	}
 	else if (e->ny < 0) {
@@ -621,7 +641,7 @@ void CMario::SetState(int state)
 
 		if (_koopa) {
 			SetState(MARIO_STATE_KICK);
-			_koopa->SetNx(-this->nx);
+			_koopa->SetNx(-nx);
 			_koopa->SetState(KOOPA_TROOPA_STATE_ATTACKING);
 			_koopa = NULL;
 		}

@@ -45,23 +45,13 @@ void CKoopaTroopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		return;
 
 	switch (state) {
+	case KOOPA_TROOPA_STATE_SHELL:
 	case KOOPA_TROOPA_STATE_WALKING:
 		float gvx, gvy;
 		goomba->GetSpeed(gvx, gvy);
 		goomba->SetSpeed(-gvx, gvy);
 
 		this->vx = -this->vx;
-
-		break;
-
-	case KOOPA_TROOPA_STATE_SHELL:
-		if (isHeld) {
-			SetState(KOOPA_TROOPA_STATE_DIE);
-			Deflected(0);
-
-			goomba->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
-			goomba->Deflected(0);
-		}
 
 		break;
 
@@ -83,74 +73,57 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 {
 	CKoopaTroopa* koopa = dynamic_cast<CKoopaTroopa*>(e->obj);
 
-	if (state == KOOPA_TROOPA_STATE_DIE)
+	if (state == KOOPA_TROOPA_STATE_DIE || koopa->GetState() == KOOPA_TROOPA_STATE_DIE)
 		return;
+
+	int flag = 0;
+	if (koopa->state == KOOPA_TROOPA_STATE_ATTACKING) flag = 1;
+	else if (koopa->state == KOOPA_TROOPA_STATE_SHELL && koopa->isHeld) flag = 2;
 
 	switch (state) {
 	case KOOPA_TROOPA_STATE_ATTACKING:
-		float kx, ky;
-		koopa->GetPosition(kx, ky);
-
-		if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING || (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->isHeld)) {
-			SetState(KOOPA_TROOPA_STATE_DIE);
-			if (kx >= x)
-				Deflected(DEFLECT_DIRECTION_LEFT);
-			else Deflected(DEFLECT_DIRECTION_RIGHT);
-		}
-
 		koopa->SetState(KOOPA_TROOPA_STATE_DIE);
-		koopa->Deflected(vx);
+		if(flag) SetState(KOOPA_TROOPA_STATE_DIE);
+
+		if (koopa->x >= x) {
+			if (state == KOOPA_TROOPA_STATE_DIE) Deflected(DEFLECT_DIRECTION_LEFT);
+			koopa->Deflected(DEFLECT_DIRECTION_RIGHT);
+		} else {
+			if (state == KOOPA_TROOPA_STATE_DIE) Deflected(DEFLECT_DIRECTION_RIGHT);
+			koopa->Deflected(DEFLECT_DIRECTION_LEFT);
+		}
 
 		break;
 
+	case KOOPA_TROOPA_STATE_SHELL:
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -vx;
 
 		if (vx < 0) phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
 		else phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
 
-		SetSpeed(vx, vy);
+		if (koopa->state == KOOPA_TROOPA_STATE_WALKING) {
+			koopa->vx = -vx;
+			if (koopa->vx < 0) koopa->phaseCheck->SetPosition(koopa->x - KOOPA_TROOPA_BBOX_WIDTH, koopa->y);
+			else koopa->phaseCheck->SetPosition(koopa->x + KOOPA_TROOPA_BBOX_WIDTH, koopa->y);
+		}
 
-		break;
-
-	case KOOPA_TROOPA_STATE_SHELL:
-		if (koopa->isHeld) {
+		if (flag) {
 			SetState(KOOPA_TROOPA_STATE_DIE);
-			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
+			if (flag == 2) koopa->SetState(KOOPA_TROOPA_STATE_DIE);
+			else {
+				if (x >= koopa->x) Deflected(DEFLECT_DIRECTION_RIGHT);
+				else Deflected(DEFLECT_DIRECTION_LEFT);
+			}
 		}
 
 		break;
-	}
-
-	if (state == KOOPA_TROOPA_STATE_ATTACKING) {
-
-		float kx, ky;
-		koopa->GetPosition(kx, ky);
-
-		if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
-			this->SetState(KOOPA_TROOPA_STATE_DIE);
-
-			if (kx >= x) this->Deflected(DEFLECT_DIRECTION_LEFT);
-			else this->Deflected(DEFLECT_DIRECTION_RIGHT);
-		}
-		koopa->SetState(KOOPA_TROOPA_STATE_DIE);
-		koopa->Deflected(this->vx);
-
 	}
 }
 
 void CKoopaTroopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
-	if (state == KOOPA_TROOPA_STATE_ATTACKING || isHeld) 
+	if (state == KOOPA_TROOPA_STATE_ATTACKING)
 		e->obj->Delete();
-	else if (isHeld) {
-		SetState(KOOPA_TROOPA_STATE_DIE);
-
-		float px, py;
-		e->obj->GetPosition(px, py);
-
-		if (px > x) Deflected(DEFLECT_DIRECTION_RIGHT);
-		else Deflected(DEFLECT_DIRECTION_LEFT);
-	}
 }
 
 int CKoopaTroopa::GetAniId()
@@ -175,8 +148,7 @@ int CKoopaTroopa::GetAniId()
 
 void CKoopaTroopa::SetLevel(int level)
 {
-	if (this->level == KOOPA_TROOPA_SHELL)
-		y -= (KOOPA_TROOPA_BBOX_HEIGHT - KOOPA_TROOPA_BBOX_HEIGHT_DIE) / 2;
+	if (this->level == KOOPA_TROOPA_SHELL) y -= (KOOPA_TROOPA_BBOX_HEIGHT - KOOPA_TROOPA_BBOX_HEIGHT_DIE) / 2;
 	this->level = level;
 }
 
@@ -199,8 +171,7 @@ void CKoopaTroopa::SetState(int state)
 
 	case KOOPA_TROOPA_STATE_ATTACKING:
 		time_start = -1;
-		if (nx >= 0)
-			vx = -KOOPA_TROOPA_SHELL_SPEED;
+		if (nx >= 0) vx = -KOOPA_TROOPA_SHELL_SPEED;
 		else vx = KOOPA_TROOPA_SHELL_SPEED;
 		break;
 
@@ -278,11 +249,10 @@ void CKoopaTroopa::GetBoundingBox(float& left, float& top, float& right, float& 
 
 void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == KOOPA_TROOPA_STATE_WALKING)
-		phaseCheck->Update(dt, coObjects);
+	if (state == KOOPA_TROOPA_STATE_WALKING) phaseCheck->Update(dt, coObjects);
 
-	//if (isHeld == true) ay = 0;
-	//else ay = KOOPA_TROOPA_GRAVITY;
+	if (isHeld) ay = 0;
+	else ay = KOOPA_TROOPA_GRAVITY;
 
 	vx += ax * dt;
 	vy += ay * dt;
