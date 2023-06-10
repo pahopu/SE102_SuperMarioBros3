@@ -7,6 +7,8 @@
 #include "debug.h"
 #include "KoopaTroopa.h"
 
+#include "PhaseChecker.h"
+
 #define MARIO_WALKING_SPEED						0.1f
 #define MARIO_RUNNING_SPEED						0.2f
 #define MARIO_ATTACK_SPEED						1.0f
@@ -176,7 +178,7 @@
 
 #define MARIO_SIT_HEIGHT_ADJUST				((MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2)
 
-#define MARIO_RACOON_BBOX_WIDTH				MARIO_BIG_BBOX_WIDTH + 5
+#define MARIO_RACOON_BBOX_WIDTH				MARIO_BIG_BBOX_WIDTH
 #define MARIO_RACOON_BBOX_HEIGHT			24
 
 #define MARIO_RACOON_SITTING_BBOX_WIDTH		MARIO_BIG_SITTING_BBOX_WIDTH
@@ -232,7 +234,7 @@ public:
 		ay = MARIO_GRAVITY;
 
 		_koopa = NULL;
-		_tail = new CPhaseChecker(x, y, MARIO_TAIL_WIDTH, MARIO_TAIL_HEIGHT);
+		_tail = new CPhaseChecker(x, y, MARIO_TAIL_WIDTH, MARIO_TAIL_HEIGHT, PHASECHECK_BY_MARIO);
 		untouchable_start = -1;
 		level = MARIO_LEVEL_RACOON;
 		isSitting = isOnPlatform = false;

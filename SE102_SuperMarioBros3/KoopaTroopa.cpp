@@ -1,6 +1,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "KoopaTroopa.h"
+#include "PiranhaPlant.h"
 #include "debug.h"
 
 void CKoopaTroopa::Deflected(int direction)
@@ -103,7 +104,7 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		break;
 
 	default:
-		if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL && koopa->isHeld) {
+		if (koopa->isHeld) {
 			SetState(KOOPA_TROOPA_STATE_DIE);
 			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
 		}
@@ -125,6 +126,19 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		koopa->SetState(KOOPA_TROOPA_STATE_DIE);
 		koopa->Deflected(this->vx);
 
+	}
+}
+
+void CKoopaTroopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
+	if (state == KOOPA_TROOPA_STATE_ATTACKING || isHeld) {
+		e->obj->Delete();
+		SetState(KOOPA_TROOPA_STATE_DIE);
+
+		float px, py;
+		e->obj->GetPosition(px, py);
+
+		if (px > x) Deflected(DEFLECT_DIRECTION_RIGHT);
+		else Deflected(DEFLECT_DIRECTION_LEFT);
 	}
 }
 
@@ -158,6 +172,7 @@ void CKoopaTroopa::SetLevel(int level)
 void CKoopaTroopa::SetState(int state)
 {
 	CGameObject::SetState(state);
+	isHeld = false;
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -KOOPA_TROOPA_WALKING_SPEED;
@@ -230,6 +245,8 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopaTroopa*>(e->obj))
 		OnCollisionWithKoopaTroopa(e);
+	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+		OnCollisionWithPiranhaPlant(e);
 }
 
 void CKoopaTroopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)

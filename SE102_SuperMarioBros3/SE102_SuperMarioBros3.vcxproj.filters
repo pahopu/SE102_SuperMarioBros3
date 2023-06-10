@@ -87,6 +87,9 @@
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PhaseChecker.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Platform.h">
@@ -164,13 +167,13 @@
     <ClInclude Include="KoopaTroopa.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhaseChecker.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PiranhaPlant.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhaseChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

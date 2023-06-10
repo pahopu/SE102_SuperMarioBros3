@@ -61,10 +61,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (level == MARIO_LEVEL_RACOON) {
-		float temp = (nx >= 0) ? 1 : - 1;
+		float temp = (nx >= 0) ? -1 : 1;
 
-		_tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, y + 1);
+		_tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + 1);
 		_tail->SetSpeed(vx, vy);
+
+		if (flag == MARIO_ATTACK_TIME) dynamic_cast<CPhaseChecker*>(_tail)->Attack(nx);
+
 		_tail->Update(dt, coObjects);
 	}
 
@@ -150,11 +153,11 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_TROOPA_STATE_ATTACKING);
 		}
 		else if (holdable && !_koopa) {
-			koopa->IsHeld();
 			_koopa = koopa;
 			if (nx >= 0)
 				_koopa->SetPosition(x + MARIO_BIG_BBOX_WIDTH / 2 + KOOPA_TROOPA_BBOX_WIDTH / 2, y);
 			else _koopa->SetPosition(x - MARIO_BIG_BBOX_WIDTH / 2 - KOOPA_TROOPA_BBOX_WIDTH / 2, y);
+			koopa->IsHeld();
 		}
 	}
 	else if (e->ny < 0) {
@@ -223,8 +226,8 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 			else if (level != MARIO_LEVEL_SMALL)
 				brick->SetType(BRICK_TYPE_BREAK);
 			brick->BrokenByJump();
-		} else if (flag == MARIO_ATTACK_TIME && e->nx != 0)
-			brick->SetType(BRICK_TYPE_BREAK);
+		}
+
 		break;
 
 	case BRICK_TYPE_QUESTION:
@@ -233,9 +236,6 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 			brick->BrokenByJump();
 		}
 
-		if (flag == MARIO_ATTACK_TIME && e->nx != 0)
-			brick->SetType(BRICK_TYPE_EMPTY);
-
 		break;
 	}
 }
@@ -243,7 +243,7 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	CPiranhaPlant* plant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
-	if (!untouchable) {
+	if (!untouchable && plant->GetState() != PIRANHA_STATE_IDLE) {
 		switch (level) {
 		case MARIO_LEVEL_RACOON:
 			this->level = MARIO_LEVEL_BIG;
@@ -521,7 +521,7 @@ void CMario::Render()
 	else aniId = GetAniIdRacoon();
 
 	animations->Get(aniId)->Render(x, y);
-	//_tail->Render();
+	if (_tail) _tail->Render();
 
 	//RenderBoundingBox();
 
@@ -660,14 +660,16 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
 	else {
+		int flag = (nx >= 0) ? 1 : -1;
+
 		if (isSitting) {
-			left = x - MARIO_RACOON_SITTING_BBOX_WIDTH / 2;
+			left = x - MARIO_RACOON_SITTING_BBOX_WIDTH / 2 + 4 * flag;
 			top = y - MARIO_RACOON_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_RACOON_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_RACOON_SITTING_BBOX_HEIGHT;
 		}
 		else {
-			left = x - MARIO_RACOON_BBOX_WIDTH / 2;
+			left = x - MARIO_RACOON_BBOX_WIDTH / 2 + 4 * flag;
 			top = y - MARIO_RACOON_BBOX_HEIGHT / 2;
 			right = left + MARIO_RACOON_BBOX_WIDTH;
 			bottom = top + MARIO_RACOON_BBOX_HEIGHT;

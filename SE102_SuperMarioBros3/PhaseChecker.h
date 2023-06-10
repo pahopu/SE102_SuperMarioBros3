@@ -1,14 +1,26 @@
 #pragma once
+#ifndef CPHASECHECKER_H
+#define CPHASECHECKER_H
 
 #include "GameObject.h"
+#include "Goomba.h"
+#include "Brick.h"
+#include "PiranhaPlant.h"
+#include "KoopaTroopa.h"
 
-#define PHASE_CHECKER_GRAVITY	0.002f
+#define PHASE_CHECKER_GRAVITY				0.002f
 
-class CPhaseChecker : public CGameObject
-{
+#define PHASECHECK_ATTACK_SPEED				1.0f
+
+#define PHASECHECK_BY_KOOPA_TROOPA			10
+#define PHASECHECK_BY_MARIO					20
+
+class CPhaseChecker : public CGameObject {
 protected:
 	int width;
 	int height;
+
+	int type;
 
 	float ax;
 	float ay;
@@ -16,44 +28,23 @@ protected:
 	virtual int IsCollidable() { return 1; }
 	virtual int IsBlocking() { return 0; }
 
-	virtual void OnNoCollision(DWORD dt)
-	{
-		x += vx * dt;
-		y += vy * dt;
-	}
+	virtual void OnNoCollision(DWORD dt);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e)
-	{
-		if (e->ny != 0)
-		{
-			vy = 0;
-		}
-	}
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom)
-	{
-		left = x - width / 2;
-		top = y - height / 2;
-		right = left + width;
-		bottom = top + height;
-	}
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
-	{
-		vx += ax * dt;
-		vy += ay * dt;
-
-		CGameObject::Update(dt, coObjects);
-		CCollision::GetInstance()->Process(this, dt, coObjects);
-	}
-	virtual void Render()
-	{
+	virtual void Render() {
 		RenderBoundingBox();
 	}
 
 public:
-	CPhaseChecker(float x, float y, int w, int h) : CGameObject(x, y)
-	{
+	CPhaseChecker(float x, float y, int w, int h, int t) : CGameObject(x, y) {
 		ax = 0;
 		ay = PHASE_CHECKER_GRAVITY;
 
@@ -61,9 +52,17 @@ public:
 		height = h;
 
 		vy = 0;
+
+		type = t;
 	}
-	
-	void SetAy(float ay) {
-		this->ay = ay;
+
+	void Attack(int direction) {
+		vx += PHASECHECK_ATTACK_SPEED * direction;
+	}
+
+	bool isAttacking() {
+		return abs(vx) >= PHASECHECK_ATTACK_SPEED;
 	}
 };
+
+#endif

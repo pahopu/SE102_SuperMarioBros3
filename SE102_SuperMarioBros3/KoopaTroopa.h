@@ -1,4 +1,6 @@
 #pragma once
+#ifndef CKOOPAS_H
+#define CKOOPAS_H
 
 #include "GameObject.h"
 #include "PhaseChecker.h"
@@ -40,7 +42,8 @@ protected:
 	float ay;
 
 	int level;
-	int isHeld;
+
+	bool isHeld;
 
 	ULONGLONG time_start;
 
@@ -53,13 +56,14 @@ protected:
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 
 	int GetAniId();
 
 public:
 	CKoopaTroopa(float x, float y): CGameObject(x, y) {
-		phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y,
-			KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT);
+		phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y, 
+			KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT, PHASECHECK_BY_KOOPA_TROOPA);
 		phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 
 		ax = 0;
@@ -85,6 +89,7 @@ public:
 	void Render();
 
 	int GetStateHeld() { return isHeld; }
-	void IsHeld() { isHeld = 1; }
+	void IsHeld() { isHeld = true; }
 };
 
+#endif

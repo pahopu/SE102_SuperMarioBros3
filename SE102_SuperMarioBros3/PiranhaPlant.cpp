@@ -73,8 +73,6 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
 	playScene->GetPlayer()->GetPosition(mario_x, mario_y);
 
-	DebugOut(L"Hello");
-
 	if (_bullet) {
 		vector<LPGAMEOBJECT> objects;
 		_bullet->Update(dt, &objects);
