@@ -1,12 +1,9 @@
 #pragma once
-#ifndef CPHASECHECKER_H
-#define CPHASECHECKER_H
 
 #include "GameObject.h"
 #include "Goomba.h"
 #include "Brick.h"
 #include "PiranhaPlant.h"
-#include "KoopaTroopa.h"
 
 #define PHASE_CHECKER_GRAVITY				0.002f
 
@@ -14,6 +11,8 @@
 
 #define PHASECHECK_BY_KOOPA_TROOPA			10
 #define PHASECHECK_BY_MARIO					20
+
+class CKoopaTroopa;
 
 class CPhaseChecker : public CGameObject {
 protected:
@@ -64,5 +63,3 @@ public:
 		return abs(vx) >= PHASECHECK_ATTACK_SPEED;
 	}
 };
-
-#endif

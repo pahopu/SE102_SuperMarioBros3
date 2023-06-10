@@ -153,11 +153,11 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_TROOPA_STATE_ATTACKING);
 		}
 		else if (holdable && !_koopa) {
+			koopa->IsHeld();
 			_koopa = koopa;
 			if (nx >= 0)
 				_koopa->SetPosition(x + MARIO_BIG_BBOX_WIDTH / 2 + KOOPA_TROOPA_BBOX_WIDTH / 2, y);
 			else _koopa->SetPosition(x - MARIO_BIG_BBOX_WIDTH / 2 - KOOPA_TROOPA_BBOX_WIDTH / 2, y);
-			koopa->IsHeld();
 		}
 	}
 	else if (e->ny < 0) {

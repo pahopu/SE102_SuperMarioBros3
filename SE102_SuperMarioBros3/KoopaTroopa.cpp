@@ -103,7 +103,17 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 
 		break;
 
-	default:
+	case KOOPA_TROOPA_STATE_WALKING:
+		vx = -vx;
+
+		if (vx < 0) phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
+		else phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
+
+		SetSpeed(vx, vy);
+
+		break;
+
+	case KOOPA_TROOPA_STATE_SHELL:
 		if (koopa->isHeld) {
 			SetState(KOOPA_TROOPA_STATE_DIE);
 			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
@@ -130,8 +140,9 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 }
 
 void CKoopaTroopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
-	if (state == KOOPA_TROOPA_STATE_ATTACKING || isHeld) {
+	if (state == KOOPA_TROOPA_STATE_ATTACKING || isHeld) 
 		e->obj->Delete();
+	else if (isHeld) {
 		SetState(KOOPA_TROOPA_STATE_DIE);
 
 		float px, py;

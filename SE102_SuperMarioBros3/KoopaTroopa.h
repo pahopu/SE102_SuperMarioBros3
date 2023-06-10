@@ -1,9 +1,11 @@
 #pragma once
+
 #ifndef CKOOPAS_H
 #define CKOOPAS_H
 
-#include "GameObject.h"
 #include "PhaseChecker.h"
+#include "GameObject.h"
+
 
 #define KOOPA_TROOPA_GRAVITY					0.002f
 #define KOOPA_TROOPA_WALKING_SPEED				0.05f

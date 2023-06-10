@@ -26,7 +26,7 @@ void CPhaseChecker::OnCollisionWith(LPCOLLISIONEVENT e) {
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 		OnCollisionWithPiranhaPlant(e);
-	else if (dynamic_cast<CKoopaTroopa*>(e->obj))
+	else if ((CKoopaTroopa*)(e->obj))
 		OnCollisionWithKoopaTroopa(e);
 }
 
@@ -55,7 +55,7 @@ void CPhaseChecker::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 }
 
 void CPhaseChecker::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e) {
-	e->obj->SetState(KOOPA_TROOPA_STATE_SHELL);
+	e->obj->SetState(200);
 	if (e->nx > 0) e->obj->Deflected(DEFLECT_DIRECTION_LEFT);
 	else e->obj->Deflected(DEFLECT_DIRECTION_RIGHT);
 }
