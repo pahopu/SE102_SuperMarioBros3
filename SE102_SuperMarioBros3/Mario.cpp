@@ -521,9 +521,9 @@ void CMario::Render()
 	else aniId = GetAniIdRacoon();
 
 	animations->Get(aniId)->Render(x, y);
-	_tail->Render();
+	//_tail->Render();
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	//DebugOutTitle(L"Coins: %d", coin);
 }
