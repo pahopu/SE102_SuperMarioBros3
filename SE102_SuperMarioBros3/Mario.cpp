@@ -521,7 +521,7 @@ void CMario::Render()
 	else aniId = GetAniIdRacoon();
 
 	animations->Get(aniId)->Render(x, y);
-	if (_tail) _tail->Render();
+	//if (_tail) _tail->Render();
 
 	//RenderBoundingBox();
 

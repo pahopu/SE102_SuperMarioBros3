@@ -37,6 +37,7 @@ protected:
 
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e);
 	
 	int getAniId();
 

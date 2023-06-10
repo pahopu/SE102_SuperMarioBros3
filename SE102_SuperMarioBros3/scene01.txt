@@ -61,7 +61,7 @@ bullet.txt
 4	180	120
 
 #Goomba
-10	320	100
+2	300	100
 
 
 # Koopa Troopa

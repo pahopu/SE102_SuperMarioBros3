@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "Brick.h"
+#include "KoopaTroopa.h"
 
 CGoomba::CGoomba(float x, float y) :CGameObject(x, y)
 {
@@ -44,6 +45,8 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CKoopaTroopa*>(e->obj))
+		OnCollisionWithKoopaTroopa(e);
 }
 
 int CGoomba::getAniId()
@@ -78,6 +81,29 @@ void CGoomba::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		return;
 
 	if (e->nx != 0) goomba->vx = -goomba->vx;
+}
+
+void CGoomba::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e) {
+	CKoopaTroopa* koopa = dynamic_cast<CKoopaTroopa*>(e->obj);
+
+	switch (koopa->GetState()) {
+	case KOOPA_TROOPA_STATE_ATTACKING:
+
+		SetState(GOOMBA_STATE_DIE_BY_ATTACK);
+
+		if (e->nx >= 0) Deflected(DEFLECT_DIRECTION_RIGHT);
+		else Deflected(DEFLECT_DIRECTION_LEFT);
+
+		break;
+
+	case KOOPA_TROOPA_STATE_SHELL:
+		if (koopa->GetStateHeld()) {
+			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
+			this->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
+		}
+
+		break;
+	}
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
