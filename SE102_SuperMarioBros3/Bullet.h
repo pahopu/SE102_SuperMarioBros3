@@ -13,7 +13,7 @@
 #define BULLET_BBOX_WIDTH			7
 #define BULLET_BBOX_HEIGHT			8
 
-#define ID_ANI_BULLET_FIRE			83000
+#define ID_ANI_BULLET_FIRE			8001
 
 #define BULLET_BY_PIRANHA			1
 #define BULLET_BY_MARIO				2

@@ -3,7 +3,7 @@
 #include "GameObject.h"
 #include "Bullet.h"
 
-#define PIRANHA_UP_DOWN_SPEED						0.01f
+#define PIRANHA_UP_DOWN_SPEED						0.02f
 
 #define PIRANHA_TYPE_GREEN							1
 #define PIRANHA_TYPE_GREEN_FIRE						2
@@ -19,6 +19,8 @@
 
 #define PIRANHA_RED_BBOX_WIDTH						15
 #define PIRANHA_RED_BBOX_HEIGHT						31
+
+#define DISTANCE_APPEAR								30
 
 #define ID_ANI_PIRANHA_GREEN						7000
 

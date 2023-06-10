@@ -63,16 +63,17 @@ void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	case PIRANHA_STATE_IDLE:
 		if ((GetTickCount64() - time_start) > PIRANHA_ATTACK_IDLE_TIME) {
 			time_start = 0;
-			if (state == PIRANHA_STATE_IDLE) SetState(PIRANHA_STATE_UP);
+			if (state == PIRANHA_STATE_IDLE && abs(mario_x - x) > DISTANCE_APPEAR) SetState(PIRANHA_STATE_UP);
 			else if (state == PIRANHA_STATE_ATTACK) SetState(PIRANHA_STATE_DOWN);
 		}
 		break;
 	}
 
 	//Get position of Mario
-	CPlayScene* playScene = NULL;
-	if (playScene == dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene()))
-		playScene->GetPlayer()->GetPosition(mario_x, mario_y);
+	CPlayScene* playScene = dynamic_cast<CPlayScene*>(CGame::GetInstance()->GetCurrentScene());
+	playScene->GetPlayer()->GetPosition(mario_x, mario_y);
+
+	DebugOut(L"Hello");
 
 	if (_bullet) {
 		vector<LPGAMEOBJECT> objects;
@@ -124,7 +125,6 @@ int CPiranhaPlant::GetAniId()
 		}
 		break;
 	}
-	DebugOut(L"%d", aniId);
 	return aniId;
 }
 
