@@ -14,12 +14,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		if (!mario->IsHolding())
-			mario->SetState(MARIO_STATE_SIT);
+		if (!mario->IsHolding()) mario->SetState(MARIO_STATE_SIT);
 		break;
 	case DIK_A:
-		if (mario->GetLevel() == MARIO_LEVEL_RACOON)
-			mario->SetState(MARIO_STATE_ATTACK);
+		if (mario->GetLevel() == MARIO_LEVEL_RACOON) mario->SetState(MARIO_STATE_ATTACK);
 		break;
 	case DIK_S:
 		mario->SetState(MARIO_STATE_JUMP);

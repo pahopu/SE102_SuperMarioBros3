@@ -53,9 +53,22 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		untouchable = 0;
 	}
 
-	if (flag == MARIO_ATTACK_TIME && (GetTickCount64() - time_count > flag)) {
-		flag = 0;
-		time_count = 0;
+	if (flag == MARIO_ATTACK_TIME) {
+		if (GetTickCount64() - time_count > MARIO_ATTACK_TIME) {
+			flag = 0;
+			time_count = 0;
+		}
+
+		if (level == MARIO_LEVEL_RACOON) {
+			CPhaseChecker* tail = dynamic_cast<CPhaseChecker*>(_tail);
+			float temp = (nx >= 0) ? -1 : 1; //to determine direction
+
+			tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + MARIO_TAIL_POSITION_ADJUST);
+			tail->SetSpeed(vx, vy);
+
+			if (flag == MARIO_ATTACK_TIME) tail->Attack(nx);
+			_tail->Update(dt, coObjects);
+		}
 	}
 
 	if (flag == MARIO_KICK_TIME && (GetTickCount64() - time_count > flag)) {
@@ -64,17 +77,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	isOnPlatform = false;
-
-	if (level == MARIO_LEVEL_RACOON) {
-		float temp = (nx >= 0) ? -1 : 1;
-
-		_tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + 1);
-		_tail->SetSpeed(vx, vy);
-
-		if (flag == MARIO_ATTACK_TIME) dynamic_cast<CPhaseChecker*>(_tail)->Attack(nx);
-
-		_tail->Update(dt, coObjects);
-	}
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -680,16 +682,14 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
 	}
 	else {
-		int flag = (nx >= 0) ? 1 : -1;
-
 		if (isSitting) {
-			left = x - MARIO_RACOON_SITTING_BBOX_WIDTH / 2 + 4 * flag;
+			left = x - MARIO_RACOON_SITTING_BBOX_WIDTH / 2;
 			top = y - MARIO_RACOON_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_RACOON_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_RACOON_SITTING_BBOX_HEIGHT;
 		}
 		else {
-			left = x - MARIO_RACOON_BBOX_WIDTH / 2 + 4 * flag;
+			left = x - MARIO_RACOON_BBOX_WIDTH / 2;
 			top = y - MARIO_RACOON_BBOX_HEIGHT / 2;
 			right = left + MARIO_RACOON_BBOX_WIDTH;
 			bottom = top + MARIO_RACOON_BBOX_HEIGHT;

@@ -7,7 +7,8 @@
 
 #define PHASE_CHECKER_GRAVITY				0.002f
 
-#define PHASECHECK_ATTACK_SPEED				1.0f
+#define PHASECHECK_ATTACK_SPEED				1.4f
+#define PHASECHECK_ATTACK_RANGE				3.0f
 
 #define PHASECHECK_BY_KOOPA_TROOPA			10
 #define PHASECHECK_BY_MARIO					20
@@ -23,6 +24,8 @@ protected:
 
 	float ax;
 	float ay;
+
+	float old_x;
 
 	virtual int IsCollidable() { return 1; }
 	virtual int IsBlocking() { return 0; }
@@ -44,19 +47,19 @@ protected:
 
 public:
 	CPhaseChecker(float x, float y, int w, int h, int t) : CGameObject(x, y) {
-		ax = 0;
+		ax = vy = 0;
 		ay = PHASE_CHECKER_GRAVITY;
 
 		width = w;
 		height = h;
-
-		vy = 0;
-
 		type = t;
+
+		old_x = x;
 	}
 
 	void Attack(int direction) {
 		vx += PHASECHECK_ATTACK_SPEED * direction;
+		old_x = x;
 	}
 
 	bool isAttacking() {
