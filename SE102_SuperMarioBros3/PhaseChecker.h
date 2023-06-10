@@ -62,4 +62,8 @@ public:
 	bool isAttacking() {
 		return abs(vx) >= PHASECHECK_ATTACK_SPEED;
 	}
+
+	int GetType() {
+		return type;
+	}
 };
