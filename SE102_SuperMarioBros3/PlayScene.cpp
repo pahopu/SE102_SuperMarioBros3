@@ -120,9 +120,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA_TROOPA: obj = new CKoopaTroopa(x, y); break;
 	case OBJECT_TYPE_PIRANHA_PLANT: obj = new CPiranhaPlant(x, y, PIRANHA_TYPE_GREEN_FIRE); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y, BRICK_TYPE_GOLD); break;
-	case OBJECT_TYPE_QUESTION_BRICK: obj = new CBrick(x, y, BRICK_TYPE_QUESTION); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+
+	case OBJECT_TYPE_BRICK:
+		int type = atoi(tokens[3].c_str());
+		int object_type = atoi(tokens[4].c_str());
+		obj = new CBrick(x, y, type, object_type);
+		break;
 
 	case OBJECT_TYPE_PLATFORM:
 	{
