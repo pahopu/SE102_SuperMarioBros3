@@ -103,7 +103,7 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		else phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
 
 		if (koopa->state == KOOPA_TROOPA_STATE_WALKING) {
-			koopa->vx = -vx;
+			koopa->vx = -koopa->vx;
 			if (koopa->vx < 0) koopa->phaseCheck->SetPosition(koopa->x - KOOPA_TROOPA_BBOX_WIDTH, koopa->y);
 			else koopa->phaseCheck->SetPosition(koopa->x + KOOPA_TROOPA_BBOX_WIDTH, koopa->y);
 		}

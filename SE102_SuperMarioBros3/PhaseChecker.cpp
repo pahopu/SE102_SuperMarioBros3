@@ -12,7 +12,7 @@ void CPhaseChecker::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vx += ax * dt;
 
 	// Tail of Mario over attack range
-	if (abs(x + vx * dt - old_x) > 4 * width) {
+	if (type == PHASECHECK_BY_MARIO && abs(x + vx * dt - old_x) > 4 * width) {
 		if (vx >= 0) vx = (PHASECHECK_ATTACK_RANGE * width + old_x - x) / dt;
 		else vx = (old_x - PHASECHECK_ATTACK_RANGE * width - x) / dt;
 	}
