@@ -1,5 +1,6 @@
 #include "Collision.h"
 #include "GameObject.h"
+#include "Platform.h"
 
 #include "debug.h"
 
@@ -201,12 +202,13 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 			continue;
 		}
 
-		if (c->t < min_tx && c->nx != 0 && filterX == 1) {
+		if (c->t < min_tx && c->nx != 0 && filterX == 1 && c->obj->IsBlocking() == 1) {
 			min_tx = c->t; min_ix = i;
 		}
 
 		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
-			min_ty = c->t; min_iy = i;
+			if ((c->obj->IsBlocking() == 2 && c->ny < 0) || c->obj->IsBlocking() == 1)
+				min_ty = c->t; min_iy = i;
 		}
 	}
 

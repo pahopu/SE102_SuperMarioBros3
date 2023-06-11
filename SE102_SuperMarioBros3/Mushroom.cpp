@@ -117,6 +117,11 @@ CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 }
 
 void CMushroom::CreatedByBrick() {
+	if (type == MUSHROOM_TYPE_SUPER_LEAF) {
+		Deflected();
+		return;
+	}
+
 	old_y = y;
 	ay = vx = 0;
 	vy = -MUSHROOM_CREATE_SPEED;

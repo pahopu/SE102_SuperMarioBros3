@@ -114,15 +114,12 @@ void CBrick::SetType(int type)
 	}
 
 	switch (type) {
-	case BRICK_TYPE_GOLD:
-		break;
-	case BRICK_TYPE_QUESTION:
-		break;
 	case BRICK_TYPE_EMPTY:
 		time_start = GetTickCount64();
 		old_y = y;
 		Deflected(0);
 		break;
+
 	case BRICK_TYPE_BREAK:
 		time_start = GetTickCount64();
 		ay = BRICK_GRAVITY;
@@ -169,6 +166,6 @@ bool CBrick::IsAttacking() {
 
 void CBrick::Deflected(int Direction) {
 	ay = BRICK_GRAVITY;
-	vx = 0;
 	vy = -BRICK_TRANSFORM_DEFLECT;
+	vx = 0;
 }
