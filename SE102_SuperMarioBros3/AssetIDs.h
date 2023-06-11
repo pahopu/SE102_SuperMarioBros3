@@ -15,7 +15,7 @@
 #define OBJECT_TYPE_KOOPA_TROOPA						3
 #define OBJECT_TYPE_COIN								4
 #define OBJECT_TYPE_PLATFORM							5
-#define OBJECT_TYPE_PIRANHA_PLANT						10
+#define OBJECT_TYPE_PIRANHA_PLANT						6
 
 #define OBJECT_TYPE_PORTAL								50
 

@@ -117,15 +117,25 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA_TROOPA: obj = new CKoopaTroopa(x, y); break;
-	case OBJECT_TYPE_PIRANHA_PLANT: obj = new CPiranhaPlant(x, y, PIRANHA_TYPE_GREEN_FIRE); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
+
+	case OBJECT_TYPE_GOOMBA: {
+		int type = atoi(tokens[3].c_str());
+		obj = new CGoomba(x, y, type);
+		break;
+	}
 
 	case OBJECT_TYPE_BRICK: {
 		int type = atoi(tokens[3].c_str());
 		int otype = atoi(tokens[4].c_str());
 		obj = new CBrick(x, y, type, otype);
+		break;
+	}
+
+	case OBJECT_TYPE_PIRANHA_PLANT: {
+		int type = atoi(tokens[3].c_str());
+		obj = new CPiranhaPlant(x, y, type);
 		break;
 	}
 
@@ -138,11 +148,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_begin = atoi(tokens[6].c_str());
 		int sprite_middle = atoi(tokens[7].c_str());
 		int sprite_end = atoi(tokens[8].c_str());
+		int type = atoi(tokens[9].c_str());
 
 		obj = new CPlatform(
 			x, y,
 			cell_width, cell_height, length,
-			sprite_begin, sprite_middle, sprite_end
+			sprite_begin, sprite_middle, sprite_end, type
 		);
 
 		break;
@@ -269,14 +280,32 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+	CMario* mario = dynamic_cast<CMario*>(player);
+
+	float old_cx, old_cy;
+	CGame::GetInstance()->GetCamPos(old_cx, old_cy);
+
+	//DebugOutTitle(L"mario y: %f cy: %f", cy, old_cy);
+
+	if (mario->GetLevel() == MARIO_LEVEL_RACOON) {
+		if ((cy - old_cy) < (game->GetBackBufferHeight() / 3) && mario->IsFlying()) // Case Mario is flying or on the platform in the sky
+			cy -= game->GetBackBufferHeight() / 3;
+		else if ((cy - old_cy) > (game->GetBackBufferHeight() / 2)) // Case Mario is falling down
+			cy -= game->GetBackBufferHeight() / 2;
+		else cy = old_cy;
+	}
+	else cy = DEFAULT_CAMERA_POSITION_Y;
+
+	if (cy >= DEFAULT_CAMERA_POSITION_Y) cy = DEFAULT_CAMERA_POSITION_Y;
+
+	CGame::GetInstance()->SetCamPos(cx, 0.0f);
 
 	PurgeDeletedObjects();
 }
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (int i = objects.size() - 1; i >= 0; i--)
 		objects[i]->Render();
 }
 

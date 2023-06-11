@@ -2,9 +2,9 @@
 
 #include "GameObject.h"
 
-#define PLATFORM_TYPE_BLOCK				10
-#define PLATFORM_TYPE_NORMAL			20
-#define PLATFORM_TYPE_NO_COLLISION		30
+#define PLATFORM_TYPE_BLOCK				1
+#define PLATFORM_TYPE_NORMAL			2
+#define PLATFORM_TYPE_NO_COLLISION		3
 
 // 
 // The most popular type of object in Mario! 

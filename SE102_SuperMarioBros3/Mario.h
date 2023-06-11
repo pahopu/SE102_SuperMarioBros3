@@ -16,7 +16,7 @@
 #define MARIO_ACCEL_WALK_X							0.0005f
 #define MARIO_ACCEL_RUN_X							0.0007f
 
-#define MARIO_JUMP_SPEED_Y							0.4f
+#define MARIO_JUMP_SPEED_Y							0.38f
 #define MARIO_JUMP_RUN_SPEED_Y						0.45f
 
 #define MARIO_FLY_SPEED_Y							0.3f
@@ -289,8 +289,12 @@ public:
 		return isOnPlatform;
 	}
 
-	bool IsFlying() {
-		return fly_start || float_start;
+	bool IsFlying() { 
+		return fly_start != 0; 
+	}
+
+	bool IsFloat() { 
+		return float_start != 0; 
 	}
 
 	void OnNoCollision(DWORD dt);

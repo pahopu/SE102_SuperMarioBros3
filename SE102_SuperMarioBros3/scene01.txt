@@ -1,5 +1,40 @@
 # list of object assets to load in this scene
 
+
+
+
+##### SIZE OF EACH OBJECTS #####
+# Mario Small	13 x 12
+# Mario Big		14 x 24
+# Mario Racoon	(14 + 5) x 25
+# Brick			15 x 16
+# Goomba		16 x 11
+# Koopa Troopa	14 x 24
+# Coin			15 x 16
+# Piranha Plant 15 x 23
+# Ground		15 x 15
+# Cloud			15 x 15
+# Tree			15 x 15
+# Rectangle		15 x 15
+# Pipe			15 x 15
+
+
+
+
+##### SYNTAX #####
+# See OBJECT_TYPE constants in AssetIDs.h
+
+# type	x	y	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopa Troopa, 4 = Coin, 5 = Platform, 6 = Piranha Plant
+
+# GOOMBA	id	x	y	type(normal = 1, red fly = 2)
+# PIRANHA PLANT	id	x	y	type(green = 1, green fire = 2, red fire = 3)
+# PLATFORM	id	x	y	width	height	length	begin	middle	end	type(block = 1, normal = 2, no collision = 3)
+# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, super mushroom/leaf = 1, coin = 2, 1up = 3)
+
+
+
+
 [ASSETS]
 coin.txt
 misc.txt
@@ -15,49 +50,41 @@ koopatroopa.txt
 
 
 [OBJECTS]
-# type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
-# See OBJECT_TYPE constants in AssetIDs.h
-# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, supermushroom/leaf = 101, coin = 111, 1up = 121)
-
 # MARIO
 0	320	120
 
+
+# Platform
+5	0	178	16	16	30	51101	51102	51103	1
+5	0	194	16	16	30	51201	51202	51203	1
+#5	252	90	16	16	1	20001	20001	20001	1
+#5	176	190	16	16	10	51201	51202	51203	1
+
+
+# Pipe
+# Top
+5	177	133	16	16	1	54101	54101	54101	1
+5	192	133	16	16	1	54102	54102	54102	1
+
+# Bottom
+5	177	148	15	15	1	54201	54201	54201	1
+5	192	148	15	15	1	54202	54202	54202	1
+5	177	163	15	15	1	54201	54201	54201	1
+5	192	163	15	15	1	54202	54202	54202	1
+
+
 # BRICKS
 1	0	148	1	0
-1	0	164	1	0
-
-1	0	180	1	0
-1	16	180	1	0
-1	32	180	1	0
-1	48	180	1	0
-1	64	180	1	0
-1	80	180	1	0
-1	96	180	1	0
-1	112	180	1	0
-1	128	180	1	0
-1	144	180	1	0
-1	160	180	1	0
-1	176	180	1	0
-1	192	180	1	0
-1	208	180	1	0
-1	224	180	1	0
-1	240	180	1	0
-1	256	180	1	0
-1	272	180	1	0
-1	288	180	1	0
-1	304	180	1	0
-1	320	180	1	0
-1	336	180	1	0
-1	352	180	1	0
+1	0	164	2	0
 
 1	352	148	1	0
-1	352	164	1	0
+1	352	164	2	0
 
-1	300	120	2	101
+1	300	120	2	1
 1	284	120	1	0
 1	268	120	1	0
 1	252	120	1	0
+
 
 #COIN
 4	100	120
@@ -66,19 +93,18 @@ koopatroopa.txt
 4	160	120
 4	180	120
 
+
 # Piranha
-#10	300	100
+6	185	138	1
+
 
 # Goomba
-2	300	80
+2	300	80	1
 
 
 # Koopa Troopa
 3	100	110
 
-#Platform
-#5	90	136	16	15	16	51000	52000	53000
-#5	120	90	16	16	8	20001	20002	20003
 
 #Portal 
 #50	300	110	316	140	2

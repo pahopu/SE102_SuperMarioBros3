@@ -11,8 +11,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	switch (KeyCode)
-	{
+	switch (KeyCode) {
 	case DIK_DOWN:
 		if (!mario->IsHolding()) mario->SetState(MARIO_STATE_SIT);
 		break;
@@ -46,13 +45,12 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 	//DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	switch (KeyCode)
-	{
+	switch (KeyCode) {
 	case DIK_A:
 		mario->SetState(MARIO_STATE_HOLD_RELEASE);
 		break;
 	case DIK_S:
-		if (mario->IsFlying()) mario->SetState(MARIO_STATE_RELEASE_FLY);
+		if (mario->IsFlying() || mario->IsFloat()) mario->SetState(MARIO_STATE_RELEASE_FLY);
 		else mario->SetState(MARIO_STATE_RELEASE_JUMP);
 		break;
 	case DIK_DOWN:
