@@ -20,16 +20,16 @@
 #define MUSHROOM_TYPE_1UP				2
 #define MUSHROOM_TYPE_SUPER_LEAF		3
 
-#define LEAF_DIVERT_TIME				700
+#define LEAF_DIVERT_TIME				500
 
-#define MUSHROOM_BBOX_WIDTH				16
-#define MUSHROOM_BBOX_HEIGHT			16
+#define MUSHROOM_BBOX_WIDTH				15
+#define MUSHROOM_BBOX_HEIGHT			15
+
+#define MUSHROOM_DEFLECT_MAX_HEIGHT		16.0f
 
 class CMushroom :public CGameObject {
 protected:
-	float ax;
 	float ay;
-
 	float old_y;
 
 	int type;

@@ -13,25 +13,37 @@ void CMushroom::GetBoundingBox(float& left, float& top, float& right, float& bot
 
 void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vx += ax * dt;
 	vy += ay * dt;
 
-	if (ay == 0 && (old_y - y) >= MUSHROOM_BBOX_HEIGHT) {
-		ay = MUSHROOM_GRAVITY;
-		vx = MUSHROOM_WALKING_SPEED;
-		if (type = MUSHROOM_TYPE_SUPER_LEAF)
-			time_start = GetTickCount64();
-	}
-	else if (type == MUSHROOM_TYPE_SUPER_LEAF && vy > 0) {
-		IsDiversion();
-		vy = ay * dt;
-		if ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
-			CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-			vector<LPGAMEOBJECT> object;
-			object.push_back(mario);
-			CCollision::GetInstance()->Process(this, dt, &object);
+	switch (type) {
+	case MUSHROOM_TYPE_SUPER_LEAF:
+		if (vy > 0) {
+			if (vx == 0) {
+				vx = MUSHROOM_WALKING_SPEED;
+				time_start = GetTickCount64();
+			}
+
+			IsDiversion();
+			vy = ay * dt;
+
+			if ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
+				CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+				vector<LPGAMEOBJECT> object;
+				object.push_back(mario);
+
+				CCollision::GetInstance()->Process(this, dt, &object);
+			}
+			return;
 		}
-		return;
+		break;
+
+	default:
+		if ((old_y - y) >= MUSHROOM_DEFLECT_MAX_HEIGHT) {
+			ay = MUSHROOM_GRAVITY;
+			vx = MUSHROOM_WALKING_SPEED;
+		}
+		break;
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -93,8 +105,7 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 		vx = -vx;
 }
 
-void CMushroom::IsDiversion()
-{
+void CMushroom::IsDiversion() {
 	if (GetTickCount64() - time_start >= LEAF_DIVERT_TIME) {
 		vx = -vx;
 		time_start = GetTickCount64();
@@ -103,10 +114,11 @@ void CMushroom::IsDiversion()
 
 void CMushroom::Deflected(int direction) {
 	vy = -MUSHROOM_DEFLECTED_SPEED;
+	vx *= direction;
 }
 
 CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
-	old_y = time_start = ax = 0;
+	old_y = time_start = 0;
 	this->type = type;
 
 	if (type == MUSHROOM_TYPE_SUPER_LEAF)
@@ -117,12 +129,13 @@ CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 }
 
 void CMushroom::CreatedByBrick() {
+	old_y = y;
+
 	if (type == MUSHROOM_TYPE_SUPER_LEAF) {
 		Deflected();
 		return;
 	}
 
-	old_y = y;
 	ay = vx = 0;
 	vy = -MUSHROOM_CREATE_SPEED;
 }
