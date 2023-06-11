@@ -18,11 +18,16 @@
 #define ID_ANI_GOOMBA_WALKING			5000
 #define ID_ANI_GOOMBA_DIE_BY_JUMP		5001
 
+#define GOOMBA_TYPE_NORMAL				1
+#define GOOMBA_TYPE_RED_FLY				2
+
 class CGoomba : public CGameObject
 {
 protected:
 	float ax;				
-	float ay; 
+	float ay;
+
+	int type;
 
 	ULONGLONG time_start;
 
@@ -42,7 +47,7 @@ protected:
 	int getAniId();
 
 public: 	
-	CGoomba(float x, float y);
+	CGoomba(float x, float y, int type);
 
 	virtual void SetState(int state);
 	virtual void Deflected(int direction);

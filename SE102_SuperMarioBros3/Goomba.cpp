@@ -2,12 +2,13 @@
 #include "Brick.h"
 #include "KoopaTroopa.h"
 
-CGoomba::CGoomba(float x, float y) :CGameObject(x, y)
+CGoomba::CGoomba(float x, float y, int type) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = GOOMBA_GRAVITY;
 	time_start = -1;
 	SetState(GOOMBA_STATE_WALKING);
+	this->type = type;
 }
 
 void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -38,7 +39,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (e->ny != 0)
 		vy = 0;
-	else if (e->nx != 0)
+	else if (e->nx != 0 && e->obj->IsBlocking())
 		vx = -vx;
 
 	if (dynamic_cast<CBrick*>(e->obj))
