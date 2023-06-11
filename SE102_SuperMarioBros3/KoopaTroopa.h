@@ -11,7 +11,7 @@
 #define KOOPA_TROOPA_WALKING_SPEED				0.04f
 #define KOOPA_TROOPA_SHELL_SPEED				0.2f
 
-#define KOOPA_TROOPA_DIE_DEFLECT				0.2f
+#define KOOPA_TROOPA_DIE_DEFLECT				0.3f
 
 #define KOOPA_TROOPA_BBOX_WIDTH					14
 #define KOOPA_TROOPA_BBOX_HEIGHT				24
@@ -48,6 +48,7 @@ protected:
 	bool isHeld;
 
 	ULONGLONG time_start;
+	ULONGLONG deflected_start;
 
 	CGameObject* phaseCheck;
 
@@ -68,11 +69,11 @@ public:
 			KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT, PHASECHECK_BY_KOOPA_TROOPA);
 		phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 
-		ax = 0;
-		ay = KOOPA_TROOPA_GRAVITY;
 		time_start = -1;
+		ax = isHeld = deflected_start = 0;
+
+		ay = KOOPA_TROOPA_GRAVITY;
 		level = KOOPA_TROOPA_NORMAL;
-		isHeld = 0;
 
 		SetState(KOOPA_TROOPA_STATE_WALKING);
 	}

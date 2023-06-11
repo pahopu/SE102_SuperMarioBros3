@@ -1,5 +1,6 @@
 #include "Brick.h"
 #include "Goomba.h"
+#include "Platform.h"
 #include "KoopaTroopa.h"
 #include "PiranhaPlant.h"
 #include "debug.h"
@@ -10,7 +11,7 @@ void CKoopaTroopa::Deflected(int direction)
 	ay = KOOPA_TROOPA_GRAVITY;
 
 	vx = direction * KOOPA_TROOPA_WALKING_SPEED;
-	ax = 0;
+	deflected_start = GetTickCount64();
 }
 
 void CKoopaTroopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -190,14 +191,30 @@ void CKoopaTroopa::OnNoCollision(DWORD dt)
 
 void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0) {
-		vy = 0;
-		if (time_start != -1)
-			vx = 0;
-	}
+	if (state == KOOPA_TROOPA_STATE_SHELL && deflected_start == 0) vx = 0;
 
-	if (e->obj->IsBlocking() && e->nx != 0) {
-		vx = -vx;
+	if (e->ny != 0) {
+		if (dynamic_cast<CPlatform*>(e->obj)) {
+			CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+
+			switch (platform->GetType()) {
+			case PLATFORM_TYPE_BLOCK:
+				vy = 0;
+				break;
+
+			case PLATFORM_TYPE_NORMAL:
+				if (e->ny < 0) vy = 0;
+				break;
+			}
+		}
+		else if (e->obj->IsBlocking()) vy = 0;
+	}
+	else if (e->nx != 0) {
+		if (dynamic_cast<CPlatform*>(e->obj)) {
+			if (dynamic_cast<CPlatform*>(e->obj)->GetType() == PLATFORM_TYPE_BLOCK)
+				vx = -vx;
+		}
+		else if (e->obj->IsBlocking()) vx = -vx;
 
 		float p_vx, p_vy;
 		phaseCheck->GetSpeed(p_vx, p_vy);
@@ -249,12 +266,13 @@ void CKoopaTroopa::GetBoundingBox(float& left, float& top, float& right, float& 
 
 void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (deflected_start && vy == 0) deflected_start = 0;
+
 	if (state == KOOPA_TROOPA_STATE_WALKING) phaseCheck->Update(dt, coObjects);
 
 	if (isHeld) ay = 0;
 	else ay = KOOPA_TROOPA_GRAVITY;
 
-	vx += ax * dt;
 	vy += ay * dt;
 
 	if ((state == KOOPA_TROOPA_STATE_SHELL) && (GetTickCount64() - time_start > KOOPA_TROOPA_SHELL_TIMEOUT)) {
@@ -263,8 +281,7 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		time_start = -1;
 		return;
 	}
-
-	if ((state == KOOPA_TROOPA_STATE_DIE) && (GetTickCount64() - time_start > KOOPA_TROOPA_DIE_TIMEOUT)) {
+	else if ((state == KOOPA_TROOPA_STATE_DIE) && (GetTickCount64() - time_start > KOOPA_TROOPA_DIE_TIMEOUT)) {
 		isDeleted = true;
 		phaseCheck->Delete();
 		return;
