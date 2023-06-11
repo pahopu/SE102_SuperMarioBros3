@@ -60,8 +60,11 @@ bullet.txt
 4	160	120
 4	180	120
 
-#Goomba
+# Piranha
 10	300	100
+
+# Gooba
+2	300	80
 
 
 # Koopa Troopa

@@ -5,7 +5,7 @@
 #include "Brick.h"
 #include "PiranhaPlant.h"
 
-#define PHASE_CHECKER_GRAVITY				0.002f
+#define PHASE_CHECKER_GRAVITY				0.001f
 
 #define PHASECHECK_ATTACK_SPEED				1.4f
 #define PHASECHECK_ATTACK_RANGE				3.0f

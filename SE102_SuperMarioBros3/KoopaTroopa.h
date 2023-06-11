@@ -7,8 +7,8 @@
 #include "GameObject.h"
 
 
-#define KOOPA_TROOPA_GRAVITY					0.002f
-#define KOOPA_TROOPA_WALKING_SPEED				0.05f
+#define KOOPA_TROOPA_GRAVITY					0.001f
+#define KOOPA_TROOPA_WALKING_SPEED				0.04f
 #define KOOPA_TROOPA_SHELL_SPEED				0.2f
 
 #define KOOPA_TROOPA_DIE_DEFLECT				0.2f
