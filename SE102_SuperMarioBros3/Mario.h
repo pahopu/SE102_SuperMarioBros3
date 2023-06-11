@@ -19,7 +19,7 @@
 #define MARIO_JUMP_SPEED_Y							0.4f
 #define MARIO_JUMP_RUN_SPEED_Y						0.45f
 
-#define MARIO_FLY_UP_SPEED_Y						0.2f
+#define MARIO_FLY_UP_SPEED_Y						0.3f
 #define MARIO_FLY_DOWN_SPEED_Y						0.06f
 
 #define MARIO_GRAVITY								0.001f
@@ -167,11 +167,11 @@
 #define ID_ANI_MARIO_RACOON_HOLD_JUMP_RIGHT			3301
 
 // RACOON FLY
-#define ID_ANI_MARIO_RACOON_FLY_UP_LEFT				3400
-#define ID_ANI_MARIO_RACOON_FLY_UP_RIGHT			3401
+#define ID_ANI_MARIO_RACOON_FLY_LEFT				3400
+#define ID_ANI_MARIO_RACOON_FLY_RIGHT				3401
 
-#define ID_ANI_MARIO_RACOON_FLY_DOWN_LEFT			3410
-#define ID_ANI_MARIO_RACOON_FLY_DOWN_RIGHT			3411
+#define ID_ANI_MARIO_RACOON_FLOAT_LEFT				3410
+#define ID_ANI_MARIO_RACOON_FLOAT_RIGHT				3411
 
 // DIE
 #define ID_ANI_MARIO_DIE							999
@@ -228,6 +228,8 @@ class CMario : public CGameObject
 
 	ULONGLONG time_count;
 	ULONGLONG untouchable_start;
+	ULONGLONG fly_start;
+	ULONGLONG float_start;
 
 	BOOLEAN isSitting;
 	BOOLEAN isOnPlatform;
@@ -260,7 +262,7 @@ public:
 		untouchable_start = -1;
 		level = MARIO_LEVEL_RACOON;
 		isSitting = isOnPlatform = false;
-		untouchable = coin = flag = time_count = holdable = 0;
+		fly_start = float_start = untouchable = coin = flag = time_count = holdable = 0;
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -285,6 +287,10 @@ public:
 
 	BOOLEAN IsOnPlatform() {
 		return isOnPlatform;
+	}
+
+	bool IsFlying() {
+		return fly_start || float_start;
 	}
 
 	void OnNoCollision(DWORD dt);
