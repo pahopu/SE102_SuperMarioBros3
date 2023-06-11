@@ -1,20 +1,24 @@
 # list of object assets to load in this scene
+
 [ASSETS]
-mario.txt
-brick.txt
 coin.txt
-goomba.txt
 misc.txt
-koopatroopa.txt
-piranha.txt
+brick.txt
+mario.txt
 bullet.txt
-#
+goomba.txt
+piranha.txt
+mushroom.txt
+koopatroopa.txt
+
+
+
+
 [OBJECTS]
 # type	x	y	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
 # See OBJECT_TYPE constants in AssetIDs.h
-
-# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, supermushroom/leaf = 10, coin = 11, 1up = 12)
+# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, supermushroom/leaf = 101, coin = 111, 1up = 121)
 
 # MARIO
 0	320	120

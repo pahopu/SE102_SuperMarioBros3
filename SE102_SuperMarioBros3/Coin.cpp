@@ -2,8 +2,11 @@
 
 void CCoin::Render()
 {
+	int aniId = ID_ANI_COIN;
+	if (ay) aniId = ID_ANI_COIN_DEFLECT;
+
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_COIN)->Render(x, y);
+	animations->Get(aniId)->Render(x, y);
 
 	//RenderBoundingBox();
 }

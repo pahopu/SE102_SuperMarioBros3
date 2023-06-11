@@ -5,6 +5,7 @@
 #include "Animations.h"
 
 #define ID_ANI_COIN					11000
+#define ID_ANI_COIN_DEFLECT			11001
 
 #define COIN_DEFLECT				0.4f
 #define COIN_GRAVITY				0.001f
