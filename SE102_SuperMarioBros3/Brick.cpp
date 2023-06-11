@@ -1,6 +1,11 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "KoopaTroopa.h"
+#include "Mario.h"
+#include "Game.h"
+#include "PlayScene.h"
+#include "Mushroom.h"
+#include "Coin.h"
 #include "debug.h"
 
 
@@ -9,10 +14,6 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (time_start == -1)
 		return;
 
-	this->Update(dt);
-}
-
-void CBrick::Update(DWORD dt) {
 	vy += ay * dt;
 
 	x += vx * dt;
@@ -24,6 +25,39 @@ void CBrick::Update(DWORD dt) {
 			time_start = -1;
 			vy = ay = 0;
 			state = -1;
+
+			CGameObject* _object = NULL;
+			switch (containObject) {
+			case BRICK_CONTAIN_SUPER_MUSHROOM_LEAF: {
+				CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+				switch (mario->GetLevel()) {
+				case MARIO_LEVEL_SMALL:
+					_object = new CMushroom(x, y, MUSHROOM_TYPE_SUPER);
+					break;
+
+				case MARIO_LEVEL_BIG:
+				case MARIO_LEVEL_RACOON:
+					_object = new CMushroom(x, y, MUSHROOM_TYPE_SUPER_LEAF);
+
+					break;
+				}
+				((CMushroom*)_object)->CreatedByBrick();
+			}
+			break;
+
+			case BRICK_CONTAIN_COIN:
+				_object = new CCoin(x, y);
+				_object->Deflected();
+				break;
+
+			case BRICK_CONTAIN_1UP_MUSHROOM:
+				_object = new CMushroom(x, y, MUSHROOM_TYPE_1UP);
+				((CMushroom*)_object)->CreatedByBrick();
+				break;
+			}
+
+			if (_object) ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetObjects().push_back(_object);
 		}
 	}
 	else if (type == BRICK_TYPE_BREAK)
@@ -43,7 +77,7 @@ void CBrick::Update(DWORD dt) {
 
 	if (bricks.size() > 0)
 		for (int i = 0; i < 3; i++)
-			bricks[i]->Update(dt);
+			bricks[i]->Update(dt, coObjects);
 }
 
 void CBrick::Render()
@@ -74,6 +108,11 @@ void CBrick::GetBoundingBox(float &l, float &t, float &r, float &b)
 
 void CBrick::SetType(int type)
 {
+	if (containObject != BRICK_CONTAIN_NONE && type == BRICK_TYPE_BREAK) {
+		SetType(BRICK_TYPE_EMPTY);
+		return;
+	}
+
 	switch (type) {
 	case BRICK_TYPE_GOLD:
 		break;
@@ -91,17 +130,17 @@ void CBrick::SetType(int type)
 		vy = -BRICK_BREAK_DEFLECT_Y;
 
 		if (type == BRICK_TYPE_GOLD) {
-			bricks.push_back(new CBrick(x + BRICK_BBOX_WIDTH, y, BRICK_TYPE_BREAK));
+			bricks.push_back(new CBrick(x + BRICK_BBOX_WIDTH, y, BRICK_TYPE_BREAK, BRICK_CONTAIN_NONE));
 			bricks[0]->SetSpeed(BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_Y);
 			bricks[0]->time_start = GetTickCount64();
 			bricks[0]->ay = BRICK_GRAVITY;
 
-			bricks.push_back(new CBrick(x, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK));
+			bricks.push_back(new CBrick(x, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK, BRICK_CONTAIN_NONE));
 			bricks[1]->SetSpeed(-BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_X);
 			bricks[1]->time_start = GetTickCount64();
 			bricks[1]->ay = BRICK_GRAVITY;
 
-			bricks.push_back(new CBrick(x + BRICK_BBOX_WIDTH, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK));
+			bricks.push_back(new CBrick(x + BRICK_BBOX_WIDTH, y + BRICK_BBOX_HEIGHT, BRICK_TYPE_BREAK, BRICK_CONTAIN_NONE));
 			bricks[2]->SetSpeed(BRICK_BREAK_DEFLECT_X, -BRICK_BREAK_DEFLECT_X);
 			bricks[2]->time_start = GetTickCount64();
 			bricks[2]->ay = BRICK_GRAVITY;
@@ -118,6 +157,7 @@ void CBrick::SetState(int State) {
 		time_start = GetTickCount64();
 		old_y = y;
 		Deflected(0);
+		if (containObject) SetType(BRICK_TYPE_EMPTY);
 		break;
 	}
 	state = State;

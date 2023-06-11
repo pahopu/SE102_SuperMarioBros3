@@ -4,24 +4,29 @@
 #include "Animation.h"
 #include "Animations.h"
 
-#define BRICK_GRAVITY				0.002f
-#define BRICK_TRANSFORM_DEFLECT		0.2f
+#define BRICK_GRAVITY						0.002f
+#define BRICK_TRANSFORM_DEFLECT				0.2f
 
-#define BRICK_BREAK_DEFLECT_X		0.1f
-#define BRICK_BREAK_DEFLECT_Y		0.4f
+#define BRICK_BREAK_DEFLECT_X				0.1f
+#define BRICK_BREAK_DEFLECT_Y				0.4f
 
-#define BRICK_BREAK_TIMEOUT			500
+#define BRICK_BREAK_TIMEOUT					500
 
-#define BRICK_BBOX_WIDTH			15
-#define BRICK_BBOX_HEIGHT			16
+#define BRICK_BBOX_WIDTH					15
+#define BRICK_BBOX_HEIGHT					16
 
-#define BRICK_BREAK_BBOX_WIDTH		13
-#define BRICK_BREAK_BBOX_HEIGHT		8
+#define BRICK_BREAK_BBOX_WIDTH				13
+#define BRICK_BREAK_BBOX_HEIGHT				8
 
-#define BRICK_TYPE_GOLD				1
-#define BRICK_TYPE_QUESTION			2
-#define BRICK_TYPE_EMPTY			3
-#define BRICK_TYPE_BREAK			4
+#define BRICK_TYPE_GOLD						1
+#define BRICK_TYPE_QUESTION					2
+#define BRICK_TYPE_EMPTY					3
+#define BRICK_TYPE_BREAK					4
+
+#define BRICK_CONTAIN_NONE					0
+#define BRICK_CONTAIN_SUPER_MUSHROOM_LEAF	101
+#define BRICK_CONTAIN_COIN					111
+#define BRICK_CONTAIN_1UP_MUSHROOM			121
 
 #define BRICK_STATE_DEFLECT			10
 
@@ -37,6 +42,8 @@ protected:
 	float ay;
 
 	int type;
+	int containObject;
+
 	bool isBrokenByJump;
 
 	ULONGLONG time_start;
@@ -50,12 +57,11 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {};
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
-	void Update(DWORD dt);
-
 public:
-	CBrick(float x, float y, int type) : CGameObject(x, y) {
+	CBrick(float x, float y, int type, int type_object) : CGameObject(x, y) {
 		this->type = -1;
 		SetType(type);
+		containObject = type_object;
 
 		time_start = -1;
 		state = -1;

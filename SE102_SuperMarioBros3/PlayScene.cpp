@@ -122,11 +122,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIRANHA_PLANT: obj = new CPiranhaPlant(x, y, PIRANHA_TYPE_GREEN_FIRE); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
-	case OBJECT_TYPE_BRICK:
+	case OBJECT_TYPE_BRICK: {
 		int type = atoi(tokens[3].c_str());
-		int object_type = atoi(tokens[4].c_str());
-		obj = new CBrick(x, y, type, object_type);
+		int otype = atoi(tokens[4].c_str());
+		obj = new CBrick(x, y, type, otype);
 		break;
+	}
 
 	case OBJECT_TYPE_PLATFORM:
 	{
@@ -146,10 +147,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
-
-	case OBJECT_TYPE_MUSHROOM_SUPER: obj = new CMushroom(x, y, MUSHROOM_SUPER); break;
-	case OBJECT_TYPE_MUSHROOM_1UP: obj = new CMushroom(x, y, MUSHROOM_1UP); break;
-	case OBJECT_TYPE_SUPER_LEAF: obj = new CMushroom(x, y, SUPER_LEAF); break;
 
 	case OBJECT_TYPE_PORTAL:
 	{

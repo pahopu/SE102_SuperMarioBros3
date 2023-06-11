@@ -14,7 +14,7 @@ bullet.txt
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopas
 # See OBJECT_TYPE constants in AssetIDs.h
 
-# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, supermushroom/leaf = 1, coin = 2, 1up = 3)
+# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, supermushroom/leaf = 10, coin = 11, 1up = 12)
 
 # MARIO
 0	320	120
@@ -50,7 +50,7 @@ bullet.txt
 1	352	148	1	0
 1	352	164	1	0
 
-1	300	120	2	1
+1	300	120	2	111
 1	284	120	1	0
 1	268	120	1	0
 1	252	120	1	0
