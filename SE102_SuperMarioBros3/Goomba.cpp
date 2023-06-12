@@ -1,31 +1,40 @@
 #include "Goomba.h"
 #include "Brick.h"
+#include "Platform.h"
 #include "KoopaTroopa.h"
 
-CGoomba::CGoomba(float x, float y, int type) :CGameObject(x, y)
-{
-	this->ax = 0;
-	this->ay = GOOMBA_GRAVITY;
-	time_start = -1;
-	SetState(GOOMBA_STATE_WALKING);
+CGoomba::CGoomba(float x, float y, int type) :CGameObject(x, y) {
+	ay = GOOMBA_GRAVITY;
 	this->type = type;
+	jump_count = ax = 0;
+	vx = -GOOMBA_WALKING_SPEED;
+	time_start = redpara_start = -1;
+
+
+	if (type != GOOMBA_TYPE_RED_PARA) SetState(GOOMBA_STATE_WALKING);
+	else SetState(GOOMBA_STATE_JUMPING);
 }
 
-void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
-{
-	if (state == GOOMBA_STATE_DIE_BY_JUMP)
-	{
+void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
+	if (state == GOOMBA_STATE_DIE_BY_JUMP) {
 		left = x - GOOMBA_BBOX_WIDTH / 2;
 		top = y - GOOMBA_BBOX_HEIGHT_DIE / 2;
 		right = left + GOOMBA_BBOX_WIDTH;
 		bottom = top + GOOMBA_BBOX_HEIGHT_DIE;
 	}
-	else
-	{
-		left = x - GOOMBA_BBOX_WIDTH / 2;
-		top = y - GOOMBA_BBOX_HEIGHT / 2;
-		right = left + GOOMBA_BBOX_WIDTH;
-		bottom = top + GOOMBA_BBOX_HEIGHT;
+	else {
+		if (type == GOOMBA_TYPE_RED_PARA) {
+			left = x - GOOMBA_BBOX_WIDTH / 2;
+			top = y - GOOMBA_PARA_BBOX_HEIGHT / 2;
+			right = left + GOOMBA_BBOX_WIDTH;
+			bottom = top + GOOMBA_PARA_BBOX_HEIGHT;
+		}
+		else {
+			left = x - GOOMBA_BBOX_WIDTH / 2;
+			top = y - GOOMBA_BBOX_HEIGHT / 2;
+			right = left + GOOMBA_BBOX_WIDTH;
+			bottom = top + GOOMBA_BBOX_HEIGHT;
+		}
 	}
 }
 
@@ -37,10 +46,29 @@ void CGoomba::OnNoCollision(DWORD dt)
 
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0)
-		vy = 0;
-	else if (e->nx != 0 && e->obj->IsBlocking())
-		vx = -vx;
+	if (e->ny != 0) {
+		if (dynamic_cast<CPlatform*>(e->obj)) {
+			CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+			switch (platform->GetType()) {
+			case PLATFORM_TYPE_BLOCK:
+				vy = 0;
+				break;
+
+			case PLATFORM_TYPE_NORMAL:
+				if (e->ny < 0)
+					vy = 0;
+			}
+
+		}
+		else if (e->obj->IsBlocking()) vy = 0;
+	}
+	else if (e->nx != 0) {
+		if (dynamic_cast<CPlatform*>(e->obj)){
+			if (dynamic_cast<CPlatform*>(e->obj)->GetType() == PLATFORM_TYPE_BLOCK)
+				vx = -vx;
+		}
+		else if (e->obj->IsBlocking()) vx = -vx;
+	}
 
 	if (dynamic_cast<CBrick*>(e->obj))
 		OnCollisionWithBrick(e);
@@ -52,9 +80,29 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 
 int CGoomba::getAniId()
 {
-	int aniId = ID_ANI_GOOMBA_WALKING;
-	if (state == GOOMBA_STATE_DIE_BY_JUMP)
-		aniId = ID_ANI_GOOMBA_DIE_BY_JUMP;
+	int aniId = -1;
+	switch (type) {
+	case GOOMBA_TYPE_NORMAL:
+		aniId = ID_ANI_GOOMBA_WALKING;
+		if (state == GOOMBA_STATE_DIE_BY_JUMP)
+			aniId = ID_ANI_GOOMBA_DIE_BY_JUMP;
+		break;
+
+	case GOOMBA_TYPE_RED:
+		aniId = ID_ANI_RED_GOOMBA_WALKING;
+		if (state == GOOMBA_STATE_DIE_BY_JUMP)
+			aniId = ID_ANI_RED_GOOMBA_DIE_BY_JUMP;
+		break;
+
+	case GOOMBA_TYPE_RED_PARA:
+		aniId = ID_ANI_RED_PARA_GOOMBA_WALKING;
+		if (state == GOOMBA_STATE_DIE_BY_ATTACK)
+			aniId = ID_ANI_RED_GOOMBA_WALKING;
+		else if (state == GOOMBA_STATE_JUMPING)
+			aniId = ID_ANI_RED_PARA_GOOMBA_JUMPING;
+		else if (state == GOOMBA_STATE_FLYING)
+			aniId = ID_ANI_RED_PARA_GOOMBA_FLYING;
+	}
 	return aniId;
 }
 
@@ -119,6 +167,35 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
+	if (type == GOOMBA_TYPE_RED_PARA) {
+		switch (state) {
+		case GOOMBA_STATE_JUMPING:
+			if (jump_count >= 3) {
+				SetState(GOOMBA_STATE_FLYING);
+				jump_count = 0;
+				redpara_start = GetTickCount64();
+			}
+			else if (vy == ay * dt && GetTickCount64() - redpara_start > GOOMBA_RED_PARA_RELEASE_JUMP_TIME)
+				SetState(GOOMBA_STATE_JUMPING);
+			break;
+
+		case GOOMBA_STATE_FLYING:
+			if (redpara_start == -1) {
+				SetState(GOOMBA_STATE_WALKING);
+				redpara_start == GetTickCount64();
+			}
+			else if (vy == ay * dt) redpara_start = -1;
+			break;
+
+		case GOOMBA_STATE_WALKING:
+			if (GetTickCount64() - redpara_start >= GOOMBA_RED_PARA_WALK_TIME) {
+				redpara_start = -1;
+				SetState(GOOMBA_STATE_JUMPING);
+			}
+			break;
+		}
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -147,11 +224,15 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 	case GOOMBA_STATE_DIE_BY_JUMP:
+		if (type == GOOMBA_TYPE_RED_PARA) {
+			type == GOOMBA_TYPE_RED;
+			SetState(GOOMBA_STATE_WALKING);
+			return;
+		}
+
 		time_start = GetTickCount64();
 		y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
-		vx = 0;
-		vy = 0;
-		ay = 0;
+		vx = vy = ay = 0;
 		break;
 
 	case GOOMBA_STATE_DIE_BY_ATTACK:
@@ -161,6 +242,16 @@ void CGoomba::SetState(int state)
 
 	case GOOMBA_STATE_WALKING:
 		vx = -GOOMBA_WALKING_SPEED;
+		break;
+
+	case GOOMBA_STATE_JUMPING:
+		redpara_start = GetTickCount64();
+		vy = -GOOMBA_JUMP_SPEED_Y;
+		jump_count += 1;
+		break;
+
+	case GOOMBA_STATE_FLYING:
+		vy = -GOOMBA_FLY_SPEED_Y;
 		break;
 	}
 }

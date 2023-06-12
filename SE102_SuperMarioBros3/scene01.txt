@@ -27,7 +27,7 @@
 # type	x	y	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopa Troopa, 4 = Coin, 5 = Platform, 6 = Piranha Plant
 
-# GOOMBA	id	x	y	type(normal = 1, red fly = 2)
+# GOOMBA	id	x	y	type(normal = 1, red = 2, red para = 3)
 # PIRANHA PLANT	id	x	y	type(green = 1, green fire = 2, red fire = 3)
 # PLATFORM	id	x	y	width	height	length	begin	middle	end	type(block = 1, normal = 2, no collision = 3)
 # BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, super mushroom/leaf = 1, coin = 2, 1up = 3)
@@ -92,7 +92,7 @@ koopatroopa.txt
 
 
 # Goomba
-2	300	80	1
+2	300	80	3
 
 
 # Koopa Troopa
@@ -107,9 +107,9 @@ koopatroopa.txt
 5	0	178	16	16	30	51101	51102	51103	1
 5	0	194	16	16	30	51201	51202	51203	1
 
-5	50	132	15	15	3	55211	55212	55213	2
-5	50	147	15	15	3	55221	55222	55223	3
-5	50	162	15	15	3	55231	55232	55233	3
+5	50	132	15	15	4	55211	55212	55213	2
+5	50	147	15	15	4	55221	55222	55223	3
+5	50	162	15	15	4	55231	55232	55233	3
 
 #5	252	90	16	16	1	20001	20001	20001	1
 #5	176	190	16	16	10	51201	51202	51203	1

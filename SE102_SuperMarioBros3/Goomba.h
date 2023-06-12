@@ -1,25 +1,46 @@
 #pragma once
 #include "GameObject.h"
 
-#define GOOMBA_GRAVITY					0.001f
-#define GOOMBA_WALKING_SPEED			0.04f
-#define GOOMBA_DIE_DEFLECT				0.2f
+#define GOOMBA_GRAVITY						0.001f
+#define GOOMBA_WALKING_SPEED				0.04f
 
-#define GOOMBA_BBOX_WIDTH				16
-#define GOOMBA_BBOX_HEIGHT				11
-#define GOOMBA_BBOX_HEIGHT_DIE			7
+#define GOOMBA_JUMP_SPEED_Y					0.08f
+#define GOOMBA_FLY_SPEED_Y					0.3f
 
-#define GOOMBA_DIE_TIMEOUT				500
+#define GOOMBA_DIE_DEFLECT					0.2f
 
-#define GOOMBA_STATE_WALKING			100
-#define GOOMBA_STATE_DIE_BY_JUMP		200
-#define GOOMBA_STATE_DIE_BY_ATTACK		300
+#define GOOMBA_BBOX_WIDTH					16
+#define GOOMBA_BBOX_HEIGHT					11
+#define GOOMBA_BBOX_HEIGHT_DIE				7
 
-#define ID_ANI_GOOMBA_WALKING			5000
-#define ID_ANI_GOOMBA_DIE_BY_JUMP		5001
+#define GOOMBA_PARA_BBOX_HEIGHT				20
 
-#define GOOMBA_TYPE_NORMAL				1
-#define GOOMBA_TYPE_RED_FLY				2
+#define GOOMBA_DIE_TIMEOUT					500
+
+#define GOOMBA_STATE_JUMPING				50
+#define GOOMBA_STATE_FLYING					55
+#define GOOMBA_STATE_WALKING				100
+#define GOOMBA_STATE_DIE_BY_JUMP			200
+#define GOOMBA_STATE_DIE_BY_ATTACK			300
+
+#define ID_ANI_GOOMBA_WALKING				5000
+#define ID_ANI_GOOMBA_DIE_BY_JUMP			5001
+
+#define ID_ANI_RED_GOOMBA_WALKING			5100
+#define ID_ANI_RED_GOOMBA_DIE_BY_JUMP		5101
+
+#define ID_ANI_RED_PARA_GOOMBA_FLYING		5200
+#define ID_ANI_RED_PARA_GOOMBA_WALKING		5201
+#define ID_ANI_RED_PARA_GOOMBA_JUMPING		5202
+
+#define GOOMBA_TYPE_NORMAL					1
+#define GOOMBA_TYPE_RED						2
+#define GOOMBA_TYPE_RED_PARA				3
+
+#define GOOMBA_JUMP							3
+
+#define GOOMBA_RED_PARA_WALK_TIME			1000
+#define GOOMBA_RED_PARA_RELEASE_JUMP_TIME	100
 
 class CGoomba : public CGameObject
 {
@@ -28,8 +49,10 @@ protected:
 	float ay;
 
 	int type;
+	int jump_count;
 
 	ULONGLONG time_start;
+	ULONGLONG redpara_start;
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	virtual void Render();
