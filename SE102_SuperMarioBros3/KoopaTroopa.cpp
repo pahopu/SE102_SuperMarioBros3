@@ -14,7 +14,7 @@ void CKoopaTroopa::Deflected(int direction)
 	deflected_start = GetTickCount64();
 
 	isUp = true;
-	if (type == KOOPA_TROOPA_TYPE_PARA_GREEN) type = KOOPA_TROOPA_TYPE_GREEN;
+	if (level == KOOPA_TROOPA_LEVEL_PARA) level = KOOPA_TROOPA_LEVEL_NORMAL;
 }
 
 void CKoopaTroopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -132,22 +132,6 @@ void CKoopaTroopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 
 int CKoopaTroopa::GetAniId()
 {
-	//int aniId = -1;
-	//if (state == KOOPA_TROOPA_STATE_WALKING) {
-	//	if (vx <= 0)
-	//		aniId = ID_ANI_KOOPA_TROOPA_WALKING_LEFT;
-	//	else aniId = ID_ANI_KOOPA_TROOPA_WALKING_RIGHT;
-	//}
-	//else if (state == KOOPA_TROOPA_STATE_DIE)
-	//	aniId = ID_ANI_KOOPA_TROOPA_SHELL;
-	//else if (state == KOOPA_TROOPA_STATE_SHELL) {
-	//	aniId = ID_ANI_KOOPA_TROOPA_SHELL;
-	//	if (GetTickCount64() - time_start >= KOOPA_TROOPA_SHELL_TIMEOUT - 200)
-	//		aniId = ID_ANI_KOOPA_TROOPA_REFORM;
-	//}
-	//else if (state == KOOPA_TROOPA_STATE_ATTACKING)
-	//	aniId = ID_ANI_KOOPA_TROOPA_ATTACKING;
-	//return aniId;
 	int aniId = ID_ANI_RED_KOOPA_TROOPA_WALKING_LEFT;
 
 	switch (type)
@@ -176,50 +160,49 @@ int CKoopaTroopa::GetAniId()
 		break;
 
 	case KOOPA_TROOPA_TYPE_GREEN:
-		aniId = ID_ANI_GREEN_KOOPA_TROOPA_WALKING_LEFT;
-		if (vx >= 0) aniId = ID_ANI_GREEN_KOOPA_TROOPA_WALKING_RIGHT;
+		if (level == KOOPA_TROOPA_LEVEL_NORMAL) {
+			aniId = ID_ANI_GREEN_KOOPA_TROOPA_WALKING_LEFT;
+			if (vx >= 0) aniId = ID_ANI_GREEN_KOOPA_TROOPA_WALKING_RIGHT;
 
-		if (state == KOOPA_TROOPA_STATE_DIE) aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_UP;
-		else if (state == KOOPA_TROOPA_STATE_SHELL) {
-			switch (isUp) {
-			case true:
-				aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_UP;
-				if (GetTickCount64() - time_start >= 4000)
-					aniId = ID_ANI_GREEN_KOOPA_TROOPA_REFORM_UP;
-				break;
+			if (state == KOOPA_TROOPA_STATE_DIE) aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_UP;
+			else if (state == KOOPA_TROOPA_STATE_SHELL) {
+				switch (isUp) {
+				case true:
+					aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_UP;
+					if (GetTickCount64() - time_start >= 4000)
+						aniId = ID_ANI_GREEN_KOOPA_TROOPA_REFORM_UP;
+					break;
 
-			case false:
-				aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_DOWN;
-				if (GetTickCount64() - time_start >= 4000)
-					aniId = ID_ANI_GREEN_KOOPA_TROOPA_REFORM_DOWN;
-				break;
+				case false:
+					aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_DOWN;
+					if (GetTickCount64() - time_start >= 4000)
+						aniId = ID_ANI_GREEN_KOOPA_TROOPA_REFORM_DOWN;
+					break;
+				}
 			}
+			else if (state == KOOPA_TROOPA_STATE_ATTACKING)
+				aniId = ID_ANI_GREEN_KOOPA_TROOPA_ATTACKING;
 		}
-		else if (state == KOOPA_TROOPA_STATE_ATTACKING)
-			aniId = ID_ANI_GREEN_KOOPA_TROOPA_ATTACKING;
-		break;
-
-	case KOOPA_TROOPA_TYPE_PARA_GREEN:
-		if (vx >= 0) aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_RIGHT;
-		else aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_LEFT;
-		break;
+		else {
+			if (vx >= 0) aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_RIGHT;
+			else aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_LEFT;
+		}
 	}
-
-
 
 	return aniId;
 }
 
-CKoopaTroopa::CKoopaTroopa(float x, float y, int type) :CGameObject(x, y) {
+CKoopaTroopa::CKoopaTroopa(float x, float y, int type, int l) :CGameObject(x, y) {
 	phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y,
 		KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT, PHASECHECK_BY_KOOPA_TROOPA);
 	phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 
 	this->type = type;
+	this->level = l;
 	ay = KOOPA_TROOPA_GRAVITY;
 	time_start = -1;
 
-	if (type == KOOPA_TROOPA_TYPE_PARA_GREEN)
+	if (level == KOOPA_TROOPA_LEVEL_PARA)
 		SetState(KOOPA_TROOPA_STATE_FLYING);
 	else SetState(KOOPA_TROOPA_STATE_WALKING);
 
@@ -307,7 +290,7 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	float px, py;
 	phaseCheck->GetPosition(px, py);
 
-	if (py - this->y > 10 && type != KOOPA_TROOPA_TYPE_PARA_GREEN) {
+	if (py - this->y > 10 && level != KOOPA_TROOPA_LEVEL_PARA) {
 		vx = -vx;
 
 		if (px <= this->x)

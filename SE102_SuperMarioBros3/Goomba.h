@@ -37,7 +37,9 @@
 
 #define GOOMBA_TYPE_NORMAL					1
 #define GOOMBA_TYPE_RED						2
-#define GOOMBA_TYPE_RED_PARA				3
+
+#define GOOMBA_LEVEL_NORMAL					1
+#define GOOMBA_LEVEL_PARA					2
 
 #define GOOMBA_JUMP							3
 
@@ -51,6 +53,7 @@ protected:
 	float ay;
 
 	int type;
+	int level;
 	int jump_count;
 
 	ULONGLONG time_start;
@@ -72,7 +75,7 @@ protected:
 	int getAniId();
 
 public: 	
-	CGoomba(float x, float y, int type);
+	CGoomba(float x, float y, int type, int l = 1);
 
 	virtual void SetState(int state);
 	virtual void Deflected(int direction);
@@ -83,6 +86,11 @@ public:
 
 	void SetType(int type) {
 		this->type = type;
+	}
+
+	void SetLevel(int l);
+	int GetLevel() {
+		return level;
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

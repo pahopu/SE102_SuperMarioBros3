@@ -80,7 +80,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		time_count = 0;
 	}
 
-	if (fly_start && (GetTickCount64() - fly_start > MARIO_FLY_TIME)) {
+	if (fly_start && (GetTickCount64() - fly_start >= MARIO_FLY_TIME)) {
 		fly_start = 0;
 		float_start = GetTickCount64();
 	}
@@ -111,6 +111,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 			case PLATFORM_TYPE_NORMAL:
 				if (e->ny < 0) vy = 0;
+				break;
 			}
 		}
 		else if (e->obj->IsBlocking()) vy = 0;
@@ -152,8 +153,8 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE_BY_JUMP)
 		{
-			if (goomba->GetType() == GOOMBA_TYPE_RED_PARA)
-				goomba->SetType(GOOMBA_TYPE_RED);
+			if (goomba->GetLevel() == GOOMBA_LEVEL_PARA)
+				goomba->SetLevel(GOOMBA_LEVEL_NORMAL);
 			else goomba->SetState(GOOMBA_STATE_DIE_BY_JUMP);
 
 			vy = -MARIO_JUMP_DEFLECT_SPEED;

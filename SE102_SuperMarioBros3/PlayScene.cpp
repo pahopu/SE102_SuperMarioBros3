@@ -141,7 +141,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	case OBJECT_TYPE_KOOPA_TROOPA: {
 		int type = atoi(tokens[3].c_str());
-		obj = new CKoopaTroopa(x, y, type); 
+		int level = atoi(tokens[4].c_str());
+		obj = new CKoopaTroopa(x, y, type, level); 
 		break;
 	}
 

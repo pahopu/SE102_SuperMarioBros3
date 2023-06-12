@@ -17,7 +17,7 @@
 
 #define KOOPA_TROOPA_BBOX_WIDTH						14
 #define KOOPA_TROOPA_BBOX_HEIGHT					24
-#define KOOPA_TROOPA_BBOX_HEIGHT_DIE				13
+#define KOOPA_TROOPA_BBOX_HEIGHT_DIE				15
 
 #define KOOPA_TROOPA_PHASE_CHECK_WIDTH				14
 #define KOOPA_TROOPA_PHASE_CHECK_HEIGHT				24
@@ -32,9 +32,11 @@
 #define KOOPA_TROOPA_STATE_ATTACKING				300
 #define KOOPA_TROOPA_STATE_DIE						400
 
+#define KOOPA_TROOPA_LEVEL_NORMAL					1
+#define KOOPA_TROOPA_LEVEL_PARA						2
+
 #define KOOPA_TROOPA_TYPE_RED						1
 #define KOOPA_TROOPA_TYPE_GREEN						2
-#define KOOPA_TROOPA_TYPE_PARA_GREEN				3
 
 #define ID_ANI_RED_KOOPA_TROOPA_WALKING_LEFT		6011
 #define ID_ANI_RED_KOOPA_TROOPA_WALKING_RIGHT		6012
@@ -62,6 +64,7 @@ protected:
 	float ay;
 
 	int type;
+	int level;
 
 	bool isUp;
 	bool isHeld;
@@ -83,7 +86,7 @@ protected:
 	int GetAniId();
 
 public:
-	CKoopaTroopa(float x, float y, int type);
+	CKoopaTroopa(float x, float y, int type, int level);
 
 	void SetState(int state);
 	void SetNx(int nx) {
@@ -103,6 +106,14 @@ public:
 
 	int GetStateHeld() { return isHeld; }
 	void IsHeld() { isHeld = true; }
+
+	int GetLevel() {
+		return level;
+	}
+
+	void SetLevel(int l) {
+		level = l;
+	}
 };
 
 #endif

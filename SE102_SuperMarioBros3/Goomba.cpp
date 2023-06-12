@@ -3,15 +3,16 @@
 #include "Platform.h"
 #include "KoopaTroopa.h"
 
-CGoomba::CGoomba(float x, float y, int type) :CGameObject(x, y) {
+CGoomba::CGoomba(float x, float y, int type, int l) :CGameObject(x, y) {
 	ay = GOOMBA_GRAVITY;
 	this->type = type;
 	jump_count = ax = 0;
 	vx = -GOOMBA_WALKING_SPEED;
 	time_start = redpara_start = -1;
+	SetLevel(l);
 
 
-	if (type != GOOMBA_TYPE_RED_PARA) SetState(GOOMBA_STATE_WALKING);
+	if (level != GOOMBA_LEVEL_PARA) SetState(GOOMBA_STATE_WALKING);
 	else SetState(GOOMBA_STATE_JUMPING);
 }
 
@@ -23,7 +24,7 @@ void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& botto
 		bottom = top + GOOMBA_BBOX_HEIGHT_DIE;
 	}
 	else {
-		if (type == GOOMBA_TYPE_RED_PARA) {
+		if (level == GOOMBA_LEVEL_PARA) {
 			left = x - GOOMBA_BBOX_WIDTH / 2;
 			top = y - GOOMBA_PARA_BBOX_HEIGHT / 2;
 			right = left + GOOMBA_BBOX_WIDTH;
@@ -63,7 +64,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (e->obj->IsBlocking()) vy = 0;
 	}
 	else if (e->nx != 0) {
-		if (dynamic_cast<CPlatform*>(e->obj)){
+		if (dynamic_cast<CPlatform*>(e->obj)) {
 			if (dynamic_cast<CPlatform*>(e->obj)->GetType() == PLATFORM_TYPE_BLOCK)
 				vx = -vx;
 		}
@@ -93,22 +94,25 @@ int CGoomba::getAniId()
 
 	case GOOMBA_TYPE_RED:
 		aniId = ID_ANI_RED_GOOMBA_WALKING;
-		if (state == GOOMBA_STATE_DIE_BY_JUMP)
-			aniId = ID_ANI_RED_GOOMBA_DIE_BY_JUMP;
-		else if (state == GOOMBA_STATE_DIE_BY_ATTACK)
-			aniId = ID_ANI_RED_GOOMBA_DIE_BY_ATTACK;
-
+		if (level == GOOMBA_LEVEL_NORMAL) {
+			if (state == GOOMBA_STATE_DIE_BY_JUMP)
+				aniId = ID_ANI_RED_GOOMBA_DIE_BY_JUMP;
+			else if (state == GOOMBA_STATE_DIE_BY_ATTACK)
+				aniId = ID_ANI_RED_GOOMBA_DIE_BY_ATTACK;
+		}
+		else {
+			if (state == GOOMBA_STATE_DIE_BY_ATTACK)
+				aniId = ID_ANI_RED_GOOMBA_DIE_BY_ATTACK;
+			else if (state == GOOMBA_STATE_JUMPING)
+				aniId = ID_ANI_RED_PARA_GOOMBA_JUMPING;
+			else if (state == GOOMBA_STATE_FLYING)
+				aniId = ID_ANI_RED_PARA_GOOMBA_FLYING;
+			else if (state == GOOMBA_STATE_WALKING)
+				aniId = ID_ANI_RED_PARA_GOOMBA_WALKING;
+		}
 		break;
-
-	case GOOMBA_TYPE_RED_PARA:
-		aniId = ID_ANI_RED_PARA_GOOMBA_WALKING;
-		if (state == GOOMBA_STATE_DIE_BY_ATTACK)
-			aniId = ID_ANI_RED_GOOMBA_WALKING;
-		else if (state == GOOMBA_STATE_JUMPING)
-			aniId = ID_ANI_RED_PARA_GOOMBA_JUMPING;
-		else if (state == GOOMBA_STATE_FLYING)
-			aniId = ID_ANI_RED_PARA_GOOMBA_FLYING;
 	}
+
 	return aniId;
 }
 
@@ -161,19 +165,26 @@ void CGoomba::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e) {
 	}
 }
 
+void CGoomba::SetLevel(int l)
+{
+	if (level == GOOMBA_LEVEL_PARA)
+		y -= (GOOMBA_PARA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT);
+	level = l;
+}
+
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if ((state == GOOMBA_STATE_DIE_BY_JUMP || state == GOOMBA_STATE_DIE_BY_ATTACK) && 
+	if ((state == GOOMBA_STATE_DIE_BY_JUMP || state == GOOMBA_STATE_DIE_BY_ATTACK) &&
 		(GetTickCount64() - time_start > GOOMBA_DIE_TIMEOUT))
 	{
 		isDeleted = true;
 		return;
 	}
 
-	if (type == GOOMBA_TYPE_RED_PARA) {
+	if (level == GOOMBA_LEVEL_PARA) {
 		switch (state) {
 		case GOOMBA_STATE_JUMPING:
 			if (jump_count >= 3) {
@@ -230,8 +241,8 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 	case GOOMBA_STATE_DIE_BY_JUMP:
-		if (type == GOOMBA_TYPE_RED_PARA) {
-			type == GOOMBA_TYPE_RED;
+		if (level == GOOMBA_LEVEL_PARA) {
+			SetLevel(GOOMBA_LEVEL_NORMAL);
 			SetState(GOOMBA_STATE_WALKING);
 			return;
 		}
