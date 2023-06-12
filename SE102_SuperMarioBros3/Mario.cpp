@@ -10,6 +10,7 @@
 #include "Mushroom.h"
 #include "Brick.h"
 #include "PiranhaPlant.h"
+#include "Bullet.h"
 
 #include "Platform.h"
 
@@ -106,17 +107,23 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 
 			switch (platform->GetType()) {
 			case PLATFORM_TYPE_BLOCK:
+				isOnPlatform = true;
 				vy = 0;
 				break;
 
 			case PLATFORM_TYPE_NORMAL:
-				if (e->ny < 0) vy = 0;
+				if (e->ny < 0) {
+					vy = 0;
+					isOnPlatform = true;
+				}
 				break;
 			}
 		}
-		else if (e->obj->IsBlocking()) vy = 0;
+		else if (e->obj->IsBlocking()) {
+			if (e->ny < 0) isOnPlatform = true;
+			vy = 0;
+		}
 
-		if (e->ny < 0) isOnPlatform = true;
 		if (_koopa && _koopa->GetStateHeld()) _koopa->SetSpeed(vx, vy);
 	}
 	else if (e->nx != 0) {
@@ -140,6 +147,24 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithBrick(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 		OnCollisionWithPiranhaPlant(e);
+	else if (dynamic_cast<CBullet*>(e->obj)) {
+		if (IsUntouchable() && dynamic_cast<CBullet*>(e->obj)->GetType() == BULLET_BY_MARIO)
+			return;
+
+		switch (level) {
+		case MARIO_LEVEL_SMALL:
+			this->SetState(MARIO_STATE_DIE);
+			break;
+		case MARIO_LEVEL_BIG:
+			this->SetLevel(MARIO_LEVEL_SMALL);
+			this->StartUntouchable();
+			break;
+		case MARIO_LEVEL_RACOON:
+			this->SetLevel(MARIO_LEVEL_BIG);
+			this->StartUntouchable();
+			break;
+		}
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)

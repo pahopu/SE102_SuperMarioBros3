@@ -18,25 +18,6 @@ void CBullet::Render() {
 }
 
 void CBullet::OnCollisionWith(LPCOLLISIONEVENT e) {
-	if (!dynamic_cast<CMario*>(e->obj)->IsUntouchable()) {
-		CMario* mario = dynamic_cast<CMario*>(e->obj);
-
-		switch (mario->GetLevel()) {
-		case MARIO_LEVEL_SMALL:
-			mario->SetState(MARIO_STATE_DIE);
-			break;
-
-		case MARIO_LEVEL_BIG:
-			mario->SetLevel(MARIO_LEVEL_SMALL);
-			mario->StartUntouchable();
-			break;
-
-		case MARIO_LEVEL_RACOON:
-			mario->SetLevel(MARIO_LEVEL_BIG);
-			mario->StartUntouchable();
-			break;
-		}
-	}
 }
 
 void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
@@ -50,5 +31,5 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		this->Delete();
 
 	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }

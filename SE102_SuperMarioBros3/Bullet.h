@@ -42,5 +42,9 @@ public:
 		vx = d1 * BULLET_SPEED_X;
 		vy = d2 * BULLET_SPEED_Y;
 	}
+
+	int GetType() {
+		return type;
+	}
 };
 
