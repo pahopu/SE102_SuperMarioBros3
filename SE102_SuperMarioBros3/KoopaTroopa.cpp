@@ -12,6 +12,9 @@ void CKoopaTroopa::Deflected(int direction)
 
 	vx = direction * KOOPA_TROOPA_WALKING_SPEED;
 	deflected_start = GetTickCount64();
+
+	isUp = true;
+	if (type == KOOPA_TROOPA_TYPE_PARA_GREEN) type = KOOPA_TROOPA_TYPE_GREEN;
 }
 
 void CKoopaTroopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -129,34 +132,106 @@ void CKoopaTroopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 
 int CKoopaTroopa::GetAniId()
 {
-	int aniId = -1;
-	if (state == KOOPA_TROOPA_STATE_WALKING) {
-		if (vx <= 0)
-			aniId = ID_ANI_KOOPA_TROOPA_WALKING_LEFT;
-		else aniId = ID_ANI_KOOPA_TROOPA_WALKING_RIGHT;
+	//int aniId = -1;
+	//if (state == KOOPA_TROOPA_STATE_WALKING) {
+	//	if (vx <= 0)
+	//		aniId = ID_ANI_KOOPA_TROOPA_WALKING_LEFT;
+	//	else aniId = ID_ANI_KOOPA_TROOPA_WALKING_RIGHT;
+	//}
+	//else if (state == KOOPA_TROOPA_STATE_DIE)
+	//	aniId = ID_ANI_KOOPA_TROOPA_SHELL;
+	//else if (state == KOOPA_TROOPA_STATE_SHELL) {
+	//	aniId = ID_ANI_KOOPA_TROOPA_SHELL;
+	//	if (GetTickCount64() - time_start >= KOOPA_TROOPA_SHELL_TIMEOUT - 200)
+	//		aniId = ID_ANI_KOOPA_TROOPA_REFORM;
+	//}
+	//else if (state == KOOPA_TROOPA_STATE_ATTACKING)
+	//	aniId = ID_ANI_KOOPA_TROOPA_ATTACKING;
+	//return aniId;
+	int aniId = ID_ANI_RED_KOOPA_TROOPA_WALKING_LEFT;
+
+	switch (type)
+	{
+	case KOOPA_TROOPA_TYPE_RED:
+		if (vx >= 0) aniId = ID_ANI_RED_KOOPA_TROOPA_WALKING_RIGHT;
+		if (state == KOOPA_TROOPA_STATE_DIE) aniId = ID_ANI_RED_KOOPA_TROOPA_SHELL_UP;
+
+		else if (state == KOOPA_TROOPA_STATE_SHELL) {
+			switch (isUp) {
+			case true:
+				aniId = ID_ANI_RED_KOOPA_TROOPA_SHELL_UP;
+				if (GetTickCount64() - time_start >= 4000)
+					aniId = ID_ANI_RED_KOOPA_TROOPA_REFORM_UP;
+				break;
+
+			case false:
+				aniId = ID_ANI_RED_KOOPA_TROOPA_SHELL_DOWN;
+				if (GetTickCount64() - time_start >= 4000)
+					aniId = ID_ANI_RED_KOOPA_TROOPA_REFORM_DOWN;
+				break;
+			}
+		}
+		else if (state == KOOPA_TROOPA_STATE_ATTACKING)
+			aniId = ID_ANI_RED_KOOPA_TROOPA_ATTACKING;
+		break;
+
+	case KOOPA_TROOPA_TYPE_GREEN:
+		aniId = ID_ANI_GREEN_KOOPA_TROOPA_WALKING_LEFT;
+		if (vx >= 0) aniId = ID_ANI_GREEN_KOOPA_TROOPA_WALKING_RIGHT;
+
+		if (state == KOOPA_TROOPA_STATE_DIE) aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_UP;
+		else if (state == KOOPA_TROOPA_STATE_SHELL) {
+			switch (isUp) {
+			case true:
+				aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_UP;
+				if (GetTickCount64() - time_start >= 4000)
+					aniId = ID_ANI_GREEN_KOOPA_TROOPA_REFORM_UP;
+				break;
+
+			case false:
+				aniId = ID_ANI_GREEN_KOOPA_TROOPA_SHELL_DOWN;
+				if (GetTickCount64() - time_start >= 4000)
+					aniId = ID_ANI_GREEN_KOOPA_TROOPA_REFORM_DOWN;
+				break;
+			}
+		}
+		else if (state == KOOPA_TROOPA_STATE_ATTACKING)
+			aniId = ID_ANI_GREEN_KOOPA_TROOPA_ATTACKING;
+		break;
+
+	case KOOPA_TROOPA_TYPE_PARA_GREEN:
+		if (vx >= 0) aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_RIGHT;
+		else aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_LEFT;
+		break;
 	}
-	else if (state == KOOPA_TROOPA_STATE_DIE)
-		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
-	else if (state == KOOPA_TROOPA_STATE_SHELL) {
-		aniId = ID_ANI_KOOPA_TROOPA_SHELL;
-		if (GetTickCount64() - time_start >= KOOPA_TROOPA_SHELL_TIMEOUT - 200)
-			aniId = ID_ANI_KOOPA_TROOPA_REFORM;
-	}
-	else if (state == KOOPA_TROOPA_STATE_ATTACKING)
-		aniId = ID_ANI_KOOPA_TROOPA_ATTACKING;
+
+
+
 	return aniId;
 }
 
-void CKoopaTroopa::SetLevel(int level)
-{
-	if (this->level == KOOPA_TROOPA_SHELL) y -= (KOOPA_TROOPA_BBOX_HEIGHT - KOOPA_TROOPA_BBOX_HEIGHT_DIE) / 2;
-	this->level = level;
+CKoopaTroopa::CKoopaTroopa(float x, float y, int type) :CGameObject(x, y) {
+	phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y,
+		KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT, PHASECHECK_BY_KOOPA_TROOPA);
+	phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
+
+	this->type = type;
+	ay = KOOPA_TROOPA_GRAVITY;
+	time_start = -1;
+
+	if (type == KOOPA_TROOPA_TYPE_PARA_GREEN)
+		SetState(KOOPA_TROOPA_STATE_FLYING);
+	else SetState(KOOPA_TROOPA_STATE_WALKING);
+
+	vx = -KOOPA_TROOPA_WALKING_SPEED;
+	isUp = isHeld = false;
+	deflected_start = 0;
 }
 
 void CKoopaTroopa::SetState(int state)
 {
 	CGameObject::SetState(state);
-	isHeld = false;
+	isUp = isHeld = false;
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -KOOPA_TROOPA_WALKING_SPEED;
@@ -164,7 +239,6 @@ void CKoopaTroopa::SetState(int state)
 		break;
 
 	case KOOPA_TROOPA_STATE_SHELL:
-		SetLevel(KOOPA_TROOPA_SHELL);
 		time_start = GetTickCount64();
 		y += (KOOPA_TROOPA_BBOX_HEIGHT - KOOPA_TROOPA_BBOX_HEIGHT_DIE) / 2;
 		vx = vy = 0;
@@ -174,6 +248,11 @@ void CKoopaTroopa::SetState(int state)
 		time_start = -1;
 		if (nx >= 0) vx = -KOOPA_TROOPA_SHELL_SPEED;
 		else vx = KOOPA_TROOPA_SHELL_SPEED;
+		break;
+
+	case KOOPA_TROOPA_STATE_FLYING:
+		time_start = GetTickCount64();
+		vy = -KOOPA_TROOPA_FLY_SPEED_Y;
 		break;
 
 	case KOOPA_TROOPA_STATE_DIE:
@@ -228,7 +307,7 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	float px, py;
 	phaseCheck->GetPosition(px, py);
 
-	if (py - this->y > 10) {
+	if (py - this->y > 10 && type != KOOPA_TROOPA_TYPE_PARA_GREEN) {
 		vx = -vx;
 
 		if (px <= this->x)
@@ -277,7 +356,7 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if ((state == KOOPA_TROOPA_STATE_SHELL) && (GetTickCount64() - time_start > KOOPA_TROOPA_SHELL_TIMEOUT)) {
 		SetState(KOOPA_TROOPA_STATE_WALKING);
-		SetLevel(KOOPA_TROOPA_NORMAL);
+		y -= (KOOPA_TROOPA_BBOX_HEIGHT - KOOPA_TROOPA_BBOX_HEIGHT_DIE);
 		time_start = -1;
 		return;
 	}
@@ -285,6 +364,11 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isDeleted = true;
 		phaseCheck->Delete();
 		return;
+	} else if (state == KOOPA_TROOPA_STATE_FLYING && 
+		(GetTickCount64() - time_start) > KOOPA_TROOPA_FLY_TIMEOUT && 
+		vy == ay * dt) {
+		time_start = -1;
+		SetState(KOOPA_TROOPA_STATE_FLYING);
 	}
 
 	CGameObject::Update(dt, coObjects);

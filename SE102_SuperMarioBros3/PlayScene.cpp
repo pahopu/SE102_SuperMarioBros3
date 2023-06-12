@@ -117,7 +117,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
-	case OBJECT_TYPE_KOOPA_TROOPA: obj = new CKoopaTroopa(x, y); break;
+
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 
 	case OBJECT_TYPE_GOOMBA: {
@@ -136,6 +136,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIRANHA_PLANT: {
 		int type = atoi(tokens[3].c_str());
 		obj = new CPiranhaPlant(x, y, type);
+		break;
+	}
+
+	case OBJECT_TYPE_KOOPA_TROOPA: {
+		int type = atoi(tokens[3].c_str());
+		obj = new CKoopaTroopa(x, y, type); 
 		break;
 	}
 
