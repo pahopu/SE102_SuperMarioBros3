@@ -149,16 +149,14 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		return;
 
 	// jump on top >> kill Goomba and deflect a bit 
-	if (e->ny < 0)
-	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE_BY_JUMP)
-		{
-			if (goomba->GetLevel() == GOOMBA_LEVEL_PARA)
-				goomba->SetLevel(GOOMBA_LEVEL_NORMAL);
-			else goomba->SetState(GOOMBA_STATE_DIE_BY_JUMP);
-
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+	if (e->ny < 0) {
+		if (goomba->GetLevel() == GOOMBA_LEVEL_NORMAL)
+			goomba->SetState(GOOMBA_STATE_DIE_BY_JUMP);
+		else {
+			goomba->SetLevel(GOOMBA_LEVEL_NORMAL);
+			goomba->SetState(GOOMBA_STATE_WALKING);
 		}
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else {// hit by Goomba
 		if (untouchable == 0)
@@ -215,10 +213,13 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		}
 	}
 	else if (e->ny < 0) {
-		if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING || koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
+		if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING)
 			koopa->SetState(KOOPA_TROOPA_STATE_SHELL);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+		else if (koopa->GetLevel() == KOOPA_TROOPA_LEVEL_PARA) {
+			koopa->SetLevel(KOOPA_TROOPA_LEVEL_NORMAL);
+			koopa->SetState(KOOPA_TROOPA_STATE_WALKING);
 		}
+		vy = -MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else {
 		if (untouchable == 0)

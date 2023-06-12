@@ -54,6 +54,8 @@ void CPhaseChecker::OnCollisionWithBrick(LPCOLLISIONEVENT e) {
 
 void CPhaseChecker::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (goomba->GetState() == GOOMBA_STATE_DIE_BY_JUMP || goomba->GetState() == GOOMBA_STATE_DIE_BY_ATTACK)
+		return;
 
 	goomba->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
 	if (e->nx > 0) goomba->Deflected(DEFLECT_DIRECTION_LEFT);

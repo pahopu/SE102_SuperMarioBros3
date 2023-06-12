@@ -99,8 +99,7 @@ int CGoomba::getAniId()
 				aniId = ID_ANI_RED_GOOMBA_DIE_BY_JUMP;
 			else if (state == GOOMBA_STATE_DIE_BY_ATTACK)
 				aniId = ID_ANI_RED_GOOMBA_DIE_BY_ATTACK;
-		}
-		else {
+		} else {
 			if (state == GOOMBA_STATE_DIE_BY_ATTACK)
 				aniId = ID_ANI_RED_GOOMBA_DIE_BY_ATTACK;
 			else if (state == GOOMBA_STATE_JUMPING)
