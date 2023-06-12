@@ -86,12 +86,18 @@ int CGoomba::getAniId()
 		aniId = ID_ANI_GOOMBA_WALKING;
 		if (state == GOOMBA_STATE_DIE_BY_JUMP)
 			aniId = ID_ANI_GOOMBA_DIE_BY_JUMP;
+		else if (state == GOOMBA_STATE_DIE_BY_ATTACK)
+			aniId = ID_ANI_GOOMBA_DIE_BY_ATTACK;
+
 		break;
 
 	case GOOMBA_TYPE_RED:
 		aniId = ID_ANI_RED_GOOMBA_WALKING;
 		if (state == GOOMBA_STATE_DIE_BY_JUMP)
 			aniId = ID_ANI_RED_GOOMBA_DIE_BY_JUMP;
+		else if (state == GOOMBA_STATE_DIE_BY_ATTACK)
+			aniId = ID_ANI_RED_GOOMBA_DIE_BY_ATTACK;
+
 		break;
 
 	case GOOMBA_TYPE_RED_PARA:

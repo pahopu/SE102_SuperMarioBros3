@@ -25,9 +25,11 @@
 
 #define ID_ANI_GOOMBA_WALKING				5000
 #define ID_ANI_GOOMBA_DIE_BY_JUMP			5001
+#define ID_ANI_GOOMBA_DIE_BY_ATTACK			5002
 
 #define ID_ANI_RED_GOOMBA_WALKING			5100
 #define ID_ANI_RED_GOOMBA_DIE_BY_JUMP		5101
+#define ID_ANI_RED_GOOMBA_DIE_BY_ATTACK		5102
 
 #define ID_ANI_RED_PARA_GOOMBA_FLYING		5200
 #define ID_ANI_RED_PARA_GOOMBA_WALKING		5201
@@ -74,6 +76,14 @@ public:
 
 	virtual void SetState(int state);
 	virtual void Deflected(int direction);
+
+	int GetType() {
+		return type;
+	}
+
+	void SetType(int type) {
+		this->type = type;
+	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 };

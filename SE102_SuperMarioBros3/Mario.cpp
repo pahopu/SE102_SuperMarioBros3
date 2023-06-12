@@ -144,7 +144,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (goomba->GetState() != GOOMBA_STATE_WALKING)
+	if (goomba->GetState() == GOOMBA_STATE_DIE_BY_JUMP || goomba->GetState() == GOOMBA_STATE_DIE_BY_ATTACK)
 		return;
 
 	// jump on top >> kill Goomba and deflect a bit 
@@ -152,7 +152,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE_BY_JUMP)
 		{
-			goomba->SetState(GOOMBA_STATE_DIE_BY_JUMP);
+			if (goomba->GetType() == GOOMBA_TYPE_RED_PARA)
+				goomba->SetType(GOOMBA_TYPE_RED);
+			else goomba->SetState(GOOMBA_STATE_DIE_BY_JUMP);
+
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
