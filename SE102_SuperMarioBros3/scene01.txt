@@ -80,7 +80,7 @@ koopatroopa.txt
 
 
 # Koopa Troopa
-3	100	110	2	2
+3	100	110	2	1
 
 
 #Portal 

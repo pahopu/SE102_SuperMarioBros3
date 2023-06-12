@@ -155,8 +155,9 @@ int CKoopaTroopa::GetAniId()
 				break;
 			}
 		}
-		else if (state == KOOPA_TROOPA_STATE_ATTACKING)
-			aniId = ID_ANI_RED_KOOPA_TROOPA_ATTACKING;
+		else if (state == KOOPA_TROOPA_STATE_ATTACKING) 
+			if (isUp) aniId = ID_ANI_RED_KOOPA_TROOPA_ATTACKING_UP;
+			else aniId = ID_ANI_RED_KOOPA_TROOPA_ATTACKING_DOWN;
 		break;
 
 	case KOOPA_TROOPA_TYPE_GREEN:
@@ -181,7 +182,8 @@ int CKoopaTroopa::GetAniId()
 				}
 			}
 			else if (state == KOOPA_TROOPA_STATE_ATTACKING)
-				aniId = ID_ANI_GREEN_KOOPA_TROOPA_ATTACKING;
+				if (isUp) aniId = ID_ANI_GREEN_KOOPA_TROOPA_ATTACKING_UP;
+				else aniId = ID_ANI_GREEN_KOOPA_TROOPA_ATTACKING_DOWN;
 		}
 		else {
 			if (vx >= 0) aniId = ID_ANI_GREEN_PARA_KOOPA_TROOPA_FLYING_RIGHT;
@@ -214,7 +216,8 @@ CKoopaTroopa::CKoopaTroopa(float x, float y, int type, int l) :CGameObject(x, y)
 void CKoopaTroopa::SetState(int state)
 {
 	CGameObject::SetState(state);
-	isUp = isHeld = false;
+	isHeld = false;
+	if (state != KOOPA_TROOPA_STATE_ATTACKING) isUp = false;
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -KOOPA_TROOPA_WALKING_SPEED;
