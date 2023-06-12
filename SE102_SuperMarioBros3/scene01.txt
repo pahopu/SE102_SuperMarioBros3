@@ -28,6 +28,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopa Troopa, 4 = Coin, 5 = Platform, 6 = Piranha Plant
 
 # GOOMBA	id	x	y	type(normal = 1, red = 2, red para = 3)
+# KOOPA TROOPA	id	x	y	type(red = 1, green = 2, green para = 3)
 # PIRANHA PLANT	id	x	y	type(green = 1, green fire = 2, red fire = 3)
 # PLATFORM	id	x	y	width	height	length	begin	middle	end	type(block = 1, normal = 2, no collision = 3)
 # BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, super mushroom/leaf = 1, coin = 2, 1up = 3)
@@ -51,7 +52,7 @@ koopatroopa.txt
 
 [OBJECTS]
 # MARIO
-0	320	120
+0	100	120
 
 
 # BRICKS
@@ -61,26 +62,25 @@ koopatroopa.txt
 1	352	146	1	0
 1	352	162	2	0
 
-1	300	120	2	2
-1	284	120	1	0
-1	268	120	1	0
-1	252	120	1	0
+1	300	100	2	2
+1	284	100	1	0
+1	268	100	1	0
+1	252	100	1	0
 
 
 #COIN
-4	100	120
-4	120	120
-4	140	120
-4	160	120
-4	180	120
+4	300	70
+4	284	70
+4	268	70
+4	252	70
 
 
 # Goomba
-2	300	80	2
+2	300	80	3
 
 
 # Koopa Troopa
-3	100	110
+3	100	110	2
 
 
 #Portal 
@@ -100,7 +100,7 @@ koopatroopa.txt
 
 
 # Piranha
-6	185	138	1
+6	185	138	3
 
 
 # Platform
