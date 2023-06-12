@@ -107,36 +107,26 @@ int CPiranhaPlant::GetAniId()
 	case PIRANHA_TYPE_GREEN:
 		aniId = ID_ANI_PIRANHA_GREEN;
 		break;
+
 	case PIRANHA_TYPE_GREEN_FIRE:
 		if (mario_x < x) {
-			aniId = ID_ANI_PIRANHA_GREEN_FIRE_LEFT;
-			if (state > PIRANHA_STATE_DOWN) {
-				if (mario_y < y) aniId = ID_ANI_PIRANHA_GREEN_TARGET_TOP_LEFT;
-				else aniId = ID_ANI_PIRANHA_GREEN_TARGET_BOTTOM_LEFT;
-			}
+			if (mario_y < y) aniId = ID_ANI_PIRANHA_GREEN_TARGET_TOP_LEFT;
+			else aniId = ID_ANI_PIRANHA_GREEN_TARGET_BOTTOM_LEFT;
 		}
 		else {
-			aniId = ID_ANI_PIRANHA_GREEN_FIRE_RIGHT;
-			if (state > PIRANHA_STATE_DOWN) {
-				if (mario_y < y) aniId = ID_ANI_PIRANHA_GREEN_TARGET_TOP_RIGHT;
-				else aniId = ID_ANI_PIRANHA_GREEN_TARGET_BOTTOM_RIGHT;
-			}
+			if (mario_y < y) aniId = ID_ANI_PIRANHA_GREEN_TARGET_TOP_RIGHT;
+			else aniId = ID_ANI_PIRANHA_GREEN_TARGET_BOTTOM_RIGHT;
 		}
 		break;
+
 	case PIRANHA_TYPE_RED_FIRE:
 		if (mario_x < x) {
-			aniId = ID_ANI_PIRANHA_RED_FIRE_LEFT;
-			if (state > PIRANHA_STATE_DOWN) {
-				if (mario_y < y) aniId = ID_ANI_PIRANHA_RED_TARGET_TOP_LEFT;
-				else aniId = ID_ANI_PIRANHA_RED_TARGET_BOTTOM_LEFT;
-			}
+			if (mario_y < y) aniId = ID_ANI_PIRANHA_RED_TARGET_TOP_LEFT;
+			else aniId = ID_ANI_PIRANHA_RED_TARGET_BOTTOM_LEFT;
 		}
 		else {
-			aniId = ID_ANI_PIRANHA_RED_FIRE_RIGHT;
-			if (state > PIRANHA_STATE_DOWN) {
-				if (mario_y < y) aniId = ID_ANI_PIRANHA_RED_TARGET_TOP_RIGHT;
-				else aniId = ID_ANI_PIRANHA_RED_TARGET_BOTTOM_RIGHT;
-			}
+			if (mario_y < y) aniId = ID_ANI_PIRANHA_RED_TARGET_TOP_RIGHT;
+			else aniId = ID_ANI_PIRANHA_RED_TARGET_BOTTOM_RIGHT;
 		}
 		break;
 	}
