@@ -100,6 +100,7 @@ void CKoopaTroopa::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		break;
 
 	case KOOPA_TROOPA_STATE_SHELL:
+	case KOOPA_TROOPA_STATE_FLYING:
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -vx;
 
@@ -276,18 +277,29 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	}
 	else if (e->nx != 0) {
 		if (dynamic_cast<CPlatform*>(e->obj)) {
-			if (dynamic_cast<CPlatform*>(e->obj)->GetType() == PLATFORM_TYPE_BLOCK)
+			if (dynamic_cast<CPlatform*>(e->obj)->GetType() == PLATFORM_TYPE_BLOCK) {
 				vx = -vx;
+
+				float p_vx, p_vy;
+				phaseCheck->GetSpeed(p_vx, p_vy);
+
+				if (p_vx >= this->vx)
+					phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
+				else
+					phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
+			}
 		}
-		else if (e->obj->IsBlocking()) vx = -vx;
+		else if (e->obj->IsBlocking()) {
+			vx = -vx;
 
-		float p_vx, p_vy;
-		phaseCheck->GetSpeed(p_vx, p_vy);
+			float p_vx, p_vy;
+			phaseCheck->GetSpeed(p_vx, p_vy);
 
-		if (p_vx >= this->vx)
-			phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
-		else
-			phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
+			if (p_vx >= this->vx)
+				phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
+			else
+				phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
+		}
 	}
 
 	float px, py;
