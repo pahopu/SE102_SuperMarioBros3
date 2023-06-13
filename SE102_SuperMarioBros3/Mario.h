@@ -14,12 +14,13 @@
 #define MARIO_ATTACK_SPEED							1.0f
 
 #define MARIO_ACCEL_WALK_X							0.0005f
-#define MARIO_ACCEL_RUN_X							0.0007f
+#define MARIO_ACCEL_RUN_X							0.0001f
+#define MARIO_ACCEL_CHANGE_DIRECTION				0.0007f
 
 #define MARIO_JUMP_SPEED_Y							0.38f
 #define MARIO_JUMP_RUN_SPEED_Y						0.45f
 
-#define MARIO_FLY_SPEED_Y							0.3f
+#define MARIO_FLY_SPEED_Y							0.2f
 #define MARIO_FLOAT_SPEED_Y							0.06f
 
 #define MARIO_GRAVITY								0.001f
@@ -173,6 +174,16 @@
 #define ID_ANI_MARIO_RACOON_FLOAT_LEFT				3410
 #define ID_ANI_MARIO_RACOON_FLOAT_RIGHT				3411
 
+// SPEED UP
+#define ID_ANI_MARIO_SMALL_SPEED_UP_LEFT			210
+#define ID_ANI_MARIO_SMALL_SPEED_UP_RIGHT			211
+
+#define ID_ANI_MARIO_SPEED_UP_LEFT					810
+#define ID_ANI_MARIO_SPEED_UP_RIGHT					811
+
+#define ID_ANI_MARIO_RACOON_SPEED_UP_LEFT			1520
+#define ID_ANI_MARIO_RACOON_SPEED_UP_RIGHT			1521
+
 // DIE
 #define ID_ANI_MARIO_DIE							999
 
@@ -212,6 +223,7 @@
 #define MARIO_ATTACK_TIME					300
 #define MARIO_KICK_TIME						200
 #define MARIO_FLY_TIME						4000
+#define MARIO_REFLOAT_TIME					200
 
 class CMario : public CGameObject
 {
@@ -293,7 +305,7 @@ public:
 		return fly_start != 0; 
 	}
 
-	bool IsFloat() { 
+	bool IsFloating() { 
 		return float_start != 0; 
 	}
 
