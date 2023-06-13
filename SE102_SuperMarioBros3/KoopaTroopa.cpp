@@ -218,7 +218,7 @@ void CKoopaTroopa::SetState(int state)
 {
 	CGameObject::SetState(state);
 	isHeld = false;
-	if (state != KOOPA_TROOPA_STATE_ATTACKING) isUp = false;
+	if (state != KOOPA_TROOPA_STATE_ATTACKING && state != KOOPA_TROOPA_STATE_SHELL) isUp = false;
 	switch (state) {
 	case KOOPA_TROOPA_STATE_WALKING:
 		vx = -KOOPA_TROOPA_WALKING_SPEED;
@@ -305,7 +305,7 @@ void CKoopaTroopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	float px, py;
 	phaseCheck->GetPosition(px, py);
 
-	if (py - this->y > 10 && level != KOOPA_TROOPA_LEVEL_PARA) {
+	if (py - this->y > 10 && level != KOOPA_TROOPA_LEVEL_PARA && state != KOOPA_TROOPA_STATE_SHELL) {
 		vx = -vx;
 
 		if (px <= this->x)

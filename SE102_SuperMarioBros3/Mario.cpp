@@ -240,6 +240,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING)
 			koopa->SetState(KOOPA_TROOPA_STATE_SHELL);
 		else if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
+			koopa->SetState(KOOPA_TROOPA_STATE_SHELL);
 		}
 		else if (koopa->GetLevel() == KOOPA_TROOPA_LEVEL_PARA) {
 			koopa->SetLevel(KOOPA_TROOPA_LEVEL_NORMAL);

@@ -23,8 +23,8 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (y > old_y) {
 			y = old_y;
 			time_start = -1;
-			vy = ay = 0;
 			state = -1;
+			vy = ay = 0;
 
 			CGameObject* _object = NULL;
 			switch (containObject) {

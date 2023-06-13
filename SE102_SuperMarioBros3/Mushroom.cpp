@@ -26,14 +26,14 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			IsDiversion();
 			vy = ay * dt;
 
-			if ((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
+			vector<LPGAMEOBJECT> object;
+			if (dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene())) {
 				CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
-				vector<LPGAMEOBJECT> object;
 				object.push_back(mario);
 
 				CCollision::GetInstance()->Process(this, dt, &object);
 			}
+			else CCollision::GetInstance()->Process(this, dt, &object);
 			return;
 		}
 		break;
@@ -52,12 +52,14 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMushroom::Render()
 {
-	CAnimations* animations = CAnimations::GetInstance();
+	int spriteId;
 	if (type == MUSHROOM_TYPE_SUPER)
-		animations->Get(ID_ANI_MUSHROOM_SUPER)->Render(x, y);
-	else if(type == MUSHROOM_TYPE_1UP)
-		animations->Get(ID_ANI_MUSHROOM_1UP)->Render(x, y);
-	else animations->Get(ID_ANI_SUPER_LEAF)->Render(x, y);
+		spriteId = ID_SPRITE_MUSHROOM_SUPER;
+	else if (type == MUSHROOM_TYPE_1UP)
+		spriteId = ID_SPRITE_MUSHROOM_1UP;
+	else spriteId = ID_SPRITE_SUPER_LEAF;
+
+	CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
 	//RenderBoundingBox();
 }
 
@@ -69,6 +71,8 @@ void CMushroom::OnNoColision(DWORD dt)
 
 void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 {
+	if (isDeleted) return;
+
 	if (dynamic_cast<CMario*>(e->obj)) {
 		CMario* mario = dynamic_cast<CMario*>(e->obj);
 

@@ -58,16 +58,13 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 public:
-	CBrick(float x, float y, int type, int type_object) : CGameObject(x, y) {
-		this->type = -1;
+	CBrick(float x, float y, int type=1, int type_object=0) : CGameObject(x, y) {
+		this->type = state = -1;
 		SetType(type);
-		containObject = type_object;
-
 		time_start = -1;
-		state = -1;
-
 		old_y = ay = vx = vy = 0;
 		isBrokenByJump = false;
+		containObject = type_object;
 	}
 
 	void Render();
