@@ -9,11 +9,13 @@
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	LPGAME game = CGame::GetInstance();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	switch (KeyCode) {
 	case DIK_DOWN:
-		if (!mario->IsHolding()) mario->SetState(MARIO_STATE_SIT);
+		if (!mario->IsHolding() && !game->IsKeyDown(DIK_LEFT) && !game->IsKeyDown(DIK_RIGHT))
+			mario->SetState(MARIO_STATE_SIT);
 		break;
 	case DIK_A:
 		if (mario->GetLevel() == MARIO_LEVEL_RACOON) mario->SetState(MARIO_STATE_ATTACK);
