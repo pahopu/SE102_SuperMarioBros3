@@ -27,6 +27,7 @@
 #define BRICK_CONTAIN_SUPER_MUSHROOM_LEAF	1
 #define BRICK_CONTAIN_COIN					2
 #define BRICK_CONTAIN_1UP_MUSHROOM			3
+#define BRICK_CONTAIN_SWITCH				4
 
 #define BRICK_STATE_DEFLECT					10
 
@@ -58,13 +59,13 @@ protected:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 public:
-	CBrick(float x, float y, int type=1, int type_object=0) : CGameObject(x, y) {
+	CBrick(float x, float y, int type=1, int contain_object=0) : CGameObject(x, y) {
 		this->type = state = -1;
 		SetType(type);
 		time_start = -1;
 		old_y = ay = vx = vy = 0;
 		isBrokenByJump = false;
-		containObject = type_object;
+		containObject = contain_object;
 	}
 
 	void Render();
@@ -79,4 +80,6 @@ public:
 
 	bool IsAttacking();
 	bool IsBrokenByJump() { return isBrokenByJump; }
+
+	void BrickTransformCoin();
 };

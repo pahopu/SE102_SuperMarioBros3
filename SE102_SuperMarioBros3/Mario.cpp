@@ -13,6 +13,7 @@
 #include "Bullet.h"
 
 #include "Platform.h"
+#include "PSwitch.h"
 
 #include "Collision.h"
 
@@ -163,6 +164,9 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			this->StartUntouchable();
 			break;
 		}
+	}
+	else if (dynamic_cast<CPSwitch*>(e->obj)) {
+		dynamic_cast<CPSwitch*>(e->obj)->IsActived();
 	}
 }
 

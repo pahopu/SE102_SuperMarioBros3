@@ -6,6 +6,7 @@
 #include "PlayScene.h"
 #include "Mushroom.h"
 #include "Coin.h"
+#include "PSwitch.h"
 #include "debug.h"
 
 
@@ -54,6 +55,10 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case BRICK_CONTAIN_1UP_MUSHROOM:
 				_object = new CMushroom(x, y, MUSHROOM_TYPE_1UP);
 				((CMushroom*)_object)->CreatedByBrick();
+				break;
+
+			case BRICK_CONTAIN_SWITCH:
+				_object = new CPSwitch(x, y - PSWITCH_BBOX_HEIGHT);
 				break;
 			}
 
@@ -162,6 +167,16 @@ void CBrick::SetState(int State) {
 
 bool CBrick::IsAttacking() {
 	return this != NULL && time_start != -1;
+}
+
+void CBrick::BrickTransformCoin() {
+	if (type == BRICK_TYPE_GOLD && containObject == BRICK_CONTAIN_NONE
+		&& (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene()) {
+		this->Delete();
+
+		CGameObject* coin = new CCoin(x, y, COIN_TRANSFORMED_FROM_BRICK);
+		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetObjects().push_back(coin);
+	}
 }
 
 void CBrick::Deflected(int Direction) {

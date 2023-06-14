@@ -31,7 +31,7 @@
 # GOOMBA	id	x	y	type(normal = 1, red = 2)	level(normal = 1, para = 2)
 # KOOPA TROOPA	id	x	y	type(red = 1, green = 2)	level(normal = 1, para = 2)
 # PLATFORM	id	x	y	width	height	length	begin	middle	end	type(block = 1, normal = 2, no collision = 3)
-# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, super mushroom/leaf = 1, coin = 2, 1up = 3)
+# BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, super mushroom/leaf = 1, coin = 2, 1up = 3, pswitch = 4);
 
 
 
@@ -44,6 +44,7 @@ mario.txt
 bullet.txt
 goomba.txt
 piranha.txt
+pswitch.txt
 mushroom.txt
 koopatroopa.txt
 
@@ -63,9 +64,9 @@ koopatroopa.txt
 1	352	162	2	1
 
 1	300	80	2	1
-#1	284	100	1	0
-#1	268	100	1	0
-#1	252	100	1	0
+1	284	100	1	4
+1	268	100	1	0
+1	252	100	1	0
 
 
 #COIN
