@@ -63,6 +63,9 @@ public:
 	// When no collision has been detected (triggered by CCollision::Process)
 	virtual void OnNoCollision(DWORD dt) {};
 
+	// AABB collision
+	virtual void OnCollisionWith(LPGAMEOBJECT o) {};
+
 	// When collision with an object has been detected (triggered by CCollision::Process)
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e) {};
 	

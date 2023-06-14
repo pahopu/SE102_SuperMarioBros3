@@ -62,15 +62,31 @@ public:
 		float& nx,
 		float& ny);
 
+	static int AABB(
+		float sl,			
+		float st,		
+		float sr,		
+		float sb,		
+		float dl,		
+		float dr,
+		float dt,
+		float db);
+
 	LPCOLLISIONEVENT SweptAABB(
 		LPGAMEOBJECT objSrc, 
 		DWORD dt,
-		LPGAMEOBJECT objDest); 
+		LPGAMEOBJECT objDest);
+
 	void Scan(
 		LPGAMEOBJECT objSrc, 
 		DWORD dt, 
 		vector<LPGAMEOBJECT>* objDests, 
 		vector<LPCOLLISIONEVENT>& coEvents);
+
+	void Scan(
+		LPGAMEOBJECT objSrc,
+		vector<LPGAMEOBJECT>* objDests,
+		LPGAMEOBJECT& objCollided); // Get first object in objDests
 
 	void Filter(
 		LPGAMEOBJECT objSrc,
@@ -81,6 +97,7 @@ public:
 		int filterX,
 		int filterY);
 
+	void Process(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* coObjects); // Use for Racoon attack
 	void Process(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 	static CCollision* GetInstance();
