@@ -150,6 +150,7 @@
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="PSwitch.cpp" />
     <ClCompile Include="SampleKeyEventHandler.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Sprites.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="PSwitch.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
@@ -198,6 +200,7 @@
     <Text Include="mario.txt" />
     <Text Include="mushroom.txt" />
     <Text Include="piranha.txt" />
+    <Text Include="pswitch.txt" />
     <Text Include="scene0005.txt" />
     <Text Include="scene01.txt" />
     <Text Include="scene02.txt" />

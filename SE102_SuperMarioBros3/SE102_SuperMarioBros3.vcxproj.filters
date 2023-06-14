@@ -90,6 +90,9 @@
     <ClCompile Include="PhaseChecker.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Platform.h">
@@ -176,6 +179,9 @@
     <ClInclude Include="PhaseChecker.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PSwitch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="scene01.txt" />
@@ -193,6 +199,7 @@
     <Text Include="koopatroopa.txt" />
     <Text Include="piranha.txt" />
     <Text Include="bullet.txt" />
+    <Text Include="pswitch.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
