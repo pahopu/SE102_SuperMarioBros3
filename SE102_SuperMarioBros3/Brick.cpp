@@ -44,8 +44,8 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					break;
 				}
 				((CMushroom*)_object)->CreatedByBrick();
+				break;
 			}
-			break;
 
 			case BRICK_CONTAIN_COIN:
 				_object = new CCoin(x, y);
