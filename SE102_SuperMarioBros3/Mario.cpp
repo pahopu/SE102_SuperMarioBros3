@@ -59,19 +59,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (flag == MARIO_ATTACK_TIME) {
-		if (GetTickCount64() - time_count > MARIO_ATTACK_TIME) {
+		CPhaseChecker* tail = dynamic_cast<CPhaseChecker*>(_tail);
+		if (GetTickCount64() - time_count > flag) {
 			flag = 0;
 			time_count = 0;
+			tail->SetAttackTime(time_count);
 		}
-
-		if (level == MARIO_LEVEL_RACOON) {
-			CPhaseChecker* tail = dynamic_cast<CPhaseChecker*>(_tail);
+		else {
 			float temp = (nx >= 0) ? -1 : 1; //to determine direction
 
 			tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + MARIO_TAIL_POSITION_ADJUST);
 			tail->SetSpeed(vx, vy);
 
-			if (flag == MARIO_ATTACK_TIME) tail->Attack(nx);
+			if (!tail->isAttacking()) tail->Attack(nx);
+			tail->SetAttackTime(time_count);
 			_tail->Update(dt, coObjects);
 		}
 	}
@@ -112,7 +113,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 				break;
 
 			case PLATFORM_TYPE_NORMAL:
-				if (e->ny < 0) {
+				if (e->nx == 0 && e->ny == -1) {
 					vy = 0;
 					isOnPlatform = true;
 				}
@@ -148,7 +149,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 		OnCollisionWithPiranhaPlant(e);
 	else if (dynamic_cast<CBullet*>(e->obj)) {
-		if (IsUntouchable() && dynamic_cast<CBullet*>(e->obj)->GetType() == BULLET_BY_MARIO)
+		if (IsUntouchable() || dynamic_cast<CBullet*>(e->obj)->GetType() == BULLET_BY_MARIO)
 			return;
 
 		switch (level) {

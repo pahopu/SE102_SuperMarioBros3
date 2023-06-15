@@ -23,15 +23,15 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 }
 
 
-#define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_ASSETS	1
-#define SCENE_SECTION_OBJECTS	2
+#define SCENE_SECTION_UNKNOWN				-1
+#define SCENE_SECTION_ASSETS				1
+#define SCENE_SECTION_OBJECTS				2
 
-#define ASSETS_SECTION_UNKNOWN -1
-#define ASSETS_SECTION_SPRITES 1
-#define ASSETS_SECTION_ANIMATIONS 2
+#define ASSETS_SECTION_UNKNOWN				-1
+#define ASSETS_SECTION_SPRITES				1
+#define ASSETS_SECTION_ANIMATIONS			2
 
-#define MAX_SCENE_LINE 1024
+#define MAX_SCENE_LINE						1024
 
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
@@ -284,7 +284,7 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
-	cy -= game->GetBackBufferHeight() / 2;
+	//cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
 
@@ -293,7 +293,7 @@ void CPlayScene::Update(DWORD dt)
 	float old_cx, old_cy;
 	CGame::GetInstance()->GetCamPos(old_cx, old_cy);
 
-	//DebugOutTitle(L"mario y: %f cy: %f", cy, old_cy);
+	DebugOutTitle(L"mario y: %f cy: %f", cy, old_cy);
 
 	if (mario->GetLevel() == MARIO_LEVEL_RACOON) {
 		if ((cy - old_cy) < (game->GetBackBufferHeight() / 3) && mario->IsFlying()) // Case Mario is flying or on the platform in the sky
@@ -301,12 +301,14 @@ void CPlayScene::Update(DWORD dt)
 		else if ((cy - old_cy) > (game->GetBackBufferHeight() / 2)) // Case Mario is falling down
 			cy -= game->GetBackBufferHeight() / 2;
 		else cy = old_cy;
+
+		if (cy < CAMERA_POSITION_MIN_Y) cy = CAMERA_POSITION_MIN_Y;
 	}
 	else cy = DEFAULT_CAMERA_POSITION_Y;
 
 	if (cy >= DEFAULT_CAMERA_POSITION_Y) cy = DEFAULT_CAMERA_POSITION_Y;
 
-	CGame::GetInstance()->SetCamPos(cx, 0.0f);
+	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
 }

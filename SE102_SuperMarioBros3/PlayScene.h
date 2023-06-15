@@ -9,7 +9,8 @@
 #include "Mushroom.h"
 #include "PiranhaPlant.h"
 
-#define DEFAULT_CAMERA_POSITION_Y 223
+#define CAMERA_POSITION_MIN_Y			0
+#define DEFAULT_CAMERA_POSITION_Y		223
 
 class CPlayScene: public CScene
 {
