@@ -43,7 +43,6 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			ay = MUSHROOM_GRAVITY;
 			vx = MUSHROOM_WALKING_SPEED;
 		}
-		break;
 	}
 
 	CGameObject::Update(dt, coObjects);
@@ -57,7 +56,10 @@ void CMushroom::Render()
 		spriteId = ID_SPRITE_MUSHROOM_SUPER;
 	else if (type == MUSHROOM_TYPE_1UP)
 		spriteId = ID_SPRITE_MUSHROOM_1UP;
-	else spriteId = ID_SPRITE_SUPER_LEAF;
+	else {
+		if (vx > 0) spriteId = ID_SPRITE_SUPER_LEAF_RIGHT;
+		else spriteId = ID_SPRITE_SUPER_LEAF_LEFT;
+	}
 
 	CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
 	//RenderBoundingBox();

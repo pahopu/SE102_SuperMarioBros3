@@ -7,10 +7,6 @@
 #include "Brick.h"
 #include "Goomba.h"
 
-#define ID_ANI_MUSHROOM_SUPER			1511
-#define ID_ANI_MUSHROOM_1UP				1512
-#define ID_ANI_SUPER_LEAF				1513
-
 #define MUSHROOM_GRAVITY				0.001f
 #define MUSHROOM_WALKING_SPEED			0.065f
 #define MUSHROOM_CREATE_SPEED			0.02f
