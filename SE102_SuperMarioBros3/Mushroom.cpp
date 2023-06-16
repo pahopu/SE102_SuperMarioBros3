@@ -64,7 +64,6 @@ void CMushroom::Render()
 		if (vx > 0) spriteId = ID_SPRITE_SUPER_LEAF_RIGHT;
 		else spriteId = ID_SPRITE_SUPER_LEAF_LEFT;
 	}
-
 	CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
 	//RenderBoundingBox();
 }

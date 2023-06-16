@@ -191,7 +191,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else {// hit by Goomba
-		if (untouchable == 0)
+		if (untouchable == 0) {
+			isAttacked = 1;
+			if (level != MARIO_LEVEL_SMALL) SetTransformStart();
+
 			if (goomba->GetState() != GOOMBA_STATE_DIE_BY_JUMP)
 				if (level == MARIO_LEVEL_RACOON) {
 					level = MARIO_LEVEL_BIG;
@@ -205,6 +208,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+		}
 	}
 }
 
@@ -217,6 +221,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 
 	// Mario kick koopa troopa shell
 	if (koopa->GetState() == KOOPA_TROOPA_STATE_SHELL) {
+
 		if (e->ny != 0 || (holdable == 0 && e->nx != 0)) {
 			SetState(MARIO_STATE_KICK);
 			koopa->SetNx(-nx);
@@ -257,7 +262,10 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 	}
 	else {
-		if (untouchable == 0)
+		if (untouchable == 0) {
+			isAttacked = 1;
+			if (level != MARIO_LEVEL_SMALL) SetTransformStart();
+
 			if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING || koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING)
 				if (level == MARIO_LEVEL_RACOON) {
 					level = MARIO_LEVEL_BIG;
@@ -271,6 +279,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
 				}
+		}
 	}
 }
 
@@ -338,6 +347,9 @@ void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e) {
 	CPiranhaPlant* plant = dynamic_cast<CPiranhaPlant*>(e->obj);
 
 	if (!untouchable && plant->GetState() != PIRANHA_STATE_IDLE) {
+		isAttacked = 1;
+		if (level != MARIO_LEVEL_SMALL) SetTransformStart();
+
 		switch (level) {
 		case MARIO_LEVEL_RACOON:
 			this->level = MARIO_LEVEL_BIG;
@@ -652,14 +664,24 @@ void CMario::Render()
 	int aniId = -1;
 
 	if (transform_start != 0 && (GetTickCount64() - transform_start) < MARIO_TRANSFORMATION_TIME) {
-		if (level == MARIO_LEVEL_RACOON)
-			animations->Get(ID_ANI_BIG_MARIO_EATING_SUPERLEAF)->Render(x, y);
-		else
-			if (nx >= 0) animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
-			else animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+		if (isAttacked) {
+			if (level == MARIO_LEVEL_BIG)
+				animations->Get(ID_ANI_BIG_MARIO_EATING_SUPERLEAF)->Render(x, y);
+			else
+				if (nx >= 0) animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
+				else animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+		}
+		else {
+			if (level == MARIO_LEVEL_RACOON)
+				animations->Get(ID_ANI_BIG_MARIO_EATING_SUPERLEAF)->Render(x, y);
+			else
+				if (nx >= 0) animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
+				else animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+		}
 	}
 	else {
 		int aniId = -1;
+		isAttacked = 0;
 		transform_start = 0;
 
 		if (state == MARIO_STATE_DIE)

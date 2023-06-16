@@ -242,6 +242,7 @@ class CMario : public CGameObject
 	int level;
 	int holdable;
 	int untouchable;
+	int isAttacked;
 
 	ULONGLONG time_count;
 	ULONGLONG untouchable_start;
@@ -280,7 +281,7 @@ public:
 		untouchable_start = -1;
 		level = MARIO_LEVEL_SMALL;
 		isSitting = isOnPlatform = false;
-		fly_start = float_start = untouchable = coin = flag = time_count = holdable = transform_start = 0;
+		fly_start = float_start = untouchable = coin = flag = time_count = holdable = transform_start = isAttacked = 0;
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
