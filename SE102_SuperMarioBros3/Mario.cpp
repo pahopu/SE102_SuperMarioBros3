@@ -19,7 +19,10 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (x < 10) x = 10;
+	if (x < 6) x = 6;
+	if (x > 2798) x = 2798;
+
+	DebugOutTitle(L"mario x: %f y: %f", x, y);
 
 	vy += ay * dt;
 	vx += ax * dt;
