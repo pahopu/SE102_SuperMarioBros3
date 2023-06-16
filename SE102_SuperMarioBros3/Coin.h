@@ -11,7 +11,7 @@
 #define COIN_GRAVITY					0.001f
 
 #define COIN_BBOX_WIDTH					15
-#define COIN_BBOX_HEIGHT				16
+#define COIN_BBOX_HEIGHT				15
 
 #define COIN_BY_NONE					0
 #define COIN_TRANSFORMED_FROM_BRICK		1
@@ -19,6 +19,7 @@
 #define COIN_TIMEOUT					10000
 
 class CCoin : public CGameObject {
+private:
 	float ay;
 
 	int type;
@@ -34,7 +35,7 @@ public:
 		if (type == COIN_TRANSFORMED_FROM_BRICK) remain_start = GetTickCount64();
 	}
 	void Render();
-	void Update(DWORD dt);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int IsBlocking() { return 0; }
 	void Deflected(int direction);

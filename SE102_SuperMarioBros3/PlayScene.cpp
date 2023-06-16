@@ -293,7 +293,7 @@ void CPlayScene::Update(DWORD dt)
 	float old_cx, old_cy;
 	CGame::GetInstance()->GetCamPos(old_cx, old_cy);
 
-	DebugOutTitle(L"mario y: %f cy: %f", cy, old_cy);
+	//DebugOutTitle(L"mario y: %f cy: %f", cy, old_cy);
 
 	if (mario->GetLevel() == MARIO_LEVEL_RACOON) {
 		if ((cy - old_cy) < (game->GetBackBufferHeight() / 3) && mario->IsFlying()) // Case Mario is flying or on the platform in the sky

@@ -24,7 +24,7 @@ void CCoin::Render()
 	//RenderBoundingBox();
 }
 
-void CCoin::Update(DWORD dt) {
+void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	if (remain_start) CoinTransformBrick();
 
 	if (vy == 0 && ay == 0)

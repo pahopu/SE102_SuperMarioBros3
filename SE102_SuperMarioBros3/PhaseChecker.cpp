@@ -16,7 +16,7 @@ void CPhaseChecker::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	vx += ax * dt;
 
 	if (type == PHASECHECK_BY_MARIO && x != old_x)
-		DebugOut(L"x: %f, old_x: %f\n", x, old_x);
+		//DebugOut(L"x: %f, old_x: %f\n", x, old_x);
 
 	if (attack_start) {
 		if (GetTickCount64() - attack_start > PHASECHECK_ATTACK_TIME) {
@@ -75,7 +75,7 @@ void CPhaseChecker::OnCollisionWith(LPGAMEOBJECT obj)
 {
 	isAttackedBehind = true;
 	if (dynamic_cast<CBrick*>(obj)) {
-		DebugOut(L"Hello brick\n");
+		//DebugOut(L"Hello brick\n");
 		obj->Delete();
 	}
 	else if (dynamic_cast<CGoomba*>(obj)) {
@@ -84,7 +84,7 @@ void CPhaseChecker::OnCollisionWith(LPGAMEOBJECT obj)
 		if (goomba->GetState() == GOOMBA_STATE_DIE_BY_JUMP || goomba->GetState() == GOOMBA_STATE_DIE_BY_ATTACK)
 			return;
 
-		DebugOut(L"Hello goomba\n");
+		//DebugOut(L"Hello goomba\n");
 
 		goomba->SetState(GOOMBA_STATE_DIE_BY_ATTACK);
 
@@ -100,7 +100,7 @@ void CPhaseChecker::OnCollisionWith(LPGAMEOBJECT obj)
 	}
 	else if ((CKoopaTroopa*)obj) {
 		obj->SetState(200); // STATE SHELL
-		DebugOut(L"Hello koopas\n");
+		//DebugOut(L"Hello koopas\n");
 
 		float kx, ky;
 		obj->GetPosition(kx, ky);
