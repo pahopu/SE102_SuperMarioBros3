@@ -112,11 +112,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 				vy = 0;
 				break;
 
-			case PLATFORM_TYPE_NORMAL:
-				if (e->nx == 0 && e->ny == -1) {
-					vy = 0;
-					isOnPlatform = true;
-				}
+			case PLATFORM_TYPE_NORMAL: 
+			if (e->ny < 0) {
+				vy = 0;
+				isOnPlatform = true;
+			}
 				break;
 			}
 		}

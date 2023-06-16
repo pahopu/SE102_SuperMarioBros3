@@ -241,8 +241,12 @@ void CCollision::Filter( LPGAMEOBJECT objSrc,
 		}
 
 		if (c->t < min_ty && c->ny != 0 && filterY == 1) {
-			if ((c->obj->IsBlocking() == 2 && c->ny < 0) || c->obj->IsBlocking() == 1)
+			if (c->obj->IsBlocking() == 2 && c->ny < 0) {
 				min_ty = c->t; min_iy = i;
+			}
+			else if (c->obj->IsBlocking() == 1) {
+				min_ty = c->t; min_iy = i;
+			}
 		}
 	}
 
