@@ -47,6 +47,8 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+
+	DebugOut(L"x = %f, vx = %f, ay = %f\n", x, vx, ay);
 }
 
 void CMushroom::Render()
@@ -62,7 +64,7 @@ void CMushroom::Render()
 	}
 
 	CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMushroom::OnNoColision(DWORD dt)
@@ -105,7 +107,7 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 		}
 	}
 
-	if (!e->obj->IsBlocking() || (dynamic_cast<CGoomba*>(e->obj)) || (dynamic_cast<CMushroom*>(e->obj)))
+	if (!e->obj->IsBlocking() || dynamic_cast<CGoomba*>(e->obj) || dynamic_cast<CMushroom*>(e->obj))
 		return;
 
 	if (e->ny != 0)
@@ -145,6 +147,7 @@ void CMushroom::CreatedByBrick() {
 		return;
 	}
 
-	ay = vx = 0;
+	ay = 0;
+	vx = 0;
 	vy = -MUSHROOM_CREATE_SPEED;
 }
