@@ -19,3 +19,4 @@ height	240
 20	textures\misc2.png
 30	textures\misc1.png
 40	textures\enemiess.png
+50	textures\effect.png

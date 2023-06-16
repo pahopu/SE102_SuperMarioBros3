@@ -48,7 +48,7 @@ protected:
 	virtual void OnColisionWith(LPCOLLISIONEVENT e);
 
 	void IsDiversion();
-	virtual void Deflected(int direction = 0);
+	virtual void Deflected(int Direction = 0);
 
 public:
 	CMushroom(float x, float y, int type);
