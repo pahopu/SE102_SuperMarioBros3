@@ -10,6 +10,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	LPGAME game = CGame::GetInstance();
+	LPPLAYSCENE scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	switch (KeyCode) {
@@ -37,7 +38,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetState(MARIO_STATE_DIE);
 		break;
 	case DIK_R: // reset
-		//Reload();
+		scene->Unload();
+		scene->Load();
 		break;
 	}
 }
