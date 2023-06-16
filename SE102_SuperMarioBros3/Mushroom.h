@@ -44,7 +44,7 @@ protected:
 		return 0;
 	}
 
-	virtual void OnNoColision(DWORD dt);
+	virtual void OnNoCollision(DWORD dt);
 	virtual void OnColisionWith(LPCOLLISIONEVENT e);
 
 	void IsDiversion();

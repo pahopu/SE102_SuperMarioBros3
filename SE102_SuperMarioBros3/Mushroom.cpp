@@ -16,7 +16,7 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 
 	switch (type) {
-	case MUSHROOM_TYPE_SUPER_LEAF:
+	case MUSHROOM_TYPE_SUPER_LEAF: {
 		if (vy > 0) {
 			if (vx == 0) {
 				vx = MUSHROOM_WALKING_SPEED;
@@ -36,19 +36,21 @@ void CMushroom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else CCollision::GetInstance()->Process(this, dt, &object);
 			return;
 		}
+	}
 		break;
 
-	default:
+	default: {
 		if ((old_y - y) >= MUSHROOM_DEFLECT_MAX_HEIGHT) {
 			ay = MUSHROOM_GRAVITY;
 			vx = MUSHROOM_WALKING_SPEED;
 		}
 	}
+	}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
-	DebugOut(L"x = %f, vx = %f, ay = %f\n", x, vx, ay);
+	/*DebugOut(L"x = %f, vx = %f, y = %f, vy = %f, ay = %f, dt = %f\n", x, vx, y, vy, ay, dt);*/
 }
 
 void CMushroom::Render()
@@ -64,10 +66,10 @@ void CMushroom::Render()
 	}
 
 	CSprites::GetInstance()->Get(spriteId)->Draw(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
-void CMushroom::OnNoColision(DWORD dt)
+void CMushroom::OnNoCollision(DWORD dt)
 {
 	x += vx * dt;
 	y += vy * dt;
@@ -135,7 +137,7 @@ CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
 	if (type == MUSHROOM_TYPE_SUPER_LEAF)
 		time_start = GetTickCount64();
 
-	ay = MUSHROOM_GRAVITY;
+	this->ay = MUSHROOM_GRAVITY;
 	vx = MUSHROOM_WALKING_SPEED;
 }
 

@@ -49,8 +49,8 @@ mushroom.txt
 koopatroopa.txt
 [OBJECTS]
 # MARIO
-#0	6	380
-0	900	380
+0	6	380
+#0	900	380
 
 
 # BRICKS
