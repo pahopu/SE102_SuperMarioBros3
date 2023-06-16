@@ -83,6 +83,9 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 		}
 		else {
 			switch (mario->GetLevel()) {
+			if (mario->GetLevel() != MARIO_LEVEL_RACOON)
+				mario->SetTransformStart();
+
 			case MARIO_LEVEL_SMALL:
 				mario->SetLevel(MARIO_LEVEL_BIG);
 				break;

@@ -264,17 +264,19 @@ void CPlayScene::Update(DWORD dt)
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
-	vector<LPGAMEOBJECT> coObjects;
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
+	CMario* mario = dynamic_cast<CMario*>(player);
+	if (!mario->IsTransforming()) {
+		vector<LPGAMEOBJECT> coObjects;
+		for (size_t i = 1; i < objects.size(); i++)
+		{
+			coObjects.push_back(objects[i]);
+		}
 
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		objects[i]->Update(dt, &coObjects);
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			objects[i]->Update(dt, &coObjects);
+		}
 	}
-
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
@@ -287,8 +289,6 @@ void CPlayScene::Update(DWORD dt)
 	//cy -= game->GetBackBufferHeight() / 2;
 
 	if (cx < 0) cx = 0;
-
-	CMario* mario = dynamic_cast<CMario*>(player);
 
 	float old_cx, old_cy;
 	CGame::GetInstance()->GetCamPos(old_cx, old_cy);

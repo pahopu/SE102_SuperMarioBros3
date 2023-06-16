@@ -227,7 +227,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 			switch (level)
 			{
 			case MARIO_LEVEL_SMALL:
-				_koopa->SetPosition(x + temp * MARIO_SMALL_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2, 
+				_koopa->SetPosition(x + temp * MARIO_SMALL_BBOX_WIDTH / 2 + temp * KOOPA_TROOPA_BBOX_WIDTH / 2,
 					y - MARIO_SMALL_BBOX_HEIGHT / 2);
 				break;
 
@@ -290,13 +290,17 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	if (mushroom->GetType() == MUSHROOM_TYPE_1UP) {
 		// Process 1up
 	}
-	else switch (level) {
-	case MARIO_LEVEL_SMALL:
-		SetLevel(MARIO_LEVEL_BIG);
-		break;
-	case MARIO_LEVEL_BIG:
-		SetLevel(MARIO_LEVEL_RACOON);
-		break;
+	else {
+		if (level != MARIO_LEVEL_RACOON) SetTransformStart();
+
+		switch (level) {
+		case MARIO_LEVEL_SMALL:
+			SetLevel(MARIO_LEVEL_BIG);
+			break;
+		case MARIO_LEVEL_BIG:
+			SetLevel(MARIO_LEVEL_RACOON);
+			break;
+		}
 	}
 
 	e->obj->Delete();
@@ -644,18 +648,28 @@ void CMario::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
-	if (state == MARIO_STATE_DIE)
-		aniId = ID_ANI_MARIO_DIE;
-	else if (level == MARIO_LEVEL_BIG)
-		aniId = GetAniIdBig();
-	else if (level == MARIO_LEVEL_SMALL)
-		aniId = GetAniIdSmall();
-	else aniId = GetAniIdRacoon();
+	if (transform_start != 0 && (GetTickCount64() - transform_start) < MARIO_TRANSFORMATION_TIME) {
+		if (level == MARIO_LEVEL_RACOON)
+			animations->Get(ID_ANI_BIG_MARIO_EATING_SUPERLEAF)->Render(x, y);
+		else
+			if (nx >= 0) animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
+			else animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+	}
+	else {
+		int aniId = -1;
+		transform_start = 0;
 
-	animations->Get(aniId)->Render(x, y);
-	//if (_tail) _tail->Render();
+		if (state == MARIO_STATE_DIE)
+			aniId = ID_ANI_MARIO_DIE;
+		else if (level == MARIO_LEVEL_BIG)
+			aniId = GetAniIdBig();
+		else if (level == MARIO_LEVEL_SMALL)
+			aniId = GetAniIdSmall();
+		else aniId = GetAniIdRacoon();
 
-	//RenderBoundingBox();
+		animations->Get(aniId)->Render(x, y);
+		//RenderBoundingBox();
+	}
 
 	//DebugOutTitle(L"Coins: %d", coin);
 }

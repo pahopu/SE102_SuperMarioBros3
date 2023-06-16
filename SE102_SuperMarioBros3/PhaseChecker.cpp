@@ -40,6 +40,20 @@ void CPhaseChecker::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
+void CPhaseChecker::Render()
+{
+	RenderBoundingBox();
+
+	// Draw collision effect
+	CAnimations* animations = CAnimations::GetInstance();
+	if (attack_start) {
+		if (isAttackedBehind && (GetTickCount64() - attack_start) < PHASECHECK_ATTACK_TIME / 2)
+			animations->Get(ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES)->Render(x, y);
+		else if (isAttackedFront && (GetTickCount64() - attack_start) > PHASECHECK_ATTACK_TIME / 2)
+			animations->Get(ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES)->Render(x + nx * PHASECHECK_ATTACK_RANGE * width, y);
+	}
+}
+
 void CPhaseChecker::OnCollisionWith(LPCOLLISIONEVENT e) {
 	if (e->ny != 0) vy = 0;
 	if (type == PHASECHECK_BY_KOOPA_TROOPA || e->nx == 0 || dynamic_cast<CPlatform*>(e->obj))

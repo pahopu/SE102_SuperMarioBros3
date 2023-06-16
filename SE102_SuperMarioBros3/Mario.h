@@ -74,6 +74,9 @@
 #define ID_ANI_MARIO_SMALL_BRACE_LEFT				600
 #define ID_ANI_MARIO_SMALL_BRACE_RIGHT				601
 
+#define ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT		610
+#define ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT		611
+
 // BIG MARIO
 #define ID_ANI_MARIO_IDLE_LEFT						700
 #define ID_ANI_MARIO_IDLE_RIGHT						701
@@ -225,6 +228,7 @@
 #define MARIO_KICK_TIME						200
 #define MARIO_FLY_TIME						4000
 #define MARIO_REFLOAT_TIME					200
+#define MARIO_TRANSFORMATION_TIME			600
 
 class CMario : public CGameObject
 {
@@ -243,6 +247,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	ULONGLONG fly_start;
 	ULONGLONG float_start;
+	ULONGLONG transform_start;
 
 	BOOLEAN isSitting;
 	BOOLEAN isOnPlatform;
@@ -275,7 +280,7 @@ public:
 		untouchable_start = -1;
 		level = MARIO_LEVEL_SMALL;
 		isSitting = isOnPlatform = false;
-		fly_start = float_start = untouchable = coin = flag = time_count = holdable = 0;
+		fly_start = float_start = untouchable = coin = flag = time_count = holdable = transform_start = 0;
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -308,6 +313,14 @@ public:
 
 	bool IsFloating() { 
 		return float_start != 0; 
+	}
+
+	void SetTransformStart() { 
+		transform_start = GetTickCount64(); 
+	}
+
+	bool IsTransforming() { 
+		return transform_start != 0;
 	}
 
 	void OnNoCollision(DWORD dt);
