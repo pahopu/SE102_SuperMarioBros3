@@ -10,6 +10,7 @@
 #include "PiranhaPlant.h"
 
 #define CAMERA_POSITION_MIN_Y			0
+#define CAMERA_POSITION_MAX_X			2499
 #define DEFAULT_CAMERA_POSITION_Y		223
 
 class CPlayScene: public CScene

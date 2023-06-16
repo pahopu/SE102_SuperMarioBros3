@@ -278,7 +278,7 @@ public:
 		_koopa = NULL;
 		_tail = new CPhaseChecker(x, y, MARIO_TAIL_WIDTH, MARIO_TAIL_HEIGHT, PHASECHECK_BY_MARIO);
 		untouchable_start = -1;
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_RACOON;
 		isSitting = isOnPlatform = false;
 		fly_start = float_start = untouchable = coin = flag = time_count = holdable = transform_start = 0;
 	}
