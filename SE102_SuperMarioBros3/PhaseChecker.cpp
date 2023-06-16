@@ -1,5 +1,7 @@
 #include "debug.h"
 #include "Brick.h"
+#include "Platform.h"
+#include "AssetIDs.h"
 #include "PhaseChecker.h"
 
 void CPhaseChecker::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
@@ -25,7 +27,7 @@ void CPhaseChecker::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			if (vx >= 0) vx = (PHASECHECK_ATTACK_RANGE * width + old_x - x) / dt;
 			else vx = (old_x - PHASECHECK_ATTACK_RANGE * width - x) / dt;
 		}
-		else if (!isAttackBehind && GetTickCount64() - attack_start < PHASECHECK_ATTACK_TIME / 4)
+		else if (!isAttackedBehind && GetTickCount64() - attack_start < PHASECHECK_ATTACK_TIME / 4)
 			CCollision::GetInstance()->Process(this, coObjects);
 
 		if (!isAttackedFront) CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -40,7 +42,7 @@ void CPhaseChecker::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 void CPhaseChecker::OnCollisionWith(LPCOLLISIONEVENT e) {
 	if (e->ny != 0) vy = 0;
-	if (type == PHASECHECK_BY_KOOPA_TROOPA || e->nx == 0)
+	if (type == PHASECHECK_BY_KOOPA_TROOPA || e->nx == 0 || dynamic_cast<CPlatform*>(e->obj))
 		return;
 
 	isAttackedFront = true;
@@ -57,7 +59,7 @@ void CPhaseChecker::OnCollisionWith(LPCOLLISIONEVENT e) {
 
 void CPhaseChecker::OnCollisionWith(LPGAMEOBJECT obj)
 {
-	isAttackBehind = true;
+	isAttackedBehind = true;
 	if (dynamic_cast<CBrick*>(obj)) {
 		DebugOut(L"Hello brick\n");
 		obj->Delete();

@@ -24,7 +24,7 @@ protected:
 
 	int type;
 	int isAttackedFront; // Attack 1 object in front of Mario
-	int isAttackBehind; // Attack 1 object behind except block, platform.
+	int isAttackedBehind; // Attack 1 object behind except block, platform.
 
 	float ax;
 	float ay;
@@ -62,13 +62,13 @@ public:
 		type = t;
 
 		old_x = x;
-		attack_start = isAttackedFront = isAttackBehind = 0;
+		attack_start = isAttackedFront = isAttackedBehind = 0;
 	}
 
 	void Attack(int direction) {
 		vx += PHASECHECK_ATTACK_SPEED * direction;
 		old_x = x;
-		isAttackedFront = isAttackBehind = 0; 
+		isAttackedFront = isAttackedBehind = 0; 
 	}
 
 	bool isAttacking() {

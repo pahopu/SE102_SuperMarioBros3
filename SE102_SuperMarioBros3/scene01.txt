@@ -47,10 +47,6 @@ piranha.txt
 pswitch.txt
 mushroom.txt
 koopatroopa.txt
-
-
-
-
 [OBJECTS]
 # MARIO
 0	10	380
