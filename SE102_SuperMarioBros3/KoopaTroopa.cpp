@@ -382,7 +382,7 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopaTroopa::Render()
 {
-	phaseCheck->RenderBoundingBox();
+	//phaseCheck->RenderBoundingBox();
 
 	int aniId = GetAniId();
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

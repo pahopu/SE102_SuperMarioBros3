@@ -4,6 +4,9 @@
 #include "Platform.h"
 #include "AssetIDs.h"
 #include "KoopaTroopa.h"
+#include "Mario.h"
+#include "Game.h"
+#include "PlayScene.h"
 
 void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 	left = x - TAIL_BBOX_WIDTH / 2;
@@ -152,7 +155,9 @@ void CTail::Render() {
 	//RenderBoundingBox();
 
 	CAnimations* animations = CAnimations::GetInstance();
-	if (attack_start) {
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+	if (attack_start && mario->GetLevel() == MARIO_LEVEL_RACOON) {
 		if (isAttackedBehind && (GetTickCount64() - attack_start) < PHASECHECK_ATTACK_TIME / 2)
 			animations->Get(ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES)->Render(x, y);
 		else if (isAttackedFront && isAttackedFront != TAIL_COLLIDED_BRICK

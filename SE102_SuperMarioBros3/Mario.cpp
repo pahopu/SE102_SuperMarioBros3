@@ -72,7 +72,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else {
 			float temp = (nx >= 0) ? -1.0f : 1.0f; //to determine direction
 
-			tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + MARIO_TAIL_POSITION_ADJUST);
+			tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 1.75, y + MARIO_TAIL_POSITION_ADJUST);
 			tail->SetSpeed(vx, vy);
 
 			if (!tail->IsAttacking()) tail->Attack(nx);
