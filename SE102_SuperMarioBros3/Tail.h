@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "PiranhaPlant.h"
 
-#define TAIL_GRAVITY				0.001
+#define TAIL_GRAVITY				0.001f
 #define TAIL_ATTACK_SPEED			1.5f
 #define TAIL_ATTACK_RANGE			3.0f
 

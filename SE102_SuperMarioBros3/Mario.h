@@ -1,13 +1,12 @@
 #pragma once
-#include "GameObject.h"
 
+#include "Tail.h"
+#include "debug.h"
 #include "Animation.h"
 #include "Animations.h"
-
-#include "debug.h"
+#include "GameObject.h"
 #include "KoopaTroopa.h"
 
-#include "PhaseChecker.h"
 
 #define MARIO_WALKING_SPEED							0.1f
 #define MARIO_RUNNING_SPEED							0.2f
@@ -277,7 +276,7 @@ public:
 		ay = MARIO_GRAVITY;
 
 		_koopa = NULL;
-		_tail = new CPhaseChecker(x, y, MARIO_TAIL_WIDTH, MARIO_TAIL_HEIGHT, PHASECHECK_BY_MARIO);
+		_tail = new CTail(x, y);
 		untouchable_start = -1;
 		level = MARIO_LEVEL_SMALL;
 		isSitting = isOnPlatform = false;

@@ -1,9 +1,9 @@
-#include "PiranhaPlant.h"
-#include "KoopaTroopa.h"
-#include "Mario.h"
-#include "PlayScene.h"
 #include "Game.h"
 #include "debug.h"
+#include "Mario.h"
+#include "PlayScene.h"
+#include "KoopaTroopa.h"
+#include "PiranhaPlant.h"
 
 void CPiranhaPlant::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 	if (type == PIRANHA_TYPE_RED_FIRE) {
@@ -85,10 +85,7 @@ void CPiranhaPlant::OnCollisionWith(LPCOLLISIONEVENT e) {
 			koopa->SetState(KOOPA_TROOPA_STATE_DIE);
 		}
 	} 
-	else if (dynamic_cast<CPhaseChecker*>(e->obj)) {
-		CPhaseChecker* phaseChecker = dynamic_cast<CPhaseChecker*>(e->obj);
-		if (phaseChecker->GetType() == PHASECHECK_BY_MARIO) Delete();
-	}
+	else if (dynamic_cast<CPhaseChecker*>(e->obj)) Delete();
 }
 
 int CPiranhaPlant::GetAniId()

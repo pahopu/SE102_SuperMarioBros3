@@ -63,7 +63,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	if (flag == MARIO_ATTACK_TIME) {
-		CPhaseChecker* tail = dynamic_cast<CPhaseChecker*>(_tail);
+		CTail* tail = dynamic_cast<CTail*>(_tail);
 		if (GetTickCount64() - time_count > flag) {
 			flag = 0;
 			time_count = 0;
@@ -75,7 +75,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + MARIO_TAIL_POSITION_ADJUST);
 			tail->SetSpeed(vx, vy);
 
-			if (!tail->isAttacking()) tail->Attack(nx);
+			if (!tail->IsAttacking()) tail->Attack(nx);
 			tail->SetAttackTime(time_count);
 			_tail->Update(dt, coObjects);
 		}
