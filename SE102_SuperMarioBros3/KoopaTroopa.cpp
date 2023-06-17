@@ -203,7 +203,7 @@ int CKoopaTroopa::GetAniId()
 
 CKoopaTroopa::CKoopaTroopa(float x, float y, int type, int l) :CGameObject(x, y) {
 	phaseCheck = new CPhaseChecker(x - KOOPA_TROOPA_BBOX_WIDTH - KOOPA_TROOPA_PHASE_CHECK_WIDTH / 2, y,
-		KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT, PHASECHECK_BY_KOOPA_TROOPA);
+		KOOPA_TROOPA_PHASE_CHECK_WIDTH, KOOPA_TROOPA_PHASE_CHECK_HEIGHT);
 	phaseCheck->SetSpeed(0, KOOPA_TROOPA_WALKING_SPEED);
 
 	this->type = type;

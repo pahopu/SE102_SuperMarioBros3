@@ -21,6 +21,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (x < 6) x = 6;
 	if (x > 2798) x = 2798;
+	if (y < 6) y = 6;
 
 	//DebugOutTitle(L"mario x: %f y: %f", x, y);
 
@@ -115,11 +116,11 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 				vy = 0;
 				break;
 
-			case PLATFORM_TYPE_NORMAL: 
-			if (e->ny < 0) {
-				vy = 0;
-				isOnPlatform = true;
-			}
+			case PLATFORM_TYPE_NORMAL:
+				if (e->ny < 0) {
+					vy = 0;
+					isOnPlatform = true;
+				}
 				break;
 			}
 		}
@@ -137,7 +138,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (e->obj->IsBlocking()) vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj)) 
+	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopaTroopa*>(e->obj))
 		OnCollisionWithKoopaTroopa(e);
@@ -692,7 +693,7 @@ void CMario::Render()
 			aniId = GetAniIdSmall();
 		else aniId = GetAniIdRacoon();
 
-		animations->Get(aniId)->Render(x, y, 0);
+		animations->Get(aniId)->Render(x, y);
 		//RenderBoundingBox();
 	}
 

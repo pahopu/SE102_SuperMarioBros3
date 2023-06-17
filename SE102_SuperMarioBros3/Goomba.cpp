@@ -6,7 +6,8 @@
 CGoomba::CGoomba(float x, float y, int type, int l) :CGameObject(x, y) {
 	ay = GOOMBA_GRAVITY;
 	this->type = type;
-	jump_count = ax = 0;
+	jump_count = 0;
+	ax = 0.0;
 	vx = -GOOMBA_WALKING_SPEED;
 	time_start = redpara_start = -1;
 	SetLevel(l);
@@ -198,7 +199,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		case GOOMBA_STATE_FLYING:
 			if (redpara_start == -1) {
 				SetState(GOOMBA_STATE_WALKING);
-				redpara_start == GetTickCount64();
+				redpara_start = GetTickCount64();
 			}
 			else if (vy == ay * dt) redpara_start = -1;
 			break;
