@@ -697,6 +697,8 @@ void CMario::Render()
 		//RenderBoundingBox();
 	}
 
+	if (_tail != NULL) _tail->Render();
+
 	//DebugOutTitle(L"Coins: %d", coin);
 }
 

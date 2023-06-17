@@ -149,7 +149,7 @@ void CTail::OnCollisionWith(LPGAMEOBJECT obj) {
 }
 
 void CTail::Render() {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	CAnimations* animations = CAnimations::GetInstance();
 	if (attack_start) {
