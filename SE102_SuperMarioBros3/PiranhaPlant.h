@@ -70,7 +70,8 @@ public:
 		this->type = type;
 		old_y = y;
 		_bullet = NULL;
-		time_start = mario_x = mario_y = vy = vx = ay = 0;
+		time_start = ay = 0;
+		mario_x = mario_y = vy = vx = 0.0;
 		SetState(PIRANHA_STATE_UP);
 	}
 

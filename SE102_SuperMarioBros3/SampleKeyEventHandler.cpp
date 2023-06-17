@@ -40,6 +40,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_R: // reset
 		scene->Unload();
 		scene->Load();
+	case DIK_T: // rendering bouding box
+		
 		break;
 	}
 }

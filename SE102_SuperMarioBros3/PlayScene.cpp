@@ -317,7 +317,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	for (int i = objects.size() - 1; i >= 0; i--)
+	for (int i = int(objects.size() - 1); i >= 0; i--)
 		objects[i]->Render();
 	//for (int i = 0; i < objects.size(); i++)
 	//	objects[i]->Render();

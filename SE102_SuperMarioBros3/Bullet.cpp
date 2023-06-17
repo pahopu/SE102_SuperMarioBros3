@@ -25,7 +25,7 @@ void CBullet::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	y += vy * dt;
 
 	// If bullet out of camera screen, it will disappear
-	float cx, cy, cw, ch;
+	float cx, cy;
 	CGame::GetInstance()->GetCamPos(cx, cy);
 	if (x < cx || (x > cx + 320) || y < cy || (y > cy + 240))
 		this->Delete();

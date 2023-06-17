@@ -1,6 +1,7 @@
 #include "Mushroom.h"
 #include "Mario.h"
 #include "PlayScene.h"
+#include "Platform.h"
 
 void CMushroom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -130,7 +131,8 @@ void CMushroom::Deflected(int direction) {
 }
 
 CMushroom::CMushroom(float x, float y, int type) :CGameObject(x, y) {
-	old_y = time_start = 0;
+	old_y = 0.0;
+	time_start = 0;
 	this->type = type;
 
 	if (type == MUSHROOM_TYPE_SUPER_LEAF)

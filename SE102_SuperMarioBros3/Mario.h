@@ -281,7 +281,8 @@ public:
 		untouchable_start = -1;
 		level = MARIO_LEVEL_SMALL;
 		isSitting = isOnPlatform = false;
-		fly_start = float_start = untouchable = coin = flag = time_count = holdable = transform_start = isAttacked = 0;
+		untouchable = coin = flag = holdable = isAttacked = 0;
+		fly_start = float_start = time_count = transform_start = 0;
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

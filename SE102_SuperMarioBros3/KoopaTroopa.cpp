@@ -250,6 +250,7 @@ void CKoopaTroopa::SetState(int state)
 
 	case KOOPA_TROOPA_STATE_DIE:
 		time_start = GetTickCount64();
+		phaseCheck->Delete();
 		break;
 	}
 
@@ -381,8 +382,7 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopaTroopa::Render()
 {
-	if (state == KOOPA_TROOPA_STATE_WALKING)
-		phaseCheck->RenderBoundingBox();
+	phaseCheck->RenderBoundingBox();
 
 	int aniId = GetAniId();
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

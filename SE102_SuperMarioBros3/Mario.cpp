@@ -33,7 +33,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else {
 			if (_koopa->GetNx() != nx) {
 				_koopa->SetNx(nx);
-				float temp = (nx >= 0) ? 1 : -1;
+				float temp = (nx >= 0) ? 1.0f : -1.0f;
 
 				switch (level) {
 				case MARIO_LEVEL_SMALL:
@@ -69,7 +69,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			tail->SetAttackTime(time_count);
 		}
 		else {
-			float temp = (nx >= 0) ? -1 : 1; //to determine direction
+			float temp = (nx >= 0) ? -1.0f : 1.0f; //to determine direction
 
 			tail->SetPosition(x + temp * MARIO_RACOON_BBOX_WIDTH / 2 + temp * MARIO_TAIL_WIDTH / 2, y + MARIO_TAIL_POSITION_ADJUST);
 			tail->SetSpeed(vx, vy);
@@ -231,7 +231,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 			koopa->IsHeld();
 			_koopa = koopa;
 
-			float temp = (nx >= 0) ? 1 : -1;
+			float temp = (nx >= 0) ? 1.0f : -1.0f;
 			switch (level)
 			{
 			case MARIO_LEVEL_SMALL:
@@ -692,7 +692,7 @@ void CMario::Render()
 			aniId = GetAniIdSmall();
 		else aniId = GetAniIdRacoon();
 
-		animations->Get(aniId)->Render(x, y);
+		animations->Get(aniId)->Render(x, y, 0);
 		//RenderBoundingBox();
 	}
 

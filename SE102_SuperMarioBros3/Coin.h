@@ -30,7 +30,8 @@ private:
 
 public:
 	CCoin(float x, float y, int type = 0) : CGameObject(x, y) {
-		ay = vy = remain_start = 0;
+		ay = vy = 0.0;
+		remain_start = 0;
 		this->type = type;
 		if (type == COIN_TRANSFORMED_FROM_BRICK) remain_start = GetTickCount64();
 	}
