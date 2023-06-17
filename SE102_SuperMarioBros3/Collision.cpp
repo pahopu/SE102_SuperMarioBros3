@@ -203,7 +203,7 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* objDests, LPGAM
 		if (AABB(sl, st, sr, sb, dl, dt, dr, db))
 		{
 			objCollided = objDests->at(i);
-			DebugOut(L"source: l:%f, t:%f, r:%f, b:%f, destination: l:%f, t:%f, r:%f, b:%f\n", sl, st, sr, sb, dl, dt, dr, db);
+			//DebugOut(L"source: l:%f, t:%f, r:%f, b:%f, destination: l:%f, t:%f, r:%f, b:%f\n", sl, st, sr, sb, dl, dt, dr, db);
 			return;
 		}
 	}

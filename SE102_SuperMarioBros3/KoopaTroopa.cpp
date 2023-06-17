@@ -57,6 +57,12 @@ void CKoopaTroopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 		this->vx = -this->vx;
 
+		float p_vx, p_vy;
+		phaseCheck->GetSpeed(p_vx, p_vy);
+
+		if (p_vx >= this->vx) phaseCheck->SetPosition(x - KOOPA_TROOPA_BBOX_WIDTH, y);
+		else phaseCheck->SetPosition(x + KOOPA_TROOPA_BBOX_WIDTH, y);
+
 		break;
 
 	case KOOPA_TROOPA_STATE_ATTACKING:
@@ -375,8 +381,8 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopaTroopa::Render()
 {
-	//if (state == KOOPA_TROOPA_STATE_WALKING)
-		//phaseCheck->RenderBoundingBox();
+	if (state == KOOPA_TROOPA_STATE_WALKING)
+		phaseCheck->RenderBoundingBox();
 
 	int aniId = GetAniId();
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);

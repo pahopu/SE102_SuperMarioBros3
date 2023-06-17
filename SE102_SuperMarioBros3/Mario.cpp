@@ -22,7 +22,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (x < 6) x = 6;
 	if (x > 2798) x = 2798;
 
-	DebugOutTitle(L"mario x: %f y: %f", x, y);
+	//DebugOutTitle(L"mario x: %f y: %f", x, y);
 
 	vy += ay * dt;
 	vx += ax * dt;
@@ -137,7 +137,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (e->obj->IsBlocking()) vx = 0;
 	}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
+	if (dynamic_cast<CGoomba*>(e->obj)) 
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopaTroopa*>(e->obj))
 		OnCollisionWithKoopaTroopa(e);
