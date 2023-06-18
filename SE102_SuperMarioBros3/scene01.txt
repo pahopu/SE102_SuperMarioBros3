@@ -57,8 +57,8 @@ mushroom.txt
 koopatroopa.txt
 [OBJECTS]
 # MARIO
-#0	6	380
-0	800	380
+0	6	380
+#0	800	380
 
 
 # BRICKS
@@ -501,4 +501,4 @@ koopatroopa.txt
 
 
 # INVISIBLE OBJECT
-7	1170	400
+7	1170	400	2

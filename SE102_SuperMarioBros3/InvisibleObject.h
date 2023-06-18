@@ -1,7 +1,7 @@
 #pragma once
 
 /*****************************
-Using this in case: when I should update Koopa Para Troopa and Para Goomba
+Using this in case: when I should update Koopa Para Troopa
 ****************************/
 
 #include "GameObject.h"
@@ -10,22 +10,16 @@ Using this in case: when I should update Koopa Para Troopa and Para Goomba
 #define INVISIBLE_BBOX_WIDTH				10
 #define INVISIBLE_BBOX_HEIGHT				500
 
-#define INVISIBLE_OBJECT_TYPE_GOOMBA		1
-#define INVISIBLE_OBJECT_TYPE_KOOPA_TROOPA	2
-
 class CInvisibleObject : public CGameObject {
-	int type;
-
 	bool isActived;
 
 public:
-	CInvisibleObject(float x, float y, int t) : CGameObject(x, y) {
-		type = t;
+	CInvisibleObject(float x, float y) : CGameObject(x, y) {
 		isActived = false;
 	}
 
 	void Render() { 
-		RenderBoundingBox(); 
+		//RenderBoundingBox(); 
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -37,10 +31,6 @@ public:
 
 	void Activating() { 
 		isActived = true; 
-	}
-
-	int GetType() {
-		return type;
 	}
 
 	bool IsActived() {
