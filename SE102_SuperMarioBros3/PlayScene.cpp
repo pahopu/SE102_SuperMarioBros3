@@ -147,6 +147,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
+	case OBJECT_TYPE_INVISIBLE_OBJECT: {
+		int type = atoi(tokens[3].c_str());
+		obj = new CInvisibleObject(x, y, type);
+		invisible = (CInvisibleObject*)obj;
+		break;
+	}
+
 	case OBJECT_TYPE_PLATFORM:
 	{
 

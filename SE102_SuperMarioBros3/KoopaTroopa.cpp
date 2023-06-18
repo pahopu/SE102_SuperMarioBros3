@@ -354,7 +354,8 @@ void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (level == KOOPA_TROOPA_LEVEL_PARA) {
 		if (((LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene()))) {
 			CInvisibleObject* invisibleObject = ((LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene()))->GetInvisibleObject();
-			if (invisibleObject && !invisibleObject->IsActived()) return;
+			if (invisibleObject && !invisibleObject->IsActived() && invisibleObject->GetType() == INVISIBLE_OBJECT_TYPE_KOOPA_TROOPA) 
+				return;
 		}
 	}
 

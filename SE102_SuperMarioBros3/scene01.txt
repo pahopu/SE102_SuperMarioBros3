@@ -25,7 +25,15 @@
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # type	x	y	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goomba, 3 = Koopa Troopa, 4 = Coin, 5 = Platform, 6 = Piranha Plant
+# type: 
+# 0 = Mario, 
+# 1 = Brick, 
+# 2 = Goomba, 
+# 3 = Koopa Troopa, 
+# 4 = Coin, 
+# 5 = Platform, 
+# 6 = Piranha Plant, 
+# 7 = Invisible Object
 
 # PIRANHA PLANT	id	x	y	type(green = 1, green fire = 2, red fire = 3)
 # GOOMBA	id	x	y	type(normal = 1, red = 2)	level(normal = 1, para = 2)
@@ -49,8 +57,8 @@ mushroom.txt
 koopatroopa.txt
 [OBJECTS]
 # MARIO
-0	6	380
-#0	900	380
+#0	6	380
+0	800	380
 
 
 # BRICKS
@@ -89,7 +97,7 @@ koopatroopa.txt
 2	528	380	1	1
 2	832	385	1	1
 2	880	385	1	1
-2	944	382	2	2
+2	968	382	2	2
 
 
 # KOOPA TROOPA
@@ -490,3 +498,7 @@ koopatroopa.txt
 6	360	376	3
 6	1800	388	1
 6	1864	372	2
+
+
+# INVISIBLE OBJECT
+7	1170	400
