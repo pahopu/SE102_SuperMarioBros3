@@ -1,21 +1,20 @@
 #include <algorithm>
-#include "debug.h"
 
-#include "Mario.h"
-#include "Game.h"
-
-#include "Goomba.h"
 #include "Coin.h"
-#include "Portal.h"
-#include "Mushroom.h"
+#include "Game.h"
+#include "debug.h"
 #include "Brick.h"
-#include "PiranhaPlant.h"
+#include "Mario.h"
 #include "Bullet.h"
-
-#include "Platform.h"
+#include "Goomba.h"
+#include "Portal.h"
 #include "PSwitch.h"
-
+#include "Mushroom.h"
+#include "Platform.h"
 #include "Collision.h"
+#include "PiranhaPlant.h"
+#include "InvisibleObject.h"
+
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -170,9 +169,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			break;
 		}
 	}
-	else if (dynamic_cast<CPSwitch*>(e->obj)) {
+	else if (dynamic_cast<CPSwitch*>(e->obj))
 		dynamic_cast<CPSwitch*>(e->obj)->IsActived();
-	}
+	else if (dynamic_cast<CInvisibleObject*>(e->obj))
+		dynamic_cast<CInvisibleObject*>(e->obj)->Activating();
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
