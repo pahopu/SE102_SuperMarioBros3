@@ -141,6 +141,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="InvisibleObject.cpp" />
     <ClCompile Include="KoopaTroopa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="InvisibleObject.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="KoopaTroopa.h" />
     <ClInclude Include="Mario.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="PlayScene.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="PSwitch.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="SampleKeyEventHandler.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Sprite.h" />
@@ -210,6 +213,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="SE102_SuperMarioBros3.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
