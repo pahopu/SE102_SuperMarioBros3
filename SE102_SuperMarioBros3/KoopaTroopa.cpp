@@ -1,6 +1,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "Platform.h"
+#include "PlayScene.h"
 #include "KoopaTroopa.h"
 #include "PiranhaPlant.h"
 #include "debug.h"
@@ -350,6 +351,13 @@ void CKoopaTroopa::GetBoundingBox(float& left, float& top, float& right, float& 
 
 void CKoopaTroopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (level == KOOPA_TROOPA_LEVEL_PARA) {
+		if (((LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene()))) {
+			CInvisibleObject* invisibleObject = ((LPPLAYSCENE)(CGame::GetInstance()->GetCurrentScene()))->GetInvisibleObject();
+			if (invisibleObject && !invisibleObject->IsActived()) return;
+		}
+	}
+
 	if (deflected_start && vy == 0) deflected_start = 0;
 
 	if (state == KOOPA_TROOPA_STATE_WALKING) phaseCheck->Update(dt, coObjects);
