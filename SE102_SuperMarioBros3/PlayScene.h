@@ -8,6 +8,7 @@
 #include "Goomba.h"
 #include "Mushroom.h"
 #include "PiranhaPlant.h"
+#include "InvisibleObject.h"
 
 #define CAMERA_POSITION_MIN_Y			0
 #define CAMERA_POSITION_MAX_X			2499
@@ -17,7 +18,10 @@ class CPlayScene: public CScene
 {
 protected: 
 	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;					
+	LPGAMEOBJECT player;
+
+	// InvisibleObject
+	CInvisibleObject* invisible;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -39,6 +43,7 @@ public:
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 	vector<LPGAMEOBJECT>& GetObjects() { return objects; }
+	CInvisibleObject* GetInvisibleObject() { return invisible; }
 
 	void Clear();
 	void PurgeDeletedObjects();
