@@ -17,6 +17,7 @@
 #define OBJECT_TYPE_PLATFORM							5
 #define OBJECT_TYPE_PIRANHA_PLANT						6
 #define OBJECT_TYPE_INVISIBLE_OBJECT					7
+#define OBJECT_TYPE_TELEPORT							8
 
 #define OBJECT_TYPE_PORTAL								50
 
