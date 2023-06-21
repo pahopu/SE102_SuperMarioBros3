@@ -205,7 +205,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="scene01.txt" />
+    <Text Include="word1_1.txt" />
     <Text Include="scene02.txt" />
     <Text Include="scene0005.txt" />
     <Text Include="worldmap.txt" />

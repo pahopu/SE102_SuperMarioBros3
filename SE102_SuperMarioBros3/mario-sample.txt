@@ -7,7 +7,7 @@ height	240
 # type: 0: intro, 1: play scene 
 [SCENES]
 0	intro.txt
-1	scene01.txt
+1	word1_1.txt
 2	scene02.txt
 5	scene0005.txt
 
@@ -20,3 +20,4 @@ height	240
 30	textures\misc1.png
 40	textures\enemiess.png
 50	textures\effect.png
+60	textures\effects.png
