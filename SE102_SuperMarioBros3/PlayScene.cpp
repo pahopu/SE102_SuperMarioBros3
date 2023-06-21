@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "TeleportGate.h"
 #include "KoopaTroopa.h"
 
 #include "SampleKeyEventHandler.h"
@@ -172,6 +173,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+
+	case OBJECT_TYPE_TELEPORT: {
+		float des_x = (float)atof(tokens[3].c_str());
+		float des_y = (float)atof(tokens[4].c_str());
+		int direction = atoi(tokens[5].c_str());
+		obj = new CTeleportGate(x, y, des_x, des_y, direction);
+	}
+	break;
 
 	case OBJECT_TYPE_PORTAL:
 	{

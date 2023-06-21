@@ -1,7 +1,9 @@
+#include "Brick.h"
 #include "Platform.h"
 #include "Collision.h"
 #include "GameObject.h"
 #include "PhaseChecker.h"
+#include "TeleportGate.h"
 
 #include "debug.h"
 
@@ -184,17 +186,12 @@ void CCollision::Scan(LPGAMEOBJECT objSrc, DWORD dt, vector<LPGAMEOBJECT>* objDe
 	//std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
 }
 
-void CCollision::Scan(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* objDests, LPGAMEOBJECT& objCollided)
-{
+void CCollision::Scan(LPGAMEOBJECT objSrc, vector<LPGAMEOBJECT>* objDests, LPGAMEOBJECT& objCollided) {
 	float sl, st, sr, sb;
 	objSrc->GetBoundingBox(sl, st, sr, sb);
 
 	for (int i = 0; i < objDests->size(); i++) {
 		if (objDests->at(i)->IsDeleted())
-			continue;
-		if (dynamic_cast<CPlatform*>(objDests->at(i)) || dynamic_cast<CPhaseChecker*>(objDests->at(i)))
-			continue;
-		if (objDests->at(i)->IsBlocking())
 			continue;
 
 		float dl, dt, dr, db;

@@ -193,41 +193,44 @@
 #pragma endregion
 
 
-#define GROUND_Y							160.0f
+#define GROUND_Y									160.0f
 
 
-#define	MARIO_LEVEL_SMALL					1
-#define	MARIO_LEVEL_BIG						2
-#define MARIO_LEVEL_RACOON					3
+#define	MARIO_LEVEL_SMALL							1
+#define	MARIO_LEVEL_BIG								2
+#define MARIO_LEVEL_RACOON							3
 
-#define MARIO_SMALL_BBOX_WIDTH				13
-#define MARIO_SMALL_BBOX_HEIGHT				12
+#define MARIO_SMALL_BBOX_WIDTH						13
+#define MARIO_SMALL_BBOX_HEIGHT						12
 
-#define MARIO_BIG_BBOX_WIDTH				14
-#define MARIO_BIG_BBOX_HEIGHT				24
+#define MARIO_BIG_BBOX_WIDTH						14
+#define MARIO_BIG_BBOX_HEIGHT						24
 
-#define MARIO_BIG_SITTING_BBOX_WIDTH		14
-#define MARIO_BIG_SITTING_BBOX_HEIGHT		16
+#define MARIO_BIG_SITTING_BBOX_WIDTH				14
+#define MARIO_BIG_SITTING_BBOX_HEIGHT				16
 
-#define MARIO_SIT_HEIGHT_ADJUST				((MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2)
+#define MARIO_SIT_HEIGHT_ADJUST						((MARIO_BIG_BBOX_HEIGHT - MARIO_BIG_SITTING_BBOX_HEIGHT) / 2)
 
-#define MARIO_RACOON_BBOX_WIDTH				MARIO_BIG_BBOX_WIDTH
-#define MARIO_RACOON_BBOX_HEIGHT			25
+#define MARIO_RACOON_BBOX_WIDTH						MARIO_BIG_BBOX_WIDTH
+#define MARIO_RACOON_BBOX_HEIGHT					25
 
-#define MARIO_RACOON_SITTING_BBOX_WIDTH		MARIO_BIG_SITTING_BBOX_WIDTH
-#define MARIO_RACOON_SITTING_BBOX_HEIGHT	16
+#define MARIO_RACOON_SITTING_BBOX_WIDTH				MARIO_BIG_SITTING_BBOX_WIDTH
+#define MARIO_RACOON_SITTING_BBOX_HEIGHT			16
 
-#define MARIO_TAIL_WIDTH					10
-#define MARIO_TAIL_HEIGHT					5
+#define MARIO_TAIL_WIDTH							10
+#define MARIO_TAIL_HEIGHT							5
 
-#define MARIO_TAIL_POSITION_ADJUST			5
+#define MARIO_TAIL_POSITION_ADJUST					5
 
-#define MARIO_UNTOUCHABLE_TIME				2500
-#define MARIO_ATTACK_TIME					300
-#define MARIO_KICK_TIME						200
-#define MARIO_FLY_TIME						4000
-#define MARIO_REFLOAT_TIME					200
-#define MARIO_TRANSFORMATION_TIME			600
+#define MARIO_UNTOUCHABLE_TIME						2500
+#define MARIO_ATTACK_TIME							300
+#define MARIO_KICK_TIME								200
+#define MARIO_FLY_TIME								4000
+#define MARIO_REFLOAT_TIME							200
+#define MARIO_TRANSFORMATION_TIME					600
+
+#define MARIO_GETINTO_PIPE_DOWN						1
+#define MARIO_GETINTO_PIPE_UP						2
 
 class CMario : public CGameObject
 {
@@ -242,6 +245,7 @@ class CMario : public CGameObject
 	int holdable;
 	int untouchable;
 	int isAttacked;
+	int canGetIntoPipe;
 
 	ULONGLONG time_count;
 	ULONGLONG untouchable_start;
@@ -280,7 +284,7 @@ public:
 		untouchable_start = -1;
 		level = MARIO_LEVEL_SMALL;
 		isSitting = isOnPlatform = false;
-		untouchable = coin = flag = holdable = isAttacked = 0;
+		untouchable = coin = flag = holdable = isAttacked = canGetIntoPipe = 0;
 		fly_start = float_start = time_count = transform_start = 0;
 	}
 
@@ -322,6 +326,14 @@ public:
 
 	bool IsTransforming() { 
 		return transform_start != 0;
+	}
+
+	void SetCanGetIntoPipe(int var) { 
+		canGetIntoPipe = var; 
+	}
+
+	int IsCanGetIntoPipe() { 
+		return canGetIntoPipe; 
 	}
 
 	void OnNoCollision(DWORD dt);
