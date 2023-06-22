@@ -197,10 +197,10 @@
 #define ID_SPRITE_PSWITCH								45000
 #define ID_SPRITE_PSWITCH_ACTIVED						(ID_SPRITE_PSWITCH + 100)
 
-#define ID_SPRITE_GIFT_BOX								55640
-#define ID_SPRITE_GIFT_MUSHROOM							55650
-#define ID_SPRITE_GIFT_FLOWER							55660
-#define ID_SPRITE_GIFT_STAR								55670
+#define ID_SPRITE_GIFT_BOX								55641
+#define ID_SPRITE_GIFT_MUSHROOM							55651
+#define ID_SPRITE_GIFT_FLOWER							55661
+#define ID_SPRITE_GIFT_STAR								55671
 
 #pragma region Effect
 
