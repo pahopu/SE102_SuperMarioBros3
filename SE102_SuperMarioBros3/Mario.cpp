@@ -293,7 +293,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
-	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+	p->SwitchScene();
 }
 
 void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)

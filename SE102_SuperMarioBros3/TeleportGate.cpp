@@ -47,5 +47,5 @@ void CTeleportGate::GetBoundingBox(float& left, float& top, float& right, float&
 }
 
 void CTeleportGate::Render() {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
