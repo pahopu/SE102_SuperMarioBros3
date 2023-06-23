@@ -57,6 +57,7 @@
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT				100
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT				101
+#define ID_ANI_MARIO_SMALL_GET_INTO_PIPE			102
 
 #define ID_ANI_MARIO_SMALL_WALKING_LEFT				200
 #define ID_ANI_MARIO_SMALL_WALKING_RIGHT			201
@@ -79,6 +80,7 @@
 // BIG MARIO
 #define ID_ANI_MARIO_IDLE_LEFT						700
 #define ID_ANI_MARIO_IDLE_RIGHT						701
+#define ID_ANI_MARIO_GET_INTO_PIPE					702
 
 #define ID_ANI_MARIO_WALKING_LEFT					800
 #define ID_ANI_MARIO_WALKING_RIGHT					801
@@ -286,6 +288,10 @@ public:
 		isSitting = isOnPlatform = false;
 		untouchable = coin = flag = holdable = isAttacked = canGetIntoPipe = 0;
 		fly_start = float_start = time_count = transform_start = 0;
+	}
+
+	void SetGravity(float gravity) { 
+		ay = gravity; 
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
