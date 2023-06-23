@@ -12,6 +12,22 @@ void CTeleportGate::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		objects.push_back(mario);
 
 		CCollision::GetInstance()->Process(this, &objects);
+
+		if (tele_start) {
+			mario->SetGravity(0.0f);
+			mario->SetSpeed(0.0f, 0.0f);
+
+			float mx, my;
+			mario->GetPosition(mx, my);
+
+			if (direction == TELEPORT_DIRECTION_UP)
+				my -= TELEPORT_SPEED * dt;
+			else my += (TELEPORT_SPEED * dt);
+
+			mario->SetPosition(mx, my);
+
+			TeleObject(mario);
+		}
 	}
 }
 
@@ -21,14 +37,14 @@ void CTeleportGate::OnCollisionWith(LPGAMEOBJECT obj) {
 	switch (direction) {
 	case TELEPORT_DIRECTION_DOWN:
 		if (mario->IsCanGetIntoPipe() == MARIO_GETINTO_PIPE_DOWN) { // Mario get down into pipe(sewer)
-			this->TeleObject(obj);
+			tele_start = GetTickCount64();
 			//DebugOut(L"[Teleport] teleport Mario\n");
 		}
 		break;
 
 	case TELEPORT_DIRECTION_UP:
 		if (mario->IsCanGetIntoPipe() == MARIO_GETINTO_PIPE_UP) { // Mario get up into pipe(sewer)
-			this->TeleObject(obj);
+			tele_start = GetTickCount64();
 			//DebugOut(L"[Teleport] teleport Mario\n");
 		}
 		break;
@@ -36,7 +52,13 @@ void CTeleportGate::OnCollisionWith(LPGAMEOBJECT obj) {
 }
 
 void CTeleportGate::TeleObject(LPGAMEOBJECT obj) {
-	obj->SetPosition(des_x, des_y);
+	if (GetTickCount64() - tele_start > TELEPORT_TIME) {
+		CMario* mario = dynamic_cast<CMario*>(((CPlayScene*)(CGame::GetInstance()->GetCurrentScene()))->GetPlayer());
+		mario->SetGravity(MARIO_GRAVITY);
+
+		tele_start = 0;
+		obj->SetPosition(des_x, des_y);
+	}
 }
 
 void CTeleportGate::GetBoundingBox(float& left, float& top, float& right, float& bottom) {

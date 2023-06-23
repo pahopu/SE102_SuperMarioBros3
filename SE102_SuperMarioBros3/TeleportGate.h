@@ -1,11 +1,15 @@
 #pragma once
 #include "GameObject.h"
 
+#define TELEPORT_SPEED						0.02f
+
 #define TELEPORT_BBOX_WIDTH					15
 #define TELEPORT_BBOX_HEIGHT				15
 
 #define TELEPORT_DIRECTION_DOWN				0
 #define TELEPORT_DIRECTION_UP				1
+
+#define TELEPORT_TIME						1000
 
 class CTeleportGate : public CGameObject {
 protected:
@@ -13,6 +17,8 @@ protected:
 	float des_y;
 
 	int direction;
+
+	ULONGLONG tele_start;
 
 	virtual int IsBlocking() { 
 		return 0; 
@@ -32,6 +38,7 @@ public:
 	CTeleportGate(float x, float y, float destination_x, float destination_y, int direction = 0) : CGameObject(x, y) {
 		des_x = destination_x;
 		des_y = destination_y;
+		tele_start = 0;
 		this->direction = direction;
 	}
 
