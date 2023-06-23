@@ -450,6 +450,9 @@ int CMario::GetAniIdSmall()
 		if (nx > 0) aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
 		else aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
 
+	if (ay != MARIO_GRAVITY)
+		aniId = ID_ANI_MARIO_SMALL_GET_INTO_PIPE;
+
 	if (aniId == -1) aniId = ID_ANI_MARIO_SMALL_IDLE_RIGHT;
 
 	return aniId;
@@ -568,6 +571,9 @@ int CMario::GetAniIdRacoon()
 		if (nx >= 0) aniId = ID_ANI_MARIO_RACOON_ATTACK_RIGHT;
 		else aniId = ID_ANI_MARIO_RACOON_ATTACK_LEFT;
 
+	if (ay != MARIO_GRAVITY)
+		aniId = ID_ANI_MARIO_RACOON_IDLE_FRONT;
+
 	if (aniId == -1) aniId = ID_ANI_MARIO_RACOON_IDLE_RIGHT;
 
 	return aniId;
@@ -653,6 +659,9 @@ int CMario::GetAniIdBig()
 	if (flag == MARIO_KICK_TIME)
 		if (nx > 0) aniId = ID_ANI_MARIO_KICK_RIGHT;
 		else aniId = ID_ANI_MARIO_KICK_LEFT;
+
+	if (ay != MARIO_GRAVITY)
+		aniId = ID_ANI_MARIO_GET_INTO_PIPE;
 
 	if (aniId == -1) aniId = ID_ANI_MARIO_IDLE_RIGHT;
 
