@@ -19,7 +19,6 @@
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	if (x < 6) x = 6;
-	if (x > 2798) x = 2798;
 	if (y < 6) y = 6;
 
 	//DebugOutTitle(L"mario x: %f y: %f", x, y);
