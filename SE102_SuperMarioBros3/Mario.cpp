@@ -173,6 +173,14 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		dynamic_cast<CPSwitch*>(e->obj)->IsActived();
 	else if (dynamic_cast<CInvisibleObject*>(e->obj))
 		dynamic_cast<CInvisibleObject*>(e->obj)->Activating();
+	else if (dynamic_cast<CMario*>(e->obj) && e->ny < 0) {
+		vy = -0.6f;
+
+		float ex, ey;
+		e->obj->GetPosition(ex, ey);
+		e->obj->SetPosition(ex, ey - 1);
+		e->obj->SetState(MARIO_STATE_SIT);
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -770,6 +778,8 @@ void CMario::SetState(int state) {
 			isSitting = true;
 			vx = 0; vy = 0.0f; ax = 0;
 			y += MARIO_SIT_HEIGHT_ADJUST;
+
+			canGetIntoPipe = MARIO_GETINTO_PIPE_DOWN;
 		}
 		break;
 
@@ -781,6 +791,8 @@ void CMario::SetState(int state) {
 			if (level == MARIO_LEVEL_BIG)
 				y -= MARIO_SIT_HEIGHT_ADJUST;
 			else y -= (MARIO_SIT_HEIGHT_ADJUST + 2);
+
+			canGetIntoPipe = 0;
 		}
 		break;
 

@@ -284,7 +284,7 @@ public:
 		_koopa = NULL;
 		_tail = new CTail(x, y);
 		untouchable_start = -1;
-		level = MARIO_LEVEL_SMALL;
+		level = MARIO_LEVEL_RACOON;
 		isSitting = isOnPlatform = false;
 		untouchable = coin = flag = holdable = isAttacked = canGetIntoPipe = 0;
 		fly_start = float_start = time_count = transform_start = 0;

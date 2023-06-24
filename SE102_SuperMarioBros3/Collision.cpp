@@ -118,7 +118,7 @@ void CCollision::SweptAABB(
 
 }
 
-int CCollision::AABB(float sl, float st, float sr, float sb, float dl, float dr, float dt, float db)
+int CCollision::AABB(float sl, float st, float sr, float sb, float dl, float dt, float dr, float db)
 {
 	return sl < dr
 		&& sr > dl

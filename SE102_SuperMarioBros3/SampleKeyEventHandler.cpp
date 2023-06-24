@@ -55,9 +55,6 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	switch (KeyCode) {
-	case DIK_UP:
-		mario->SetCanGetIntoPipe(0);
-		break;
 	case DIK_A:
 		mario->SetState(MARIO_STATE_HOLD_RELEASE);
 		break;
@@ -67,6 +64,9 @@ void CSampleKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_DOWN:
 		mario->SetState(MARIO_STATE_SIT_RELEASE);
+		break;
+	case DIK_UP:
+		mario->SetCanGetIntoPipe(0);
 		break;
 	}
 }

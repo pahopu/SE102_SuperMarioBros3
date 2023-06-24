@@ -13,7 +13,7 @@ void CTeleportGate::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 
 		CCollision::GetInstance()->Process(this, &objects);
 
-		if (tele_start) {
+		if (tele_start != 0) {
 			mario->SetGravity(0.0f);
 			mario->SetSpeed(0.0f, 0.0f);
 
