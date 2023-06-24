@@ -13,6 +13,8 @@
 #define CAMERA_POSITION_MIN_Y			0
 #define CAMERA_POSITION_MAX_X			2499
 #define DEFAULT_CAMERA_POSITION_Y		223
+#define POSITION_SECRET_ROOM			2700
+#define POSITION_SECRET_ROOM_Y			220
 
 class CPlayScene: public CScene
 {
