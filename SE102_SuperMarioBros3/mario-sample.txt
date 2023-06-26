@@ -21,3 +21,4 @@ height	240
 40	textures\enemiess.png
 50	textures\effect.png
 60	textures\effects.png
+70	textures\hud_font.png
