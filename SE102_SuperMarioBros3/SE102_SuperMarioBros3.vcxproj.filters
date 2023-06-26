@@ -221,6 +221,7 @@
     <Text Include="piranha.txt" />
     <Text Include="bullet.txt" />
     <Text Include="pswitch.txt" />
+    <Text Include="hud.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">
