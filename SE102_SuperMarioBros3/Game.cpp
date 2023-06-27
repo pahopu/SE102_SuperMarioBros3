@@ -7,6 +7,7 @@
 #include "Texture.h"
 #include "Animations.h"
 #include "PlayScene.h"
+#include "Timer.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -523,6 +524,8 @@ void CGame::SwitchScene()
 	LPSCENE s = scenes[next_scene];
 	this->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
+
+	CTimer::GetInstance()->InitTime();
 }
 
 void CGame::InitiateSwitchScene(int scene_id)
