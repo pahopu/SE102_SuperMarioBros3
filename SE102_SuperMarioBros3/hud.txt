@@ -54,4 +54,4 @@
 
 [ANIMATIONS]
 # P changing color (black <-> white)
-11111	70025	100	70026	100
+8888	70025	100	70026	100
