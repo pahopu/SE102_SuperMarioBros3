@@ -1,12 +1,13 @@
+#include "Hud.h"
 #include "Tail.h"
-#include "Brick.h"
+#include "Game.h"
 #include "debug.h"
+#include "Brick.h"
+#include "Mario.h"
 #include "Platform.h"
 #include "AssetIDs.h"
-#include "KoopaTroopa.h"
-#include "Mario.h"
-#include "Game.h"
 #include "PlayScene.h"
+#include "KoopaTroopa.h"
 
 void CTail::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
 	left = x - TAIL_BBOX_WIDTH / 2;
@@ -94,6 +95,8 @@ void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	else goomba->Deflected(DEFLECT_DIRECTION_RIGHT);
 
 	isAttackedFront = TAIL_COLLIDED_GOOMBA;
+
+	CHud::GetInstance()->CollectScore(SCORE_TAIL_ATTACKED_ENEMIES);
 }
 
 void CTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
@@ -110,6 +113,8 @@ void CTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
 void CTail::OnCollisionWithPlant(LPCOLLISIONEVENT e) {
 	e->obj->Delete();
 	isAttackedFront = TAIL_COLLIDED_PLANT;
+
+	CHud::GetInstance()->CollectScore(SCORE_TAIL_ATTACKED_ENEMIES);
 }
 
 void CTail::OnNoCollision(DWORD dt) {
