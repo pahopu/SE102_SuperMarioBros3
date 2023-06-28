@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include "AssetIDs.h"
+#include "Hud.h"
+#include "Timer.h"
 
 #include "PlayScene.h"
 #include "Utils.h"
@@ -292,6 +294,10 @@ void CPlayScene::Update(DWORD dt)
 			objects[i]->Update(dt, &coObjects);
 		}
 	}
+
+	// Update time
+	CTimer::GetInstance()->Update(dt);
+
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
@@ -339,6 +345,8 @@ void CPlayScene::Render()
 		objects[i]->Render();
 	//for (int i = 0; i < objects.size(); i++)
 	//	objects[i]->Render();
+
+	CHud::GetInstance()->Render();
 }
 
 /*

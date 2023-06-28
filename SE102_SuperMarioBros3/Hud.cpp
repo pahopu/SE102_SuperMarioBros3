@@ -4,7 +4,10 @@
 #include "Timer.h"
 #include "Sprites.h"
 #include "AssetIDs.h"
+#include "PlayScene.h"
 #include "Animations.h"
+
+CHud* CHud::_instance = NULL;
 
 void CHud::RenderNumber(float x, float y, int number, int length, int option) {
 	CSprites* sprites = CSprites::GetInstance();
