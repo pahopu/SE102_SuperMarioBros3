@@ -10,7 +10,7 @@
 #define GOOMBA_DIE_DEFLECT					0.2f
 
 #define GOOMBA_BBOX_WIDTH					16
-#define GOOMBA_BBOX_HEIGHT					11
+#define GOOMBA_BBOX_HEIGHT					13
 #define GOOMBA_BBOX_HEIGHT_DIE				7
 
 #define GOOMBA_PARA_BBOX_HEIGHT				20
