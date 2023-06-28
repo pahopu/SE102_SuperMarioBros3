@@ -47,6 +47,7 @@
 
 
 [ASSETS]
+hud.txt
 coin.txt
 misc.txt
 brick.txt
