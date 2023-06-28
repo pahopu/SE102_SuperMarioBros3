@@ -4,6 +4,7 @@
 #include "Timer.h"
 #include "Sprites.h"
 #include "AssetIDs.h"
+#include "Platform.h"
 #include "PlayScene.h"
 #include "Animations.h"
 
@@ -56,9 +57,16 @@ void CHud::Render() {
 	Update(); // Update
 	CSprites* sprites = CSprites::GetInstance();
 
+	// Draw black background
+	CPlatform* platform1 = new CPlatform(x - HUD_BBOX_WIDTH * 2 / 3, y - HUD_BBOX_HEIGHT / 8 - 4, 16, 16, 20, 55631, 55631, 55631, 3);
+	CPlatform* platform2 = new CPlatform(x - HUD_BBOX_WIDTH * 2 / 3, y - HUD_BBOX_HEIGHT / 8 + 12, 16, 16, 20, 55631, 55631, 55631, 3);
+
+	platform1->Render();
+	platform2->Render();
+
 	// Draw hud
 	sprites->Get(ID_SPRITE_HUD)->Draw(x, y);
-	DebugOut(L"Hud\n");
+	//DebugOut(L"Hud\n");
 
 	//Draw giftbox and gift (if have)
 	float giftBox_x, giftBox_y;
