@@ -1,3 +1,4 @@
+#include "Hud.h"
 #include "Brick.h"
 #include "Goomba.h"
 #include "KoopaTroopa.h"
@@ -50,6 +51,7 @@ void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			case BRICK_CONTAIN_COIN:
 				_object = new CCoin(x, y);
 				_object->Deflected();
+				CHud::GetInstance()->CollectCoin();
 				break;
 
 			case BRICK_CONTAIN_1UP_MUSHROOM:
