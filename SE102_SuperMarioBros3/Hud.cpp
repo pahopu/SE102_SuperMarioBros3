@@ -75,6 +75,10 @@ void CHud::Render() {
 
 	for (int i = 0; i < 3; i++) {
 		sprites->Get(ID_SPRITE_GIFT_BOX_BLUE)->Draw(giftBox_x, giftBox_y);
+
+		if (gifts.size() > i)
+			sprites->Get(gifts[i])->Draw(giftBox_x, giftBox_y);
+
 		giftBox_x += GIFTBOX_BBOX_WIDTH;
 	}
 
@@ -112,4 +116,28 @@ void CHud::Render() {
 	// Draw Mario's speed state (P speed)
 	p_x = hx - NUMBER_WIDTH / 2 + COLUMN_SPEED_X;
 	p_y = hy + ROW_ABOVE_Y + NUMBER_HEIGHT / 2;
+
+	// Get speed of Mario
+	float mario_vx = 0;
+	float mario_vy = 0;
+	bool isFlying = false;
+
+	if (dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene())) {
+		CMario* mario = dynamic_cast<CMario*>(((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer());
+		mario->GetSpeed(mario_vx, mario_vy);
+		isFlying = mario->IsFlying();
+	}
+
+	// Render Mario's speed state with 6 level
+	for (int i = 0; i < 6; i++) {
+		if ((abs(mario_vx) - MARIO_WALKING_SPEED) >= (SPEED_LEVEL * (i + 1)) || isFlying)
+			sprites->Get(ID_SPRITE_ARROW_WHITE)->Draw(p_x + ARROW_SYMBOL_WIDTH, p_y);
+		else sprites->Get(ID_SPRITE_ARROW_BLACK)->Draw(p_x + ARROW_SYMBOL_WIDTH, p_y);
+		p_x += ARROW_SYMBOL_WIDTH + 1;
+	}
+
+	// If reach running speed or is flying, power icon will changing color repeatly
+	if (abs(mario_vx) == MARIO_RUNNING_SPEED || isFlying)
+		CAnimations::GetInstance()->Get(ID_ANI_P_CHANGING_COLOR)->Render(p_x + POWER_SYMBOL_WIDTH, p_y);
+	else sprites->Get(ID_SPRITE_P_BLACK)->Draw(p_x + POWER_SYMBOL_WIDTH, p_y);
 }
