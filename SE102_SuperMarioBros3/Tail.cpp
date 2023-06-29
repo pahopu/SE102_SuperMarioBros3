@@ -102,14 +102,17 @@ void CTail::OnCollisionWithGoomba(LPCOLLISIONEVENT e) {
 	float ox, oy;
 	e->obj->GetPosition(ox, oy);
 	CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES, false);
-	CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
+	CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_SPRITE_POINTS_100, true, true);
 }
 
 void CTail::OnCollisionWithKoopas(LPCOLLISIONEVENT e) {
-	e->obj->SetState(KOOPA_TROOPA_STATE_SHELL);
-
 	float kx, ky;
 	e->obj->GetPosition(kx, ky);
+
+	if (e->obj->GetState() == KOOPA_TROOPA_STATE_WALKING || e->obj->GetState() == KOOPA_TROOPA_STATE_FLYING)
+		CEffect::GetInstance()->pushEffectIntoQueue(kx, ky, ID_SPRITE_POINTS_100, true, true);
+
+	e->obj->SetState(KOOPA_TROOPA_STATE_SHELL);
 	if (kx <= x) e->obj->Deflected(DEFLECT_DIRECTION_LEFT);
 	else e->obj->Deflected(DEFLECT_DIRECTION_RIGHT);
 
@@ -129,7 +132,7 @@ void CTail::OnCollisionWithPlant(LPCOLLISIONEVENT e) {
 	float ox, oy;
 	e->obj->GetPosition(ox, oy);
 	CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES, 0);
-	CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
+	CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_SPRITE_POINTS_100, true, true);
 }
 
 void CTail::OnNoCollision(DWORD dt) {
@@ -154,16 +157,16 @@ void CTail::OnCollisionWith(LPGAMEOBJECT obj) {
 		else goomba->Deflected(DEFLECT_DIRECTION_RIGHT);
 
 		CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES, 0);
-		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
+		CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_SPRITE_POINTS_100, true, true);
 	}
 	else if (dynamic_cast<CPiranhaPlant*>(obj)) {
 		obj->Delete();
 		CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_ANI_TAIL_MARIO_ATTACKED_ENEMIES, 0);
-		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
+		CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_SPRITE_POINTS_100, true, true);
 	}
 	else if (dynamic_cast<CKoopaTroopa*>(obj)) {
 		if (obj->GetState() == KOOPA_TROOPA_STATE_WALKING || obj->GetState() == KOOPA_TROOPA_STATE_FLYING)
-			CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
+			CEffect::GetInstance()->pushEffectIntoQueue(ox, oy, ID_SPRITE_POINTS_100, true, true);
 
 		obj->SetState(KOOPA_TROOPA_STATE_SHELL);
 
