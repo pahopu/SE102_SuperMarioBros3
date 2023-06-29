@@ -245,8 +245,8 @@ class CMario : public CGameObject
 	int flag;
 	int level;
 	int holdable;
+	int old_level;
 	int untouchable;
-	int isAttacked;
 	int canGetIntoPipe;
 
 	ULONGLONG time_count;
@@ -286,7 +286,7 @@ public:
 		untouchable_start = -1;
 		level = MARIO_LEVEL_SMALL;
 		isSitting = isOnPlatform = false;
-		untouchable = coin = flag = holdable = isAttacked = canGetIntoPipe = 0;
+		untouchable = coin = flag = holdable = canGetIntoPipe = 0;
 		fly_start = float_start = time_count = transform_start = 0;
 	}
 
