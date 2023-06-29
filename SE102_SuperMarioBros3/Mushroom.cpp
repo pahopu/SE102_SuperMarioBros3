@@ -1,5 +1,6 @@
 #include "Hud.h"
 #include "Mario.h"
+#include "Effect.h"
 #include "Mushroom.h"
 #include "Platform.h"
 #include "PlayScene.h"
@@ -85,6 +86,7 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 
 		if (type == MUSHROOM_TYPE_1UP) {
 			CHud::GetInstance()->Collect1UpMushroom();
+			CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_1UP, true, true);
 		}
 		else {
 			switch (mario->GetLevel()) {
@@ -100,6 +102,7 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 				break;
 			}
 			CHud::GetInstance()->CollectScore(SCORE_SUPER_MUSHROOM_LEAF);
+			CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_1000, true, true);
 		}
 		Delete();
 	}

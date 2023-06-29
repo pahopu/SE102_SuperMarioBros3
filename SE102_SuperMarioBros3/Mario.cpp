@@ -323,6 +323,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 	}
 	else {
 		CHud::GetInstance()->CollectScore(SCORE_SUPER_MUSHROOM_LEAF);
+		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_1000, true, true);
 
 		if (level != MARIO_LEVEL_RACOON) SetTransformStart();
 
