@@ -1,7 +1,8 @@
-#include "Mushroom.h"
+#include "Hud.h"
 #include "Mario.h"
-#include "PlayScene.h"
+#include "Mushroom.h"
 #include "Platform.h"
+#include "PlayScene.h"
 
 void CMushroom::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
@@ -83,7 +84,7 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 		CMario* mario = dynamic_cast<CMario*>(e->obj);
 
 		if (type == MUSHROOM_TYPE_1UP) {
-			// + 1 up
+			CHud::GetInstance()->Collect1UpMushroom();
 		}
 		else {
 			switch (mario->GetLevel()) {
@@ -98,6 +99,7 @@ void CMushroom::OnColisionWith(LPCOLLISIONEVENT e)
 				mario->SetLevel(MARIO_LEVEL_RACOON);
 				break;
 			}
+			CHud::GetInstance()->CollectScore(SCORE_SUPER_MUSHROOM_LEAF);
 		}
 		Delete();
 	}
