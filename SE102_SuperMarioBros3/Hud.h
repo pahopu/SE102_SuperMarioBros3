@@ -5,7 +5,7 @@
 #define ID_ANI_P_CHANGING_COLOR					8888
 
 #define SPEED_LEVEL								0.016f
-#define EFFECT_SPEED							0.02f
+//#define EFFECT_SPEED							0.02f
 
 #define HUD_BBOX_WIDTH							153
 #define HUD_BBOX_HEIGHT							29

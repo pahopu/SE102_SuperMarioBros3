@@ -1,19 +1,19 @@
-#include <iostream>
 #include <fstream>
-#include "AssetIDs.h"
+#include <iostream>
+
 #include "Hud.h"
-#include "Timer.h"
-
-#include "PlayScene.h"
-#include "Utils.h"
-#include "Textures.h"
-#include "Sprites.h"
-#include "Portal.h"
 #include "Coin.h"
+#include "Timer.h"
+#include "Utils.h"
+#include "Effect.h"
+#include "Portal.h"
+#include "Sprites.h"
+#include "AssetIDs.h"
 #include "Platform.h"
-#include "TeleportGate.h"
+#include "Textures.h"
+#include "PlayScene.h"
 #include "KoopaTroopa.h"
-
+#include "TeleportGate.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -298,6 +298,9 @@ void CPlayScene::Update(DWORD dt)
 	// Update time
 	CTimer::GetInstance()->Update(dt);
 
+	// Update effect
+	CEffect::GetInstance()->Update(dt);
+
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return; 
 
@@ -347,6 +350,7 @@ void CPlayScene::Render()
 	//	objects[i]->Render();
 
 	CHud::GetInstance()->Render();
+	CEffect::GetInstance()->Render();
 }
 
 /*
