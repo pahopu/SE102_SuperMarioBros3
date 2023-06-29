@@ -21,6 +21,7 @@
 class CCoin : public CGameObject {
 private:
 	float ay;
+	float old_y;
 
 	int type;
 

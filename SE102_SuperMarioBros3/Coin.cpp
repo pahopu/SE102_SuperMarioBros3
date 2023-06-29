@@ -1,6 +1,7 @@
 #include "Coin.h"
 #include "Game.h"
 #include "Brick.h"
+#include "Effect.h"
 #include "PlayScene.h"
 
 void CCoin::CoinTransformBrick() {
@@ -30,8 +31,10 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 	if (vy == 0 && ay == 0)
 		return;
 
-	if (ay != 0 && vy > 0)
+	if (ay != 0 && vy >= 0 && y >= (old_y - 2 * COIN_BBOX_HEIGHT)) {
 		Delete();
+		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
+	}
 
 	if (ay != 0) {
 		vy += ay * dt;
@@ -50,4 +53,5 @@ void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 void CCoin::Deflected(int direction) {
 	ay = COIN_GRAVITY;
 	vy = -COIN_DEFLECT;
+	old_y = y;
 }
