@@ -13,8 +13,7 @@ CHud* CHud::_instance = NULL;
 void CHud::RenderNumber(float x, float y, int number, int length, int option) {
 	CSprites* sprites = CSprites::GetInstance();
 
-	if (number == 0) sprites->Get(ID_SPRITE_NUMBER_0)->Draw(x, y);
-	else switch (option)
+	switch (option)
 	{
 	case 1: // Render score and time
 		for (int i = 0; i < length; i++) {
@@ -26,6 +25,8 @@ void CHud::RenderNumber(float x, float y, int number, int length, int option) {
 		break;
 
 	case 0: // Render number
+		if (number == 0) sprites->Get(ID_SPRITE_NUMBER_0)->Draw(x, y);
+
 		while (number > 0) {
 			int digit = number % 10;
 			sprites->Get(ID_SPRITE_NUMBER_0 + digit)->Draw(x, y);
