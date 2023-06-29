@@ -50,7 +50,7 @@ void CHud::Update() {
 	CGame::GetInstance()->GetCamPos(cam_x, cam_y);
 
 	// Set hud position follows camera when it moves
-	x = cam_x + HUD_BBOX_WIDTH * 2 / 3;
+	x = cam_x + HUD_BBOX_WIDTH * 3 / 4 - 4;
 	y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() * 4 / 5 + HUD_BBOX_HEIGHT - ADJUST);
 }
 
