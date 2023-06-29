@@ -8,6 +8,7 @@
 #include "Mario.h"
 #include "Bullet.h"
 #include "Goomba.h"
+#include "Effect.h"
 #include "Portal.h"
 #include "PSwitch.h"
 #include "Mushroom.h"
@@ -200,6 +201,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 
 		CHud::GetInstance()->CollectScore(SCORE_MARIO_JUMP_ON_ENEMIES);
+		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
 	}
 	else {// hit by Goomba
 		if (untouchable == 0) {
@@ -273,6 +275,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 
 		CHud::GetInstance()->CollectScore(SCORE_MARIO_JUMP_ON_ENEMIES);
+		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_100, true, true);
 	}
 	else {
 		if (untouchable == 0) {
@@ -316,6 +319,7 @@ void CMario::OnCollisionWithMushroom(LPCOLLISIONEVENT e)
 
 	if (mushroom->GetType() == MUSHROOM_TYPE_1UP) {
 		CHud::GetInstance()->Collect1UpMushroom();
+		CEffect::GetInstance()->pushEffectIntoQueue(x, y, ID_SPRITE_POINTS_1UP, true, true);
 	}
 	else {
 		CHud::GetInstance()->CollectScore(SCORE_SUPER_MUSHROOM_LEAF);
