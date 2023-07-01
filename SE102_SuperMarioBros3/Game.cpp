@@ -8,6 +8,7 @@
 #include "Animations.h"
 #include "PlayScene.h"
 #include "Timer.h"
+#include "WorldmapScene.h"
 
 CGame * CGame::__instance = NULL;
 
@@ -458,7 +459,10 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);   // file: ASCII format (single-byte char) => Wide Char
 
-	LPSCENE scene = new CPlayScene(id, path);
+	LPSCENE scene;
+
+	if (id == 1) scene = new CWorldmapScene(id, path);
+	else scene = new CPlayScene(id, path);
 	scenes[id] = scene;
 }
 
@@ -525,7 +529,7 @@ void CGame::SwitchScene()
 	this->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 
-	CTimer::GetInstance()->InitTime();
+	if (dynamic_cast<LPPLAYSCENE>(s)) CTimer::GetInstance()->InitTime();
 }
 
 void CGame::InitiateSwitchScene(int scene_id)

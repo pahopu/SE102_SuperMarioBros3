@@ -241,7 +241,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="word1_1.txt" />
+    <Text Include="world1_1.txt" />
     <Text Include="scene02.txt" />
     <Text Include="scene0005.txt" />
     <Text Include="worldmap.txt" />
