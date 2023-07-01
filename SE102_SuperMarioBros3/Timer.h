@@ -8,7 +8,9 @@ class CTimer {
 	ULONGLONG currentTime;
 
 public:
-	CTimer() {}
+	CTimer() {
+		currentTime = 0;
+	}
 
 	static CTimer* GetInstance() {
 		if (!_instance)
@@ -34,4 +36,3 @@ public:
 		return currentTime == 0;
 	}
 };
-
