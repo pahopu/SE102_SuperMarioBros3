@@ -22,3 +22,4 @@ height	240
 50	textures\effect.png
 60	textures\effects.png
 70	textures\hud_font.png
+80	textures\worldmap.png
