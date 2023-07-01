@@ -14,7 +14,7 @@
 #define TAIL_COLLIDED_KOOPAS		3
 #define TAIL_COLLIDED_PLANT			4
 
-#define TAIL_BBOX_WIDTH				10
+#define TAIL_BBOX_WIDTH				15
 #define TAIL_BBOX_HEIGHT			5
 
 #define TAIL_ATTACK_TIME			300
