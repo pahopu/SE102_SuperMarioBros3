@@ -25,29 +25,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (x >= 2959 && x <= 3202) {}
 		else x = 2795;
 
-	if (y > 420) {
-		if (untouchable)
-			vy = -MARIO_JUMP_DEFLECT_SPEED * 2.2f;
-		else {
-			switch (level) {
-			case MARIO_LEVEL_SMALL:
-				this->SetState(MARIO_STATE_DIE);
-				break;
-
-			case MARIO_LEVEL_BIG:
-				this->SetLevel(MARIO_LEVEL_SMALL);
-				vy = -MARIO_JUMP_DEFLECT_SPEED * 2.2f;
-				this->StartUntouchable();
-				break;
-
-			case MARIO_LEVEL_RACOON:
-				this->SetLevel(MARIO_LEVEL_BIG);
-				vy = -MARIO_JUMP_DEFLECT_SPEED * 2.2f;
-				this->StartUntouchable();
-				break;
-			}
-		}
-	}
+	if (y > 480) SetState(MARIO_STATE_DIE);
 
 	//DebugOutTitle(L"mario x: %f y: %f", x, y);
 
