@@ -279,7 +279,7 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 	}
 	else {
 		if (untouchable == 0) {
-			if (koopa->GetState() == KOOPA_TROOPA_STATE_WALKING || koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING)
+			if (koopa->GetState() != KOOPA_TROOPA_STATE_SHELL && koopa->GetState() != KOOPA_TROOPA_STATE_DIE)
 				if (level == MARIO_LEVEL_RACOON) {
 					SetLevel(MARIO_LEVEL_BIG);
 					StartUntouchable();
