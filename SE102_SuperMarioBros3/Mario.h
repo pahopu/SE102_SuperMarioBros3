@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Hud.h"
 #include "Tail.h"
 #include "debug.h"
 #include "Animation.h"
@@ -284,7 +285,7 @@ public:
 		_koopa = NULL;
 		_tail = new CTail(x, y);
 		untouchable_start = -1;
-		level = MARIO_LEVEL_SMALL;
+		level = CHud::GetInstance()->GetLevel();
 		isSitting = isOnPlatform = false;
 		untouchable = coin = flag = holdable = canGetIntoPipe = 0;
 		fly_start = float_start = time_count = transform_start = 0;

@@ -1,6 +1,5 @@
 #include <algorithm>
 
-#include "Hud.h"
 #include "Coin.h"
 #include "Game.h"
 #include "debug.h"
@@ -918,5 +917,6 @@ void CMario::SetLevel(int l)
 		break;
 	}
 
+	CHud::GetInstance()->SaveLevel(l);
 	level = l;
 }
