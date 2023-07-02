@@ -1,5 +1,4 @@
 #pragma once
-#include "Mario.h"
 #include "GameObject.h"
 
 #define ID_ANI_P_CHANGING_COLOR					8888
@@ -46,6 +45,7 @@ class CHud : public CGameObject {
 protected:
 	int coin;
 	int life;
+	int level;
 	int score;
 
 	vector<int> gifts;
@@ -63,12 +63,21 @@ public:
 		coin = 0;
 		life = 3;
 		score = 0;
+		level = 1;
 	}
 
 	static CHud* GetInstance() {
 		if (_instance == NULL)
 			_instance = new CHud(0, 0);
 		return _instance;
+	}
+
+	void SaveLevel(int l) { 
+		level = l; 
+	}
+
+	int GetLevel() { 
+		return level;
 	}
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
