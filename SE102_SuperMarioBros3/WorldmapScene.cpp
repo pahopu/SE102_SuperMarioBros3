@@ -3,6 +3,8 @@
 
 #include "Hud.h"
 #include "Coin.h"
+#include "debug.h"
+#include "Mario.h"
 #include "Utils.h"
 #include "Portal.h"
 #include "Sprites.h"
