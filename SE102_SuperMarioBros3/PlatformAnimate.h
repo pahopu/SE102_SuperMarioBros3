@@ -4,8 +4,9 @@
 #define PLATFORM_ANIMATE_BBOX_WIDTH				15
 #define PLATFORM_ANIMATE_BBOX_HEIGHT			15
 
-#define PLATFORM_ANIMATE_TYPE_BLOCK				0
-#define PLATFORM_ANIMATE_TYPE_GATE				1
+#define PLATFORM_ANIMATE_TYPE_BLOCK				1
+#define PLATFORM_ANIMATE_TYPE_GATE				2
+#define PLATFORM_ANIMATE_TYPE_NO_COLLISION		3
 
 class CPlatformAnimate : public CGameObject {
 protected:
@@ -14,7 +15,7 @@ protected:
 	int aniOrsprite;
 
 	virtual int IsBlocking() {
-		return 1;
+		return type != PLATFORM_ANIMATE_TYPE_NO_COLLISION;
 	}
 
 public:
