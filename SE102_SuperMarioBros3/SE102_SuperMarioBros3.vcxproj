@@ -147,6 +147,7 @@
     <ClCompile Include="KoopaTroopa.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="MarioWorldmap.cpp" />
     <ClCompile Include="Mushroom.cpp" />
     <ClCompile Include="PhaseChecker.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="KoopaTroopa.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="MarioWorldmap.h" />
     <ClInclude Include="Mushroom.h" />
     <ClInclude Include="PhaseChecker.h" />
     <ClInclude Include="PiranhaPlant.h" />
