@@ -264,6 +264,7 @@
     <Text Include="bullet.txt" />
     <Text Include="pswitch.txt" />
     <Text Include="hud.txt" />
+    <Text Include="grassland.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="mario.ico">

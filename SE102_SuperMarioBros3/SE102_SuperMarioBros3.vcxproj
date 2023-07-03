@@ -212,6 +212,7 @@
   <ItemGroup>
     <Text Include="brick.txt" />
     <Text Include="bullet.txt" />
+    <Text Include="grassland.txt" />
     <Text Include="hud.txt" />
     <Text Include="misc.txt" />
     <Text Include="coin.txt" />
