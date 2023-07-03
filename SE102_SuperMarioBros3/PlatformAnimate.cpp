@@ -1,7 +1,8 @@
 #include "PlatformAnimate.h"
 
 void CPlatformAnimate::Render() {
-	CAnimations::GetInstance()->Get(animation)->Render(x, y);
+	if (isAni) CAnimations::GetInstance()->Get(aniOrsprite)->Render(x, y);
+	else CSprites::GetInstance()->Get(aniOrsprite)->Draw(x, y);
 }
 
 void CPlatformAnimate::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
