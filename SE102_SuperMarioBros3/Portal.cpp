@@ -2,12 +2,13 @@
 #include "Portal.h"
 #include "Textures.h"
 
-CPortal::CPortal(float l, float t, float r, float b, int scene_id)
+CPortal::CPortal(float l, float t, float r, float b, int scene_id, int Type)
 {
 	this->scene_id = scene_id;
 	x = l;
 	y = t;
 	vy = 0;
+	type = Type;
 	width = r - l;
 	height = b - t;
 	switchScene_start = 0;
@@ -65,6 +66,8 @@ void CPortal::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 void CPortal::Render() {
 	//RenderBoundingBox();
 
+	if (type == PORTAL_TYPE_ANOTHER_TO_PLAYSCENE) return;
+
 	if (!switchScene_start) {
 		CSprites* sprites = CSprites::GetInstance();
 
@@ -109,6 +112,9 @@ void CPortal::GetBoundingBox(float& l, float& t, float& r, float& b) {
 }
 
 void CPortal::SwitchScene() {
+	if (type == PORTAL_TYPE_ANOTHER_TO_PLAYSCENE)
+		CGame::GetInstance()->InitiateSwitchScene(scene_id);
+
 	if (!switchScene_start) {
 		switchScene_start = GetTickCount64();
 		vy = -GIFT_FLYING_SPEED;

@@ -13,6 +13,9 @@
 #define ID_ANI_GIFT_FLOWER					11101
 #define ID_ANI_GIFT_STAR					11102
 
+#define PORTAL_TYPE_PLAYSCENE_TO_ANOTHER	1
+#define PORTAL_TYPE_ANOTHER_TO_PLAYSCENE	2
+
 #define SWITCHING_GIFT_TIME					100
 #define SWITCHING_SCENE_TIME				2000
 
@@ -21,6 +24,7 @@
 */
 class CPortal : public CGameObject
 {
+	int type;
 	int scene_id;	// target scene to switch to 
 	int giftType;
 
@@ -33,7 +37,8 @@ class CPortal : public CGameObject
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 public:
-	CPortal(float l, float t, float r, float b, int scene_id);
+	CPortal(float l, float t, float r, float b, int scene_id, int Type = 1);
+
 	virtual void Render();
 	virtual void GetBoundingBox(float &l, float &t, float &r, float &b);
 
