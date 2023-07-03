@@ -1,4 +1,5 @@
-#include "Portal.h"
+ #include "Portal.h"
+#include "Platform.h"
 #include "Collision.h"
 #include "MarioWorldmap.h"
 #include "PlatformAnimate.h"
@@ -57,7 +58,8 @@ void CMarioWorldmap::OnNoCollision(DWORD dt) {
 }
 
 void CMarioWorldmap::OnCollisionWith(LPGAMEOBJECT o) {
-	dynamic_cast<CPortal*>(o)->SwitchScene();
+	if (canGoIntoPortal && dynamic_cast<CPortal*>(o))
+		dynamic_cast<CPortal*>(o)->SwitchScene();
 }
 
 void CMarioWorldmap::OnCollisionWith(LPCOLLISIONEVENT e){
@@ -67,11 +69,19 @@ void CMarioWorldmap::OnCollisionWith(LPCOLLISIONEVENT e){
 
 			if (platform->GetType() == PLATFORM_ANIMATE_TYPE_GATE)
 				absolutelyTouching = 1;
+
+			DebugOut(L"Hello");
 		}
 
 		vx = 0;
 		vy = 0;
 	}
+
+	if (dynamic_cast<CPortal*>(e->obj))
+		if (canGoIntoPortal) {
+			DebugOut(L"Collide with portal\n");
+			dynamic_cast<CPortal*>(e->obj)->SwitchScene();
+		}
 }
 
 void CMarioWorldmap::Render() {
@@ -92,21 +102,10 @@ void CMarioWorldmap::Render() {
 	}
 
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
 }
 
 void CMarioWorldmap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
-	if (canGoIntoPortal)
-		for (int i = 0; i < coObjects->size(); i++) {
-			vector<LPGAMEOBJECT> object;
-			object.clear();
-
-			if (dynamic_cast<CPortal*>(coObjects->at(i))) {
-				object.push_back(coObjects->at(i));
-				CCollision::GetInstance()->Process(this, &object);
-			}
-		}
-
+	CCollision::GetInstance()->Process(this, coObjects);
 	if (absolutelyTouching) {
 		if (nx > 0) {
 			old_pos = x;
@@ -124,24 +123,42 @@ void CMarioWorldmap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			old_pos = y;
 			vy = -MARIO_WORLDMAP_WALKING_SPEED;
 		}
-
 		crossingStart = GetTickCount64();
 		absolutelyTouching = 0;
 	}
 
 	if (crossingStart) {
-		if ((vx > 0 && abs(old_pos - x) >= MARIO_CROSSING_RANGE) || (vy > 0 && abs(old_pos - y) >= MARIO_CROSSING_RANGE)) {
-			vx = 0;
-			vy = 0;
-			crossingStart = 0;
+		bool adjusted = false;
+
+		if (vx > 0 && (x + vx * dt - old_pos) > MARIO_CROSSING_RANGE) {
+			vx = (MARIO_CROSSING_RANGE + old_pos - x) / dt;
+			adjusted = true;
 		}
-		else if ((vx < 0 && abs(old_pos - x) >= MARIO_BBOX_WIDTH) || (vy < 0 && abs(old_pos - y) >= MARIO_BBOX_HEIGHT)) {
-			vx = 0;
-			vy = 0;
-			crossingStart = 0;
+		else if (vx < 0 && (old_pos - (x + vx * dt)) > MARIO_BBOX_WIDTH) {
+			vx = -(MARIO_BBOX_WIDTH - old_pos + x) / (dt);
+			adjusted = true;
+		}
+		else if (vy > 0 && (y + vy * dt - old_pos) > MARIO_BBOX_HEIGHT) {
+			vy = (MARIO_BBOX_HEIGHT + old_pos - y) / dt;
+			adjusted = true;
+		}
+		else if (vy < 0 && (old_pos - (y + vy * dt)) > MARIO_BBOX_HEIGHT) {
+			vy = -(MARIO_BBOX_HEIGHT - old_pos + y) / (dt);
+			adjusted = true;
 		}
 
 		x += vx * dt;
 		y += vy * dt;
+
+		if (adjusted) {
+			vx = 0;
+			vy = 0;
+			crossingStart = 0;
+		}
 	}
+	
+	if (crossingStart && GetTickCount64() - crossingStart > MARIO_CROSSING_TIME)
+		crossingStart = 0;
+
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

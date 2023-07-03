@@ -19,6 +19,8 @@
 
 #define MARIO_CROSSING_RANGE						15
 
+#define MARIO_CROSSING_TIME							200
+
 class CMarioWorldmap : public CGameObject {
 protected:
 	int ny;
@@ -31,7 +33,7 @@ protected:
 	ULONGLONG crossingStart;
 
 public:
-	CMarioWorldmap() {
+	CMarioWorldmap(float x, float y) : CGameObject(x, y) {
 		nx = 1;
 		ny = 0;
 		vx = vy = 0;
@@ -53,6 +55,11 @@ public:
 
 	int IsCollidable() {
 		return 1;
+	}
+
+	int IsMoving() {
+		if (vx || vy || crossingStart || absolutelyTouching) return 1;
+		return 0;
 	}
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
