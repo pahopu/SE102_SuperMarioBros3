@@ -3,7 +3,6 @@
 void CPlatformAnimate::Render() {
 	if (isAni) CAnimations::GetInstance()->Get(aniOrsprite)->Render(x, y);
 	else CSprites::GetInstance()->Get(aniOrsprite)->Draw(x, y);
-	RenderBoundingBox();
 }
 
 void CPlatformAnimate::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
