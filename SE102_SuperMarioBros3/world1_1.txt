@@ -42,6 +42,7 @@
 # PLATFORM	id	x	y	width	height	length	begin	middle	end	type(block = 1, normal = 2, no collision = 3)
 # BRICK	type	x	y	type(gold = 1, question = 2)	object_type(none = 0, super mushroom/leaf = 1, coin = 2, 1up = 3, pswitch = 4);
 # TELEPORT GATE	x	y	des_x	des_y	direction(down: 0, up: 1)
+# PORTAL	left	top	right	bottom	scene_id	type(worldmap: 1, level: 2)
 
 
 
@@ -169,7 +170,7 @@ koopatroopa.txt
 
 
 # PORTAL
-50	2683	330	2706	354	0
+50	2683	330	2706	354	1	1
 
 
 # GROUND
