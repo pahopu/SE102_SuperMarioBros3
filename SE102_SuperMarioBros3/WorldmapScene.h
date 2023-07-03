@@ -5,7 +5,7 @@
 #include "Textures.h"
 #include "GameObject.h"
 
-#define DEFAULT_CAMERA_POSITION__Y		0
+#define DEFAULT_CAMERA_WORLDMAP_POSITION		0
 
 class CWorldmapScene : public CScene
 {

@@ -4,7 +4,6 @@
 #include "Hud.h"
 #include "Coin.h"
 #include "debug.h"
-#include "Mario.h"
 #include "Utils.h"
 #include "Portal.h"
 #include "Sprites.h"
@@ -12,9 +11,10 @@
 #include "Platform.h"
 #include "Textures.h"
 #include "TeleportGate.h"
-#include "WorldMapScene.h"
+#include "MarioWorldmap.h"
+#include "WorldmapScene.h"
 #include "PlatformAnimate.h"
-#include "WorldMapKeyEventHandler.h"
+#include "WorldmapKeyEventHandler.h"
 
 using namespace std;
 
@@ -109,22 +109,26 @@ void CWorldmapScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	case OBJECT_TYPE_MARIO:
+	case OBJECT_TYPE_MARIO: {
 		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x, y);
-		player = (CMario*)obj;
+		obj = new CMarioWorldmap(x, y);
+		player = (CMarioWorldmap*)obj;
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
+	}
 
 	case OBJECT_TYPE_PLATFORM_ANIMATE:
 	{
-		int ani = atoi(tokens[3].c_str());
-		obj = new CPlatformAnimate(x, y, ani);
+		int aniOrsprite = atoi(tokens[3].c_str());
+		int type = atoi(tokens[4].c_str());
+		int isAni = atoi(tokens[5].c_str());
+
+		obj = new CPlatformAnimate(x, y, aniOrsprite, type, isAni);
 		break;
 	}
 
@@ -147,6 +151,16 @@ void CWorldmapScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+
+	case OBJECT_TYPE_PORTAL:
+	{
+		float r = (float)atof(tokens[3].c_str());
+		float b = (float)atof(tokens[4].c_str());
+		int scene_id = atoi(tokens[5].c_str());
+		int type = atoi(tokens[6].c_str());
+		obj = new CPortal(x, y, r, b, scene_id, type);
+	}
+	break;
 
 	default:
 		DebugOut(L"[ERROR] Invalid object type: %d\n", object_type);
@@ -291,8 +305,14 @@ void CWorldmapScene::Update(DWORD dt)
 
 	//if (cx > CAMERA_POSITION_MAX_X) cy = POSITION_SECRET_ROOM_Y;
 
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 1; i < objects.size(); i++)
+		coObjects.push_back(objects[i]);
+	player->Update(dt, &coObjects);
+
 	float cx, cy;
-	cx = cy = 0;
+	cx = DEFAULT_CAMERA_WORLDMAP_POSITION;
+	cy = DEFAULT_CAMERA_WORLDMAP_POSITION;
 
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
