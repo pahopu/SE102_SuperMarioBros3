@@ -18,7 +18,7 @@ void CControl::CalculatePosition(int type) {
 	switch (type) {
 	case CONTROL_TYPE_PAUSE:
 		x = cam_x + CGame::GetInstance()->GetBackBufferWidth() / 2;
-		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() / 2 + CONTROL_PAUSE_BBOX_HEIGHT / 2);
+		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() / 2 + CONTROL_PAUSE_BBOX_HEIGHT / 100);
 		break;
 
 	case CONTROL_TYPE_MODE:
