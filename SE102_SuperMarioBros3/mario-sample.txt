@@ -1,5 +1,5 @@
 [SETTINGS]
-start	1
+start	0
 width	320
 height	240
 
@@ -9,7 +9,6 @@ height	240
 0	intro.txt
 1	worldmap.txt
 2	world1_1.txt
-5	scene0005.txt
 
 # id	file 
 [TEXTURES]
@@ -23,3 +22,4 @@ height	240
 60	textures\effects.png
 70	textures\hud_font.png
 80	textures\worldmap.png
+90	textures\intro.png
