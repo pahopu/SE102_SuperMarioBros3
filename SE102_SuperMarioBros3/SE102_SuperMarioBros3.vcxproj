@@ -137,6 +137,7 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Coin.cpp" />
     <ClCompile Include="Collision.cpp" />
+    <ClCompile Include="Control.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Effect.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Coin.h" />
     <ClInclude Include="Collision.h" />
+    <ClInclude Include="Control.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Effect.h" />
     <ClInclude Include="Game.h" />
