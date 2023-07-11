@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "debug.h"
+#include "Control.h"
 #include "MarioWorldmap.h"
 #include "WorldmapScene.h"
 #include "WorldmapKeyEventHandler.h"
@@ -14,6 +15,10 @@ void CWorldmapKeyEventHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_S:
 		mario->SetCanGoIntoPortal(1);
+		break;
+	case DIK_ESCAPE:
+		if (CControl::GetInstance()->IsPausing()) CControl::GetInstance()->DeactiveControl(CONTROL_TYPE_PAUSE);
+		else CControl::GetInstance()->ActiveControl(CONTROL_TYPE_PAUSE);
 		break;
 	}
 

@@ -4,6 +4,7 @@
 #include "Game.h"
 
 #include "Mario.h"
+#include "Control.h"
 #include "PlayScene.h"
 
 void CSampleKeyHandler::OnKeyDown(int KeyCode)
@@ -43,7 +44,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_R: // reset
 		scene->Unload();
 		scene->Load();
-	case DIK_T: // rendering bouding box
+	case DIK_ESCAPE:
+		if (CControl::GetInstance()->IsPausing()) CControl::GetInstance()->DeactiveControl(CONTROL_TYPE_PAUSE);
+		else CControl::GetInstance()->ActiveControl(CONTROL_TYPE_PAUSE);
 		
 		break;
 	}
