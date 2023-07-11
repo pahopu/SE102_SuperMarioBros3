@@ -23,6 +23,39 @@
 #define OBJECT_TYPE_PORTAL								50
 
 
+#pragma region Intro
+#define ID_SPRITE_INTRO									0
+
+#define ID_SPRITE_STAGE									0
+#define ID_SPRITE_BLACKSCREEN							1
+#define ID_SPRITE_GAMENAME								2
+
+#define ID_SPRITE_NUMBER3_1								3
+#define ID_SPRITE_NUMBER3_2								4
+#define ID_SPRITE_NUMBER3_3								5
+#define ID_SPRITE_NUMBER3_4								6
+
+#define ID_SPRITE_TM									7
+
+#define ID_SPRITE_CURTAIN								(ID_SPRITE_INTRO + 10)
+#define ID_SPRITE_CURTAIN_1								(ID_SPRITE_CURTAIN + 0)
+#define ID_SPRITE_CURTAIN_2								(ID_SPRITE_CURTAIN + 1)
+#define ID_SPRITE_CURTAIN_3								(ID_SPRITE_CURTAIN + 2)
+
+#define ID_SPRITE_TREE									(ID_SPRITE_INTRO + 20)
+#define ID_SPRITE_TREE_LEFT								(ID_SPRITE_TREE + 0)
+#define ID_SPRITE_TREE_RIGHT							(ID_SPRITE_TREE + 1)
+
+#define ID_SPRITE_CLOUD									(ID_SPRITE_INTRO + 30)
+#define ID_SPRITE_CLOUD_BIG								(ID_SPRITE_CLOUD + 0)
+#define ID_SPRITE_CLOUD_SMALL							(ID_SPRITE_CLOUD + 1)
+
+#define ID_SPRITE_1PLAYERGAME							(ID_SPRITE_INTRO + 40)
+
+
+#pragma endregion Intro
+
+
 #pragma region MARIO 
 
 #define ID_SPRITE_MARIO									10000
