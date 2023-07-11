@@ -69,8 +69,6 @@ void CMarioWorldmap::OnCollisionWith(LPCOLLISIONEVENT e){
 
 			if (platform->GetType() == PLATFORM_ANIMATE_TYPE_GATE)
 				absolutelyTouching = 1;
-
-			DebugOut(L"Hello");
 		}
 
 		vx = 0;
