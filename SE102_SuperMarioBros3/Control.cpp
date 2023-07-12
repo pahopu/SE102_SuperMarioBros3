@@ -5,10 +5,10 @@
 CControl* CControl::_instance = NULL;
 
 void CControl::GetBoundingBox(float& left, float& top, float& right, float& bottom) {
-	left = x;
-	top = y;
-	right = left;
-	bottom = top;
+	left = x - CONTROL_PAUSE_BBOX_WIDTH / 2;
+	top = y - CONTROL_PAUSE_BBOX_HEIGHT / 2;
+	right = left + CONTROL_PAUSE_BBOX_WIDTH;
+	bottom = top + CONTROL_PAUSE_BBOX_HEIGHT;
 }
 
 void CControl::CalculatePosition(int type) {
