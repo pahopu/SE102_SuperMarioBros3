@@ -144,6 +144,8 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="IntroKeyEventHandler.cpp" />
+    <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="InvisibleObject.cpp" />
     <ClCompile Include="KoopaTroopa.cpp" />
     <ClCompile Include="main.cpp" />
@@ -184,6 +186,8 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="IntroKeyEventHandler.h" />
+    <ClInclude Include="IntroScene.h" />
     <ClInclude Include="InvisibleObject.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="KoopaTroopa.h" />
@@ -216,6 +220,7 @@
     <Text Include="bullet.txt" />
     <Text Include="grassland.txt" />
     <Text Include="hud.txt" />
+    <Text Include="introsprites.txt" />
     <Text Include="misc.txt" />
     <Text Include="coin.txt" />
     <Text Include="goomba.txt" />
