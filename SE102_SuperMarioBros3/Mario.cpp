@@ -13,6 +13,7 @@
 #include "Mushroom.h"
 #include "Platform.h"
 #include "Collision.h"
+#include "PlayScene.h"
 #include "PiranhaPlant.h"
 #include "InvisibleObject.h"
 
@@ -917,6 +918,9 @@ void CMario::SetLevel(int l)
 		break;
 	}
 
-	CHud::GetInstance()->SaveLevel(l);
+	// Save level in play scene not intro scene
+	if (dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene()))
+		CHud::GetInstance()->SaveLevel(level);
+
 	level = l;
 }
