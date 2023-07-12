@@ -7,6 +7,7 @@
 #include "Utils.h"
 #include "Effect.h"
 #include "Portal.h"
+#include "Control.h"
 #include "Sprites.h"
 #include "AssetIDs.h"
 #include "Platform.h"
@@ -278,6 +279,10 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
+	// Pausing
+	if (CControl::GetInstance()->IsPausing())
+		return;
+
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
 
@@ -351,6 +356,7 @@ void CPlayScene::Render()
 
 	CHud::GetInstance()->Render();
 	CEffect::GetInstance()->Render();
+	CControl::GetInstance()->Render();
 }
 
 /*
