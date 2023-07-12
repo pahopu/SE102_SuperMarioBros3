@@ -64,8 +64,8 @@ koopatroopa.txt
 introsprites.txt
 [OBJECTS]
 # Mario
-# 0	60	100
-# 0	100	100
+0	60	100
+0	100	100
 
 # Number Three
 9	160	116	25000	1	1
