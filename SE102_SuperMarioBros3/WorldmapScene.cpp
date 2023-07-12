@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "Utils.h"
 #include "Portal.h"
+#include "Control.h"
 #include "Sprites.h"
 #include "AssetIDs.h"
 #include "Platform.h"
@@ -246,64 +247,9 @@ void CWorldmapScene::Load()
 
 void CWorldmapScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
-
-	//CMario* mario = dynamic_cast<CMario*>(player);
-	//if (!mario->IsTransforming()) {
-	//	vector<LPGAMEOBJECT> coObjects;
-	//	for (size_t i = 1; i < objects.size(); i++)
-	//	{
-	//		coObjects.push_back(objects[i]);
-	//	}
-
-	//	for (size_t i = 0; i < objects.size(); i++)
-	//	{
-	//		objects[i]->Update(dt, &coObjects);
-	//	}
-	//}
-
-	//// Update time
-	//CTimer::GetInstance()->Update(dt);
-
-	//// Update effect
-	//CEffect::GetInstance()->Update(dt);
-
-	//// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-	//if (player == NULL) return;
-
-	//// Update camera to follow mario
-	//float cx, cy;
-	//player->GetPosition(cx, cy);
-
-	//CGame* game = CGame::GetInstance();
-	//cx -= game->GetBackBufferWidth() / 2;
-	////cy -= game->GetBackBufferHeight() / 2;
-
-	//if (cx < 0) cx = 0;
-
-	//float old_cx, old_cy;
-	//CGame::GetInstance()->GetCamPos(old_cx, old_cy);
-
-	////DebugOutTitle(L"mario x: %f cy: %f", cx, old_cy);
-
-	//if (mario->GetLevel() == MARIO_LEVEL_RACOON) {
-	//	if ((cy - old_cy) < (game->GetBackBufferHeight() / 3) && mario->IsFlying()) // Case Mario is flying or on the platform in the sky
-	//		cy -= game->GetBackBufferHeight() / 3;
-	//	else if ((cy - old_cy) > (game->GetBackBufferHeight() / 2)) // Case Mario is falling down
-	//		cy -= game->GetBackBufferHeight() / 2;
-	//	else cy = old_cy;
-
-	//	if (cy < CAMERA_POSITION_MIN_Y) cy = CAMERA_POSITION_MIN_Y;
-	//}
-	//else cy = DEFAULT_CAMERA_POSITION_Y;
-
-	//if (cy >= DEFAULT_CAMERA_POSITION_Y) cy = DEFAULT_CAMERA_POSITION_Y;
-
-	//if (cx >= CAMERA_POSITION_MAX_X && cx < POSITION_SECRET_ROOM)
-	//	cx = CAMERA_POSITION_MAX_X;
-
-	//if (cx > CAMERA_POSITION_MAX_X) cy = POSITION_SECRET_ROOM_Y;
+	// Pausing
+	if (CControl::GetInstance()->IsPausing())
+		return;
 
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
@@ -327,6 +273,7 @@ void CWorldmapScene::Render()
 	//	objects[i]->Render();
 
 	CHud::GetInstance()->Render();
+	CControl::GetInstance()->Render();
 }
 
 /*
