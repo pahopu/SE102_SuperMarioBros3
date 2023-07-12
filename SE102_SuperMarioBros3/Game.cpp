@@ -2,12 +2,12 @@
 
 #include "Game.h"
 #include "debug.h"
-#include "Utils.h"
-
-#include "Texture.h"
-#include "Animations.h"
-#include "PlayScene.h"
 #include "Timer.h"
+#include "Utils.h"
+#include "Texture.h"
+#include "PlayScene.h"
+#include "Animations.h"
+#include "IntroScene.h"
 #include "WorldmapScene.h"
 
 CGame * CGame::__instance = NULL;
@@ -461,7 +461,8 @@ void CGame::_ParseSection_SCENES(string line)
 
 	LPSCENE scene;
 
-	if (id == 1) scene = new CWorldmapScene(id, path);
+	if (id == 1) scene = new CIntroScene(id, path);
+	else if (id == 2) scene = new CWorldmapScene(id, path);
 	else scene = new CPlayScene(id, path);
 	scenes[id] = scene;
 }
