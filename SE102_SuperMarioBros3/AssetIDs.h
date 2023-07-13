@@ -238,8 +238,12 @@
 
 #define ID_SPRITE_GIFT_BOX								55641
 #define ID_SPRITE_GIFT_MUSHROOM							55651
+#define ID_SPRITE_GIFT_MUSHROOM_ON_HUD					55653
 #define ID_SPRITE_GIFT_FLOWER							55661
+#define ID_SPRITE_GIFT_FLOWER_ON_HUD					55663
 #define ID_SPRITE_GIFT_STAR								55671
+#define ID_SPRITE_GIFT_STAR_ON_HUD						55673
+#define ID_SPRITE_GOAL									55680
 
 #pragma region Effect
 
