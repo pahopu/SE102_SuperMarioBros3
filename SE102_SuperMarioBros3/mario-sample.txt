@@ -1,7 +1,7 @@
 [SETTINGS]
 start	1
 width	320
-height	240
+height	280
 
 #id	type	file
 # type: 0: intro, 1: world map, 2: world 1-1
