@@ -921,7 +921,8 @@ void CMario::SetLevel(int l)
 		break;
 	}
 
-	CHud::GetInstance()->SaveLevel(l);
+	if (dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene()))
+		CHud::GetInstance()->SaveLevel(l);
 
 	level = l;
 }
