@@ -343,6 +343,10 @@ public:
 		return canGetIntoPipe; 
 	}
 
+	void SetMaxVx(float vx) {
+		maxVx = vx;
+	}
+
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
