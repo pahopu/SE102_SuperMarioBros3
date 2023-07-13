@@ -51,6 +51,7 @@
 #define ID_SPRITE_CLOUD_SMALL							(ID_SPRITE_CLOUD + 1)
 
 #define ID_SPRITE_1PLAYERGAME							(ID_SPRITE_INTRO + 40)
+#define ID_SPRITE_2PLAYERGAME							(ID_SPRITE_INTRO + 41)
 
 
 #pragma endregion Intro
