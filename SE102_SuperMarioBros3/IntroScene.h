@@ -117,7 +117,7 @@ protected:
 				obj = new CMushroom(number3_x + 50, 0, MUSHROOM_TYPE_SUPER);
 				ItemsAndEnemies.push_back(obj);
 
-				obj = new CMushroom(number3_x - 7.5, number3_y, MUSHROOM_TYPE_SUPER_LEAF);
+				obj = new CMushroom(number3_x - 7.5f, number3_y, MUSHROOM_TYPE_SUPER_LEAF);
 				ItemsAndEnemies.push_back(obj);
 
 				stateOfMario = MARIO_STATE_JUMP;
