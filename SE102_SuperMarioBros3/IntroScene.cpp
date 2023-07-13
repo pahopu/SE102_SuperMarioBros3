@@ -296,7 +296,6 @@ void CIntroScene::Update(DWORD dt)
 		for (int i = 0; i < ItemsAndEnemies.size(); i++)
 			coObjects.push_back(ItemsAndEnemies[i]);
 
-		//objects[0]->Update(dt, &coObjects);
 		player[0]->Update(dt, &coObjects);
 		player[1]->Update(dt, &coObjects);
 		for (int i = 0; i < ItemsAndEnemies.size(); i++)
@@ -337,7 +336,7 @@ void CIntroScene::Render()
 		platformObjects[2]->Render();
 	}
 
-	for (int i = platformObjects.size() - 1; i > 2; i--)
+	for (size_t i = platformObjects.size() - 1; i > 2; i--)
 	{
 		//int id = platform_objects[i]->GetSpriteIDBegin();
 		//if((id == ID_SPRITE_CURTAIN_1 || id == ID_SPRITE_CURTAIN_2))

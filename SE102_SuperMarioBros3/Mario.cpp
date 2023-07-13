@@ -267,6 +267,9 @@ void CMario::OnCollisionWithKoopaTroopa(LPCOLLISIONEVENT e)
 			koopa->SetState(KOOPA_TROOPA_STATE_SHELL);
 		else if (koopa->GetState() == KOOPA_TROOPA_STATE_ATTACKING) {
 			koopa->SetState(KOOPA_TROOPA_STATE_SHELL);
+			float kx, ky;
+			koopa->GetPosition(kx, ky);
+			koopa->SetPosition(kx, ky - 5);
 		}
 		else if (koopa->GetLevel() == KOOPA_TROOPA_LEVEL_PARA) {
 			koopa->SetLevel(KOOPA_TROOPA_LEVEL_NORMAL);
@@ -902,7 +905,7 @@ void CMario::SetLevel(int l)
 	{
 	case MARIO_LEVEL_SMALL:
 		SetTransformStart();
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+		y -= (MARIO_RACOON_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
 
 		break;
 
@@ -918,9 +921,7 @@ void CMario::SetLevel(int l)
 		break;
 	}
 
-	// Save level in play scene not intro scene
-	if (dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene()))
-		CHud::GetInstance()->SaveLevel(level);
+	CHud::GetInstance()->SaveLevel(l);
 
 	level = l;
 }
