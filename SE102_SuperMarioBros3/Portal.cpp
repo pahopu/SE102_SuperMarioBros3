@@ -14,6 +14,8 @@ CPortal::CPortal(float l, float t, float r, float b, int scene_id, int Type)
 	switchScene_start = 0;
 	giftType = GIFT_TYPE_MUSHROOM;
 	switchGift_start = GetTickCount64();
+	goal_x = x - GOAL_WIDTH / 10;
+	goal_y = y - GOAL_HEIGHT / 1.3f;
 }
 
 void CPortal::RenderBoundingBox()
@@ -86,19 +88,28 @@ void CPortal::Render() {
 		}
 	}
 	else {
+		CSprites* sprites = CSprites::GetInstance();
+		sprites->Get(ID_SPRITE_GOAL)->Draw(goal_x, goal_y);
+
 		CAnimations* animations = CAnimations::GetInstance();
 
 		switch (giftType) {
 		case GIFT_TYPE_MUSHROOM:
 			animations->Get(ID_ANI_GIFT_MUSHROOM)->Render(x, y);
+			sprites->Get(ID_SPRITE_GIFT_MUSHROOM_ON_HUD)->Draw(goal_x + GOAL_WIDTH / 4 - 1, goal_y + GOAL_HEIGHT / 4 + 2);
+
 			break;
 
 		case GIFT_TYPE_FLOWER:
 			animations->Get(ID_ANI_GIFT_FLOWER)->Render(x, y);
+			sprites->Get(ID_SPRITE_GIFT_FLOWER_ON_HUD)->Draw(goal_x + GOAL_WIDTH / 4 - 1, goal_y + GOAL_HEIGHT / 4 + 2);
+
 			break;
 
 		case GIFT_TYPE_STAR:
 			animations->Get(ID_ANI_GIFT_STAR)->Render(x, y);
+			sprites->Get(ID_SPRITE_GIFT_STAR_ON_HUD)->Draw(goal_x + GOAL_WIDTH / 4 - 1, goal_y + GOAL_HEIGHT / 4 + 2);
+
 			break;
 		}
 	}

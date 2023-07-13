@@ -16,6 +16,9 @@
 #define PORTAL_TYPE_PLAYSCENE_TO_ANOTHER	1
 #define PORTAL_TYPE_ANOTHER_TO_PLAYSCENE	2
 
+#define GOAL_WIDTH							247
+#define GOAL_HEIGHT							73
+
 #define SWITCHING_GIFT_TIME					100
 #define SWITCHING_SCENE_TIME				2000
 
@@ -30,6 +33,9 @@ class CPortal : public CGameObject
 
 	float width;
 	float height; 
+
+	float goal_x;
+	float goal_y;
 
 	ULONGLONG switchGift_start;
 	ULONGLONG switchScene_start;
@@ -60,11 +66,11 @@ public:
 	int GetSpriteGift() {
 		switch (giftType) {
 		case GIFT_TYPE_MUSHROOM:
-			return ID_SPRITE_GIFT_MUSHROOM;
+			return ID_SPRITE_GIFT_MUSHROOM_ON_HUD;
 		case GIFT_TYPE_FLOWER:
-			return ID_SPRITE_GIFT_FLOWER;
+			return ID_SPRITE_GIFT_FLOWER_ON_HUD;
 		default:
-			return ID_SPRITE_GIFT_STAR;
+			return ID_SPRITE_GIFT_STAR_ON_HUD;
 		}
 	}
 };
