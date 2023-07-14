@@ -109,22 +109,21 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	case OBJECT_TYPE_MARIO:
-		if (player[0] != NULL && player[1] != NULL)
-		{
+	case OBJECT_TYPE_MARIO: {
+		int type = (int)atof(tokens[3].c_str());
+
+		if (player[0] != NULL && player[1] != NULL) {
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x, y);
+
+		obj = new CMario(x, y, type);
 		obj->SetState(MARIO_STATE_IDLE);
-		if (player[0] == NULL)
-		{
+		if (player[0] == NULL) {
 			player[0] = (CMario*)obj;
 			((CMario*)player[0])->SetLevel(MARIO_LEVEL_BIG);
 		}
-
-		else
-		{
+		else {
 			player[1] = (CMario*)obj;
 			((CMario*)player[1])->SetLevel(MARIO_LEVEL_BIG);
 		}
@@ -132,9 +131,9 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 
 		break;
+	}
 
-	case OBJECT_TYPE_PLATFORM_ANIMATE:
-	{
+	case OBJECT_TYPE_PLATFORM_ANIMATE: { // Only for number 3
 		int aniOrsprite = atoi(tokens[3].c_str());
 		int type = atoi(tokens[4].c_str());
 		int isAni = atoi(tokens[5].c_str());
@@ -146,8 +145,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_PLATFORM:
-	{
+	case OBJECT_TYPE_PLATFORM: { // Another like curtain, cloud,...
 
 		float cell_width = (float)atof(tokens[3].c_str());
 		float cell_height = (float)atof(tokens[4].c_str());
@@ -168,8 +166,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_PORTAL:
-	{
+	case OBJECT_TYPE_PORTAL: { // Portal to select mode
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
@@ -261,6 +258,8 @@ void CIntroScene::Load()
 	}
 
 	f.close();
+
+	// Start intro with curtain flying
 	flag = CURTAIN_FLYING;
 	timeStart = GetTickCount64();
 	DebugOut(L"[INFO] Done loading scene  %s\n", sceneFilePath);
@@ -268,14 +267,14 @@ void CIntroScene::Load()
 
 void CIntroScene::Update(DWORD dt)
 {
-	//this make intro exactly
+	// This make intro exactly
 	if (MarioWalkingStart != 0)
 		MarioWalkingStart += (dt - 15);
 	if (timeStart != 0)
 		timeStart += (dt - 15);
 	dt = 15;
 
-	//PAUSING
+	// PAUSING
 	if (CControl::GetInstance()->IsPausing())
 	{
 		timeStart += dt;
@@ -284,36 +283,36 @@ void CIntroScene::Update(DWORD dt)
 
 	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
 	// TO-DO: This is a "dirty" way, need a more organized way 
-	if (!((CMario*)player[1])->IsTransforming())
-	{
+	if (!((CMario*)player[1])->IsTransforming()) {
 
 		vector<LPGAMEOBJECT> coObjects;
-		for (size_t i = 0; i < platformObjects.size(); i++)
-		{
-			coObjects.push_back(objects[i]);
-		}
 
+		// Update platform objects first
+		for (size_t i = 0; i < platformObjects.size(); i++)
+			coObjects.push_back(objects[i]);
+
+		// Then item and enemies
 		for (int i = 0; i < ItemsAndEnemies.size(); i++)
 			coObjects.push_back(ItemsAndEnemies[i]);
 
 		player[0]->Update(dt, &coObjects);
 		player[1]->Update(dt, &coObjects);
+
+		// Update items and enemies
 		for (int i = 0; i < ItemsAndEnemies.size(); i++)
 			ItemsAndEnemies[i]->Update(dt, &coObjects);
 
-		//Introduction of Super Mario Bros 3
+		// Introduction of Super Mario Bros 3
+		// Update another things
 		Action(dt);
 	}
 
-
-	//CGame::GetInstance()->SetCamPos(0, 0);
-
-	//Deleting objects out of Screen
+	// Deleting objects out of Screen
 	float x, y;
 	int Screen_Height = CGame::GetInstance()->GetBackBufferHeight();
 	int Screen_Width = CGame::GetInstance()->GetBackBufferWidth();
-	for (auto e : ItemsAndEnemies)
-	{
+
+	for (auto e : ItemsAndEnemies) {
 		e->GetPosition(x, y);
 		if (y > Screen_Height + 20 || x < -100 || x > Screen_Width + 70)
 			e->Delete();
@@ -324,27 +323,19 @@ void CIntroScene::Update(DWORD dt)
 
 void CIntroScene::Render()
 {
-	//for (int i = objects.size() - 1; i >= 0; i--)
-		//objects[i]->Render();
-
-
-	if (flag == CURTAIN_FLYING)
-	{
+	if (flag == CURTAIN_FLYING) {
 		player[0]->Render();
 		player[1]->Render();
+
+		// Black screen
 		platformObjects[1]->Render();
 		platformObjects[2]->Render();
 	}
 
 	for (size_t i = platformObjects.size() - 1; i > 2; i--)
-	{
-		//int id = platform_objects[i]->GetSpriteIDBegin();
-		//if((id == ID_SPRITE_CURTAIN_1 || id == ID_SPRITE_CURTAIN_2))
 		platformObjects[i]->Render();
-	}
 
-	if (MarioWalkingStart != 0 && flag == 0)
-	{
+	if (MarioWalkingStart != 0 && flag == 0) {
 		platformObjects[1]->Render();
 		platformObjects[2]->Render();
 
@@ -352,8 +343,7 @@ void CIntroScene::Render()
 		player[1]->Render();
 	}
 
-	if (flag != CURTAIN_FLYING)
-	{
+	if (flag != CURTAIN_FLYING) {
 		Number3->Render();
 		platformObjects[2]->Render();
 		player[0]->Render();
@@ -363,10 +353,9 @@ void CIntroScene::Render()
 			ItemsAndEnemies[i]->Render();
 	}
 
-	//render stage
+	// Render stage
 	platformObjects[0]->Render();
 
-	//CControl::GetInstance()->ActiveControl(CONTROL_TYPE_MODE);
 	CControl::GetInstance()->Render();
 }
 
@@ -428,7 +417,8 @@ void CIntroScene::PurgeDeletedObjects()
 			*it = NULL;
 		}
 	}
-	//remove ItemsAndEnemies
+
+	// remove ItemsAndEnemies
 	ItemsAndEnemies.erase(
 		std::remove_if(ItemsAndEnemies.begin(), ItemsAndEnemies.end(), CIntroScene::IsGameObjectDeleted),
 		ItemsAndEnemies.end());

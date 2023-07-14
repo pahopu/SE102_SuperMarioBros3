@@ -53,6 +53,7 @@ hud.txt
 coin.txt
 misc.txt
 brick.txt
+luigi.txt
 mario.txt
 bullet.txt
 goomba.txt
@@ -64,8 +65,8 @@ koopatroopa.txt
 introsprites.txt
 [OBJECTS]
 # Mario
-0	7.5	100
-0	290	100
+0	7.5	100	200
+0	290	100	100
 
 # Number 3
 9	160	116	25000	3	1

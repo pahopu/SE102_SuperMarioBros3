@@ -36,6 +36,7 @@
 # 7 = Invisible Object,
 # 8 = Teleport Gate,
 # 9 = Platform Animate
+# 10 = Enemy Worldmap
 
 # PIRANHA PLANT	id	x	y	type(green = 1, green fire = 2, red fire = 3)
 # GOOMBA	id	x	y	type(normal = 1, red = 2)	level(normal = 1, para = 2)
@@ -45,6 +46,7 @@
 # TELEPORT GATE	x	y	des_x	des_y	direction(down: 0, up: 1)
 # PORTAL	left	top	right	bottom	scene_id	type(worldmap: 1, level: 2)
 # PLATFORM ANIMATE	id	x	y	AniOrSprite	Type(block: 0, gate: 1)	IsAni(0: sprite, 1: ani)
+# ENEMY WORLDMAP	x	y	walkingRange
 
 
 
@@ -57,6 +59,9 @@ grassland.txt
 [OBJECTS]
 # MARIO
 0	65	49
+
+# Enemy
+10	181	113	30
 
 # PLATFORM ANIMATE
 9	49	17	20000	1	1
@@ -141,7 +146,7 @@ grassland.txt
 
 
 # BRIDGE
-9	177	115	80320	3	0
+9	177	113	80320	3	0
 
 
 # DOOR
@@ -187,6 +192,7 @@ grassland.txt
 9	97	81	80032	2	0
 9	97	113	80032	2	0
 9	161	113	80032	2	0
+9	191	113	80032	2	0
 9	129	146	80032	2	0
 
 

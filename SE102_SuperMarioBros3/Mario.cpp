@@ -976,8 +976,14 @@ void CMario::Render()
 		if (level == MARIO_LEVEL_RACOON || old_level == MARIO_LEVEL_RACOON)
 			animations->Get(ID_ANI_BIG_MARIO_EATING_SUPERLEAF)->Render(x, y);
 		else if (level == MARIO_LEVEL_BIG || old_level == MARIO_LEVEL_BIG)
-			if (nx >= 0) animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
-			else animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+			if (type == MARIO) {
+				if (nx >= 0) animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
+				else animations->Get(ID_ANI_MARIO_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+			}
+			else {
+				if (nx >= 0) animations->Get(ID_ANI_LUIGI_SMALL_TRANSFORM_BIG_RIGHT)->Render(x, y);
+				else animations->Get(ID_ANI_LUIGI_SMALL_TRANSFORM_BIG_LEFT)->Render(x, y);
+			}
 	}
 	else {
 		int aniId = -1;

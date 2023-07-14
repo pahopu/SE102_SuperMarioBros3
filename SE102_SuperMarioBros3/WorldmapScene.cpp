@@ -12,6 +12,7 @@
 #include "Platform.h"
 #include "Textures.h"
 #include "TeleportGate.h"
+#include "EnemyWorldmap.h"
 #include "MarioWorldmap.h"
 #include "WorldmapScene.h"
 #include "PlatformAnimate.h"
@@ -121,6 +122,12 @@ void CWorldmapScene::_ParseSection_OBJECTS(string line)
 		player = (CMarioWorldmap*)obj;
 
 		DebugOut(L"[INFO] Player object has been created!\n");
+		break;
+	}
+
+	case OBJECT_TYPE_WORLDMAP_ENEMY: {
+		float range = atof(tokens[3].c_str());
+		obj = new CEnemyWorldmap(x, y, range);
 		break;
 	}
 
@@ -256,6 +263,7 @@ void CWorldmapScene::Update(DWORD dt)
 	for (size_t i = 1; i < objects.size(); i++)
 		coObjects.push_back(objects[i]);
 	player->Update(dt, &coObjects);
+	objects[1]->Update(dt, &coObjects);
 
 	float cx, cy;
 	cx = DEFAULT_CAMERA_WORLDMAP_POSITION;

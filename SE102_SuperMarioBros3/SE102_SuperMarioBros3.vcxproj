@@ -140,6 +140,7 @@
     <ClCompile Include="Control.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EnemyWorldmap.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
@@ -182,6 +183,7 @@
     <ClInclude Include="Control.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="EnemyWorldmap.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />

@@ -11,14 +11,30 @@ void CIntroKeyEventHandler::OnKeyDown(int KeyCode) {
 
 	switch (KeyCode) {
 	case DIK_S:
-		if (control->IsActivatingMode()) { // switch to WorldMap
-			control->DeactiveControl(CONTROL_TYPE_MODE);
+		if (!control->IsActivatingModeTwo()) {
+			if (control->IsActivatingModeOne()) { // switch to WorldMap
+				control->DeactiveControl(CONTROL_TYPE_MODE_ONE);
 
-			DebugOut(L"Switch scene\n");
-			((LPINTROSCENE)CGame::GetInstance()->GetCurrentScene())->GetPortal()->SwitchScene();
+				DebugOut(L"Switch scene\n");
+				((LPINTROSCENE)CGame::GetInstance()->GetCurrentScene())->GetPortal()->SwitchScene();
+			}
+			else control->ActiveControl(CONTROL_TYPE_MODE_ONE);
 		}
-		else control->ActiveControl(CONTROL_TYPE_MODE);
 
+		break;
+
+	case DIK_UP:
+		if (control->IsActivatingModeTwo()) {
+			control->DeactiveControl(CONTROL_TYPE_MODE_TWO);
+			control->ActiveControl(CONTROL_TYPE_MODE_ONE);
+		}
+		break;
+
+	case DIK_DOWN:
+		if (control->IsActivatingModeOne()) {
+			control->DeactiveControl(CONTROL_TYPE_MODE_ONE);
+			control->ActiveControl(CONTROL_TYPE_MODE_TWO);
+		}
 		break;
 
 	case DIK_ESCAPE:
