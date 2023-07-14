@@ -16,6 +16,8 @@ void CIntroKeyEventHandler::OnKeyDown(int KeyCode) {
 				control->DeactiveControl(CONTROL_TYPE_MODE_ONE);
 
 				DebugOut(L"Switch scene\n");
+
+				CHud::GetInstance()->ResetScore();
 				((LPINTROSCENE)CGame::GetInstance()->GetCurrentScene())->GetPortal()->SwitchScene();
 			}
 			else control->ActiveControl(CONTROL_TYPE_MODE_ONE);
