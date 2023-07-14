@@ -94,6 +94,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float_start = GetTickCount64();
 	}
 
+	if (state == MARIO_STATE_DIE && GetTickCount64() - time_count >= MARIO_DIE_TIME) {
+		time_count = 0;
+		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPortal()->SwitchScene();
+	}
+
 	if (isOnPlatform) fly_start = float_start = 0;
 
 	isOnPlatform = false;
@@ -1136,6 +1141,7 @@ void CMario::SetState(int state) {
 		break;
 
 	case MARIO_STATE_DIE:
+		time_count = GetTickCount64();
 		vy = -MARIO_JUMP_DEFLECT_SPEED * 1.5f;
 		vx = 0;
 		ax = 0;
