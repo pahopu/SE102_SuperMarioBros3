@@ -21,6 +21,7 @@
 #define OBJECT_TYPE_PLATFORM_ANIMATE					9
 #define OBJECT_TYPE_WORLDMAP_ENEMY						10
 
+
 #define OBJECT_TYPE_PORTAL								50
 
 
