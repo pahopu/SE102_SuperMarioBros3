@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Mario.h"
+#include "Timer.h"
 #include "Portal.h"
 #include "Textures.h"
 #include "PlayScene.h"
@@ -127,8 +128,9 @@ void CPortal::GetBoundingBox(float& l, float& t, float& r, float& b) {
 void CPortal::SwitchScene() {
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	if (type == PORTAL_TYPE_ANOTHER_TO_PLAYSCENE || mario->GetState() == MARIO_STATE_DIE)
+	if (type == PORTAL_TYPE_ANOTHER_TO_PLAYSCENE || mario->GetState() == MARIO_STATE_DIE) {
 		CGame::GetInstance()->InitiateSwitchScene(scene_id);
+	}
 
 	if (!switchScene_start) {
 		switchScene_start = GetTickCount64();
@@ -139,4 +141,6 @@ void CPortal::SwitchScene() {
 		vy = 0;
 		CGame::GetInstance()->InitiateSwitchScene(scene_id);
 	}
+
+	CTimer::GetInstance()->InitTime();
 }
