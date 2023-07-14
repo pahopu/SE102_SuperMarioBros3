@@ -375,7 +375,7 @@
 #define MARIO_FLY_TIME								4000
 #define MARIO_REFLOAT_TIME							200
 #define MARIO_TRANSFORMATION_TIME					600
-#define MARIO_DIE_TIME								1500
+#define MARIO_DIE_TIME								3000
 
 #define MARIO_GETINTO_PIPE_DOWN						1
 #define MARIO_GETINTO_PIPE_UP						2
