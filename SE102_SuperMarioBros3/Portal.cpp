@@ -126,10 +126,10 @@ void CPortal::GetBoundingBox(float& l, float& t, float& r, float& b) {
 }
 
 void CPortal::SwitchScene() {
-	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-
-	if (type == PORTAL_TYPE_ANOTHER_TO_PLAYSCENE || (scene_id > 2 && mario->GetState() == MARIO_STATE_DIE))
+	if (type == PORTAL_TYPE_ANOTHER_TO_PLAYSCENE) {
+		CTimer::GetInstance()->InitTime();
 		CGame::GetInstance()->InitiateSwitchScene(scene_id);
+	}
 
 	if (!switchScene_start) {
 		switchScene_start = GetTickCount64();
@@ -138,8 +138,7 @@ void CPortal::SwitchScene() {
 	else if (GetTickCount64() - switchScene_start > SWITCHING_SCENE_TIME) {
 		switchScene_start = 0;
 		vy = 0;
+		CTimer::GetInstance()->InitTime();
 		CGame::GetInstance()->InitiateSwitchScene(scene_id);
 	}
-
-	CTimer::GetInstance()->InitTime();
 }
