@@ -126,7 +126,7 @@ void CWorldmapScene::_ParseSection_OBJECTS(string line)
 	}
 
 	case OBJECT_TYPE_WORLDMAP_ENEMY: {
-		float range = atof(tokens[3].c_str());
+		float range = (float) atof(tokens[3].c_str());
 		obj = new CEnemyWorldmap(x, y, range);
 		break;
 	}
