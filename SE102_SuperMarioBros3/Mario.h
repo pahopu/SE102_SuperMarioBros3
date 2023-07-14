@@ -29,7 +29,6 @@
 #define MARIO_JUMP_DEFLECT_SPEED					0.2f
 
 #define MARIO_STATE_DIE								-10
-#define MARIO_STATE_DEFLECT							-20
 #define MARIO_STATE_IDLE							0
 
 #define MARIO_STATE_WALKING_RIGHT					100
