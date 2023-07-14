@@ -1,4 +1,5 @@
 #pragma once
+#include "Portal.h"
 #include "Game.h"
 #include "Textures.h"
 #include "Scene.h"
@@ -24,6 +25,9 @@ protected:
 
 	// InvisibleObject
 	CInvisibleObject* invisible;
+
+	// Switch scene when Mario DIE
+	CPortal* portal;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -51,6 +55,8 @@ public:
 	void PurgeDeletedObjects();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+
+	CPortal* GetPortal() { return portal; }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

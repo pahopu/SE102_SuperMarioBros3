@@ -190,7 +190,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
-		obj = new CPortal(x, y, r, b, scene_id);
+		int type = atoi(tokens[6].c_str());
+		obj = new CPortal(x, y, r, b, scene_id, type);
+
+		if(type == 2) portal = (CPortal*)obj;
 	}
 	break;
 
@@ -290,14 +293,15 @@ void CPlayScene::Update(DWORD dt)
 	if (!mario->IsTransforming()) {
 		vector<LPGAMEOBJECT> coObjects;
 		for (size_t i = 1; i < objects.size(); i++)
-		{
 			coObjects.push_back(objects[i]);
-		}
 
-		for (size_t i = 0; i < objects.size(); i++)
-		{
-			objects[i]->Update(dt, &coObjects);
+		if (mario->GetState() == MARIO_STATE_DIE) {
+			player->Update(dt, &coObjects);
+			return;
 		}
+		else for (size_t i = 0; i < objects.size(); i++)
+			objects[i]->Update(dt, &coObjects);
+
 	}
 
 	// Update time
