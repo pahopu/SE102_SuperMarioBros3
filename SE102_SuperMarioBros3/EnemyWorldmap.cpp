@@ -22,3 +22,4 @@ void CEnemyWorldmap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 		old_x = x;
 	}
 }
+
