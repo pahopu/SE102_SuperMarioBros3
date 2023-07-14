@@ -172,6 +172,7 @@ koopatroopa.txt
 
 # PORTAL
 50	2683	330	2706	354	2	1
+50	-10	-10	0	0	2	2
 
 
 # GROUND
