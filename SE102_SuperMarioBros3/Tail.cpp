@@ -26,7 +26,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 			vy = 0;
 		}
 
-		// use this case if tail of Mario over the attack range
+		// Use this case if tail of Mario over the attack range
 		else if (abs(x + vx * dt - old_x) > TAIL_ATTACK_RANGE * TAIL_BBOX_WIDTH) {
 			if (vx >= 0) vx = (TAIL_ATTACK_RANGE * TAIL_BBOX_WIDTH + old_x - x) / dt;
 			else vx = (old_x - TAIL_ATTACK_RANGE * TAIL_BBOX_WIDTH - x) / dt;
@@ -40,7 +40,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects) {
 					|| dynamic_cast<CPhaseChecker*>(coObjects->at(i)))
 					continue;
 
-				objects.push_back(coObjects->at(i)); //just check collision with: Piranha Plant, Goomba, Koopa Troopa
+				objects.push_back(coObjects->at(i)); // Just check collision with: Piranha Plant, Goomba, Koopa Troopa
 			}
 			CCollision::GetInstance()->Process(this, coObjects);
 		}
