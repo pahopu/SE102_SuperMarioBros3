@@ -8,6 +8,7 @@
 #define ADJUST_Y								1.0f
 #define DEFAULT_CAMERA_WORLDMAP_POSITION		0
 
+
 class CWorldmapScene : public CScene
 {
 protected:
