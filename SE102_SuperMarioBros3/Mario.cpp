@@ -94,8 +94,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		float_start = GetTickCount64();
 	}
 
-	if (state == MARIO_STATE_DIE && GetTickCount64() - time_count >= MARIO_DIE_TIME) {
+	bool isWorld = false;
+	if (dynamic_cast<LPPLAYSCENE>(CGame::GetInstance()->GetCurrentScene()))
+		isWorld = true;
+
+	if (state == MARIO_STATE_DIE && GetTickCount64() - time_count >= MARIO_DIE_TIME && isWorld) {
 		time_count = 0;
+		CHud::GetInstance()->MarioDeath();
 		((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPortal()->SwitchScene();
 	}
 
