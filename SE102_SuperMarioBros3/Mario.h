@@ -29,6 +29,7 @@
 #define MARIO_JUMP_DEFLECT_SPEED					0.2f
 
 #define MARIO_STATE_DIE								-10
+#define MARIO_STATE_DEFLECT							-20
 #define MARIO_STATE_IDLE							0
 
 #define MARIO_STATE_WALKING_RIGHT					100
@@ -375,6 +376,7 @@
 #define MARIO_FLY_TIME								4000
 #define MARIO_REFLOAT_TIME							200
 #define MARIO_TRANSFORMATION_TIME					600
+#define MARIO_DIE_TIME								1500
 
 #define MARIO_GETINTO_PIPE_DOWN						1
 #define MARIO_GETINTO_PIPE_UP						2
