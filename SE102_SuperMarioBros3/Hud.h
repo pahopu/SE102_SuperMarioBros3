@@ -72,6 +72,10 @@ public:
 		return _instance;
 	}
 
+	void ResetScore() {
+		score = 0;
+	}
+
 	void SaveLevel(int l) { 
 		level = l; 
 	}
