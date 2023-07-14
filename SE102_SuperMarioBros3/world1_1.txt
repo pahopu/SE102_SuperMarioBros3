@@ -52,6 +52,7 @@ hud.txt
 coin.txt
 misc.txt
 brick.txt
+luigi.txt
 mario.txt
 bullet.txt
 goomba.txt
