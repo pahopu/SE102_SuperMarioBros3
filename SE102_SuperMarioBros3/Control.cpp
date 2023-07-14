@@ -21,9 +21,14 @@ void CControl::CalculatePosition(int type) {
 		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() / 2 + CONTROL_PAUSE_BBOX_HEIGHT / 100);
 		break;
 
-	case CONTROL_TYPE_MODE:
+	case CONTROL_TYPE_MODE_ONE:
 		x = cam_x + CGame::GetInstance()->GetBackBufferWidth() / 2;
-		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() * 2 / 3 + CONTROL_MODE_BBOX_HEIGHT);
+		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() * 2 / 3 + CONTROL_MODE_BBOX_HEIGHT + 15);
+		break;
+
+	case CONTROL_TYPE_MODE_TWO:
+		x = cam_x + CGame::GetInstance()->GetBackBufferWidth() / 2;
+		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() * 2 / 3 + CONTROL_MODE_BBOX_HEIGHT + 15);
 		break;
 	}
 }
@@ -42,8 +47,12 @@ void CControl::Render() {
 			spriteId = ID_SPRITE_PAUSE;
 			break;
 
-		case CONTROL_TYPE_MODE:
+		case CONTROL_TYPE_MODE_ONE:
 			spriteId = ID_SPRITE_1PLAYERGAME;
+			break;
+
+		case CONTROL_TYPE_MODE_TWO:
+			spriteId = ID_SPRITE_2PLAYERGAME;
 			break;
 		}
 

@@ -3,7 +3,8 @@
 #include "GameObject.h"
 
 #define CONTROL_TYPE_PAUSE					1
-#define CONTROL_TYPE_MODE					2
+#define CONTROL_TYPE_MODE_ONE				2
+#define CONTROL_TYPE_MODE_TWO				3
 
 #define CONTROL_PAUSE_BBOX_WIDTH			71
 #define CONTROL_PAUSE_BBOX_HEIGHT			15
@@ -16,17 +17,19 @@ protected:
 	static CControl* _instance;
 
 	int control_pause;
-	int control_mode;
+	int control_mode_one;
+	int control_mode_two;
 
 	int n;
-	int active[2];			// Check what control is activating
+	int active[3];			// Check what control is activating
 
 public:
 	CControl() {
-		n = 2;
+		n = 3;
 		x = y = 0;
 		control_pause = CONTROL_TYPE_PAUSE;
-		control_mode = CONTROL_TYPE_MODE;
+		control_mode_one = CONTROL_TYPE_MODE_ONE;
+		control_mode_two = CONTROL_TYPE_MODE_TWO;
 		for (int i = 0; i < n; i++)
 			active[i] = 0;
 	}
@@ -53,8 +56,12 @@ public:
 		return active[CONTROL_TYPE_PAUSE - 1] == 1; 
 	}
 
-	int IsActivatingMode() { 
-		return active[CONTROL_TYPE_MODE - 1] == 1; 
+	int IsActivatingModeOne() { 
+		return active[CONTROL_TYPE_MODE_ONE - 1] == 1; 
+	}
+
+	int IsActivatingModeTwo() {
+		return active[CONTROL_TYPE_MODE_TWO - 1] == 1;
 	}
 };
 
