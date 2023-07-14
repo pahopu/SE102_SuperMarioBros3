@@ -22,10 +22,6 @@ void CControl::CalculatePosition(int type) {
 		break;
 
 	case CONTROL_TYPE_MODE_ONE:
-		x = cam_x + CGame::GetInstance()->GetBackBufferWidth() / 2;
-		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() * 2 / 3 + CONTROL_MODE_BBOX_HEIGHT + 15);
-		break;
-
 	case CONTROL_TYPE_MODE_TWO:
 		x = cam_x + CGame::GetInstance()->GetBackBufferWidth() / 2;
 		y = (cam_y + CGame::GetInstance()->GetBackBufferHeight() * 2 / 3 + CONTROL_MODE_BBOX_HEIGHT + 15);
